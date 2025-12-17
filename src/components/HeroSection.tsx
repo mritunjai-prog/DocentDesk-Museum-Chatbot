@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Sparkles, Play } from 'lucide-react';
 import { Museum3DScene } from './Museum3DScene';
@@ -37,13 +38,15 @@ export function HeroSection() {
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up opacity-0 animation-delay-600">
-            <Button
-              size="lg"
-              className="w-full sm:w-auto bg-gradient-gold hover:opacity-90 text-primary-foreground font-semibold px-8 py-6 text-lg glow-gold group"
-            >
-              Start Virtual Tour
-              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            <Link to="/tour">
+              <Button
+                size="lg"
+                className="w-full sm:w-auto bg-gradient-gold hover:opacity-90 text-primary-foreground font-semibold px-8 py-6 text-lg glow-gold group"
+              >
+                Start Virtual Tour
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
             <Button
               size="lg"
               variant="outline"

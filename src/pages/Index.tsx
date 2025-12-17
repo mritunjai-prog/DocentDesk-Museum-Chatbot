@@ -1,6 +1,7 @@
 import { Navigation } from '@/components/Navigation';
 import { HeroSection } from '@/components/HeroSection';
 import { FeaturesSection } from '@/components/FeaturesSection';
+import { ExhibitShowcase } from '@/components/ExhibitShowcase';
 import { Footer } from '@/components/Footer';
 import { AIChatbot } from '@/components/AIChatbot';
 
@@ -9,6 +10,7 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
       <HeroSection />
+      <ExhibitShowcase />
       <FeaturesSection />
       <Footer />
       <AIChatbot />
