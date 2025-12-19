@@ -1,112 +1,143 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Landmark, User, Moon, Sun } from 'lucide-react';
+import { Landmark, Menu, X, Ticket } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { LanguageSelector } from './LanguageSelector';
+import { ThemeToggle } from './ThemeToggle';
+import { CartButton } from './CartButton';
+import { UserMenu } from './UserMenu';
 
 const navItems = [
-  { label: 'Home', href: '#' },
-  { label: 'Virtual Tours', href: '#tours' },
-  { label: 'Exhibits', href: '#exhibits' },
-  { label: 'Events', href: '#events' },
-  { label: 'About', href: '#about' },
+  { label: 'Home', href: '/' },
+  { label: 'Virtual Tours', href: '/tour' },
+  { label: 'Events & Tickets', href: '/events' },
+  { label: 'Exhibits', href: '/exhibits' },
+  { label: 'About', href: '/about' },
 ];
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isDark, setIsDark] = useState(true);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50">
-      <div className="mx-4 mt-4">
-        <div className="glass rounded-2xl px-6 py-4">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <a href="#" className="flex items-center gap-3 group">
-              <div className="relative">
-                <div className="w-10 h-10 rounded-xl bg-gradient-gold flex items-center justify-center glow-gold group-hover:scale-110 transition-transform duration-300">
-                  <Landmark className="w-5 h-5 text-primary-foreground" />
-                </div>
-              </div>
-              <div>
-                <span className="text-xl font-serif font-bold text-foreground">DocentDesk</span>
-                <span className="hidden sm:block text-xs text-muted-foreground tracking-wider">MUSEUM AI</span>
-              </div>
-            </a>
-
-            {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-1">
-              {navItems.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors relative group"
-                >
-                  {item.label}
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-gold group-hover:w-3/4 transition-all duration-300" />
-                </a>
-              ))}
+    <header
+      className={cn(
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
+        isScrolled
+          ? 'bg-background/80 backdrop-blur-xl border-b border-border shadow-lg'
+          : 'bg-transparent'
+      )}
+    >
+      <div className="container px-6">
+        <nav className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 rounded-xl bg-gradient-gold flex items-center justify-center group-hover:scale-110 transition-transform duration-300 glow-gold">
+              <Landmark className="w-5 h-5 text-primary-foreground" />
             </div>
+            <span className="text-xl font-serif font-bold text-foreground hidden sm:block">
+              DocentDesk
+            </span>
+          </Link>
 
-            {/* Right Actions */}
-            <div className="flex items-center gap-3">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-muted-foreground hover:text-foreground"
-                onClick={() => setIsDark(!isDark)}
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center gap-8">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                to={item.href}
+                className={cn(
+                  'text-sm font-medium transition-colors relative py-2',
+                  location.pathname === item.href
+                    ? 'text-gold'
+                    : 'text-muted-foreground hover:text-foreground',
+                  'after:absolute after:bottom-0 after:left-0 after:h-0.5 after:bg-gold after:transition-all after:duration-300',
+                  location.pathname === item.href ? 'after:w-full' : 'after:w-0 hover:after:w-full'
+                )}
               >
-                {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-              </Button>
-
-              <Button
-                variant="ghost"
-                size="icon"
-                className="hidden sm:flex text-muted-foreground hover:text-foreground"
-              >
-                <User className="w-5 h-5" />
-              </Button>
-
-              <Button className="hidden sm:flex bg-gradient-gold hover:opacity-90 text-primary-foreground font-medium glow-gold">
-                Get Tickets
-              </Button>
-
-              {/* Mobile Menu Toggle */}
-              <Button
-                variant="ghost"
-                size="icon"
-                className="lg:hidden text-foreground"
-                onClick={() => setIsOpen(!isOpen)}
-              >
-                {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </Button>
-            </div>
+                {item.label}
+              </Link>
+            ))}
           </div>
 
-          {/* Mobile Navigation */}
-          <div
-            className={cn(
-              "lg:hidden overflow-hidden transition-all duration-300",
-              isOpen ? "max-h-96 mt-4 pt-4 border-t border-border" : "max-h-0"
-            )}
-          >
-            <div className="flex flex-col gap-2">
-              {navItems.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="px-4 py-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary/50 rounded-lg transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.label}
-                </a>
-              ))}
-              <Button className="mt-2 bg-gradient-gold hover:opacity-90 text-primary-foreground font-medium">
+          {/* Right side controls */}
+          <div className="flex items-center gap-2">
+            <div className="hidden sm:flex items-center gap-1">
+              <LanguageSelector />
+              <ThemeToggle />
+              <CartButton />
+              <UserMenu />
+            </div>
+
+            <Link to="/events" className="hidden md:block">
+              <Button className="bg-gradient-gold hover:opacity-90 text-primary-foreground font-semibold glow-gold">
+                <Ticket className="w-4 h-4 mr-2" />
                 Get Tickets
               </Button>
-            </div>
+            </Link>
+
+            {/* Mobile menu button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsOpen(!isOpen)}
+              className="lg:hidden text-foreground"
+            >
+              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </Button>
           </div>
+        </nav>
+      </div>
+
+      {/* Mobile menu */}
+      <div
+        className={cn(
+          'lg:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-xl border-b border-border transition-all duration-300 overflow-hidden',
+          isOpen ? 'max-h-[80vh] opacity-100' : 'max-h-0 opacity-0'
+        )}
+      >
+        <div className="container px-6 py-6 space-y-4">
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              to={item.href}
+              onClick={() => setIsOpen(false)}
+              className={cn(
+                'block py-3 text-lg font-medium transition-colors border-b border-border/50',
+                location.pathname === item.href
+                  ? 'text-gold'
+                  : 'text-muted-foreground hover:text-foreground'
+              )}
+            >
+              {item.label}
+            </Link>
+          ))}
+
+          <div className="flex items-center gap-4 pt-4">
+            <LanguageSelector />
+            <ThemeToggle />
+            <CartButton />
+            <UserMenu />
+          </div>
+
+          <Link to="/events" onClick={() => setIsOpen(false)}>
+            <Button className="w-full bg-gradient-gold hover:opacity-90 text-primary-foreground font-semibold mt-4">
+              <Ticket className="w-4 h-4 mr-2" />
+              Get Tickets
+            </Button>
+          </Link>
         </div>
       </div>
-    </nav>
+    </header>
   );
 }
