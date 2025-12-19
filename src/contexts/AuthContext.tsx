@@ -151,14 +151,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signInWithGoogle = async () => {
     try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo: `${window.location.origin}/dashboard`,
-        },
-      });
-
-      if (error) throw error;
+      // Redirect to backend Google OAuth endpoint
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://docentdesk-backend-api.vercel.app';
+      window.location.href = `${backendUrl}/api/auth/google`;
     } catch (error: any) {
       toast({
         title: "Google Sign In Failed",
