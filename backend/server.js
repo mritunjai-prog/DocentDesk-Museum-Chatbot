@@ -16,14 +16,22 @@ import passport from "passport";
 import rateLimit from "express-rate-limit";
 import path from "path";
 import { fileURLToPath } from "url";
-import colors from "colors";
 
 // Get __dirname equivalent in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Now import modules that depend on env vars
-import "./config/passport.js";
+// Conditional import for passport (only if Google OAuth is configured)
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+  try {
+    await import("./config/passport.js");
+    console.log("✅ Google OAuth configured");
+  } catch (error) {
+    console.log("⚠️  Google OAuth configuration failed:", error.message);
+  }
+}
+
+// Now import routes
 import authRoutes from "./routes/auth.routes.js";
 import artifactRoutes from "./routes/artifact.routes.js";
 import eventRoutes from "./routes/event.routes.js";
@@ -185,22 +193,38 @@ app.use("*", (req, res) => {
 // Error handling middleware
 app.use(errorHandler);
 
-// MongoDB connection
-const connectDB = async () => {
-  try {
-    console.log(`🔍 Attempting MongoDB connection...`.yellow);
-    console.log(`📝 MONGO_URI exists: ${!!process.env.MONGO_URI}`.yellow);
+// MongoDB connection with caching for serverless
+let cachedDb = null;
 
-    const conn = await mongoose.connect(process.env.MONGO_URI);
-    console.log(`✅ MongoDB Connected: ${conn.connection.host}`.green.bold);
+const connectDB = async () => {
+  if (cachedDb && mongoose.connection.readyState === 1) {
+    console.log("✅ Using cached MongoDB connection");
+    return cachedDb;
+  }
+
+  try {
+    console.log(`🔍 Attempting MongoDB connection...`);
+    console.log(`📝 MONGO_URI exists: ${!!process.env.MONGO_URI}`);
+
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
+      serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 30s
+      socketTimeoutMS: 45000,
+    });
+    
+    cachedDb = conn;
+    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
+    return cachedDb;
   } catch (error) {
-    console.error(`❌ MongoDB Connection Error: ${error.message}`.red);
-    process.exit(1);
+    console.error(`❌ MongoDB Connection Error: ${error.message}`);
+    // Don't exit in serverless - just log the error
+    if (process.env.NODE_ENV !== "production") {
+      process.exit(1);
+    }
   }
 };
 
-// Connect to database
-connectDB();
+// Connect to database (but don't block serverless startup)
+connectDB().catch(console.error);
 
 // Start server (for local development)
 if (process.env.NODE_ENV !== "production") {
