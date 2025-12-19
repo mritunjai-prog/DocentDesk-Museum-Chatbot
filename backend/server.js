@@ -1,9 +1,12 @@
-// Load environment variables FIRST
-import "./env-loader.js";
-
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+
+// Load environment variables (only needed for local development)
+// Vercel provides environment variables through platform configuration
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config();
+}
 import cors from "cors";
 import helmet from "helmet";
 import compression from "compression";
@@ -196,10 +199,12 @@ const connectDB = async () => {
   }
 };
 
-// Start server
-const PORT = process.env.PORT || 5000;
+// Connect to database
+connectDB();
 
-connectDB().then(() => {
+// Start server (for local development)
+if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
     console.log(
       `🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`
@@ -207,7 +212,10 @@ connectDB().then(() => {
     console.log(`📱 Client URL: ${process.env.CLIENT_URL}`);
     console.log(`🌐 API URL: http://localhost:${PORT}`);
   });
-});
+}
+
+// Export for Vercel serverless
+export default app;
 
 // Handle unhandled promise rejections
 process.on("unhandledRejection", (err) => {
