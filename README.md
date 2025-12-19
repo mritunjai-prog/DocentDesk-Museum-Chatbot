@@ -1,71 +1,102 @@
 # 🏛️ DocentDesk - AI-Powered Museum Experience Platform
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![React](https://img.shields.io/badge/React-18.3-blue.svg)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue.svg)](https://www.typescriptlang.org/)
-[![Vite](https://img.shields.io/badge/Vite-5.4-purple.svg)](https://vitejs.dev/)
+<div align="center">
 
-> Transform museum experiences with AI-guided 3D virtual tours, multilingual support, and intelligent chatbot assistance.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![React](https://img.shields.io/badge/React-18.3.1-61DAFB?logo=react)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-3178C6?logo=typescript)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.4.21-646CFF?logo=vite)](https://vitejs.dev/)
+[![Supabase](https://img.shields.io/badge/Supabase-Latest-3ECF8E?logo=supabase)](https://supabase.com/)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
----
+**Transform museum experiences with AI-guided 3D virtual tours, multilingual support, and intelligent chatbot assistance.**
 
-## 📖 Table of Contents
+[Features](#-features) • [Demo](#-demo) • [Quick Start](#-quick-start) • [Documentation](#-documentation) • [Architecture](#-architecture)
 
-- [Overview](#overview)
-- [Features](#features)
-- [Demo](#demo)
-- [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
-- [Project Structure](#project-structure)
-- [Development](#development)
-- [Deployment](#deployment)
-- [Documentation](#documentation)
-- [Contributing](#contributing)
+</div>
 
 ---
 
 ## 🎯 Overview
 
-DocentDesk is a modern museum experience platform that combines cutting-edge AI technology with immersive 3D environments to revolutionize how visitors engage with art and history. Built for museums of all sizes, DocentDesk provides:
+DocentDesk is a comprehensive museum experience platform that leverages cutting-edge AI and 3D technologies to revolutionize visitor engagement. Designed for museums, galleries, and cultural institutions of all sizes, it provides an immersive, accessible, and intelligent way for visitors to explore art and history.
 
-- **3D Virtual Tours** - Explore museums from anywhere with interactive 3D environments
-- **AI Docent Guide** - Get personalized tours and instant answers from our intelligent chatbot
-- **Multilingual Support** - Experience museums in 15+ languages
-- **Smart Ticketing** - QR-based digital tickets with seamless booking
-- **Real-time Updates** - Live crowd monitoring and optimal visit planning
+### Key Highlights
 
-**Current Status**: Phase 1 Complete - Visual Build & Core 3D Tour (45% overall completion)  
-**Repository**: https://github.com/mritunjai-prog/docent-desk-dreams  
-**Latest Commit**: `354ad78 - Build Phase 1 visuals`
+- 🤖 **AI-Powered Chatbot** - GPT-4 integration with voice input/output in 8 languages
+- 🌍 **Multilingual Support** - Full i18n with EN, ES, FR, DE, IT, ZH, AR, HI
+- 🎨 **3D Virtual Tours** - First-person exploration with WebGL/Three.js
+- 🎫 **Smart Event Management** - Complete booking system with QR codes
+- 📱 **Progressive Web App** - Offline support, installable, mobile-first
+- ♿ **WCAG 2.1 AA Compliant** - Full accessibility features
+- 🎭 **12 Egyptian Artifacts** - Curated collection with detailed metadata
 
 ---
 
 ## ✨ Features
 
-### ✅ Implemented (Phase 1)
-- 🎨 **Beautiful Landing Page** - Modern, animated hero section with 3D background
-- 🗺️ **Interactive Navigation** - Responsive navbar with mobile menu, theme toggle, language selector
-- 🎭 **3D Virtual Tour** - First-person museum exploration with WASD + mouse controls
-- 🖼️ **Artifact Showcase** - Interactive exhibits with detailed modals and category filtering
-- 🎨 **Premium Design System** - Custom gold/teal color palette with glass morphism
-- 📱 **Fully Responsive** - Mobile-first design that works on all devices
-- 🌙 **Dark/Light Mode** - Smooth theme switching
-- 🛒 **Cart System UI** - Shopping cart interface for ticket purchases
+### 🎨 User Experience
 
-### 🚧 In Progress (Phase 2)
-- 🤖 AI Chatbot integration
-- 🎫 Event management & booking system
-- 👤 User authentication & dashboard
-- 🔐 Admin panel for content management
+- **3D Virtual Tours** - Immersive first-person exploration with WASD + mouse controls
+- **AI Chatbot Assistant** - Natural language conversations with voice input/output
+- **Animated UI** - Smooth 3D card effects, parallax scrolling, gradient animations
+- **Dark/Light Themes** - System-aware theme switching with smooth transitions
+- **Responsive Design** - Mobile-first, tablet-optimized, desktop-enhanced
 
-### 📅 Planned (Phase 3-4)
-- 🌍 Full multilingual i18n support
-- ⭐ Feedback & rating system
-- 🎮 Gamification (badges, leaderboards)
-- 📱 PWA features (offline support, installability)
-- 📊 Crowd monitoring & analytics
+### 🌐 Multilingual & Accessibility
 
-For detailed status, see [PROJECT_STATUS.md](PROJECT_STATUS.md)
+- **8 Languages** - English, Spanish, French, German, Italian, Chinese, Arabic, Hindi
+- **RTL Support** - Native right-to-left layout for Arabic
+- **Voice Recognition** - Speech-to-text in all supported languages
+- **Text-to-Speech** - Natural voice synthesis for chatbot responses
+- **WCAG 2.1 AA** - Keyboard navigation, screen reader support, ARIA labels
+
+### 🎫 Events & Booking
+
+- **Event Calendar** - Browse workshops, exhibitions, lectures, symposiums
+- **5-Step Booking Wizard** - Tickets → Details → Add-ons → Payment → Confirmation
+- **QR Code Tickets** - Digital tickets with unique QR codes
+- **Seat Availability** - Real-time capacity tracking
+- **3D Event Cards** - Animated cards with hover effects and image fallbacks
+
+### 🏛️ Artifact Management
+
+- **Egyptian Collection** - 12 curated artifacts (Nefertiti, Rosetta Stone, Tutankhamun, etc.)
+- **Category Filtering** - Art, Sculpture, History, Pottery, Artifact
+- **Detail Modals** - Full descriptions, era, origin, high-res images
+- **Featured System** - Highlight special exhibits
+- **Image Fallbacks** - Graceful error handling with themed gradients
+
+### 👤 User Dashboard
+
+### Live Application
+
+🚀 **Coming Soon** - Live demo will be available after deployment
+
+### Screenshots
+
+<div align="center">
+
+| Home Page                          | Virtual Tour                       | Events                                 |
+| ---------------------------------- | ---------------------------------- | -------------------------------------- |
+| ![Home](docs/screenshots/home.png) | ![Tour](docs/screenshots/tour.png) | ![Events](docs/screenshots/events.png) |
+
+| Exhibits                                   | Chatbot                            | Dashboard                                    |
+| ------------------------------------------ | ---------------------------------- | -------------------------------------------- |
+| ![Exhibits](docs/screenshots/exhibits.png) | ![Chat](docs/screenshots/chat.png) | ![Dashboard](docs/screenshots/dashboard.png) |
+
+</div>
+
+### Video Walkthrough
+
+📹 [Full feature demonstration](https://youtube.com/watch-link-here) - Coming SoFeatures
+
+- **Progressive Web App** - Service worker, manifest, offline caching
+- **Lazy Loading** - Image optimization with loading states
+- **Error Boundaries** - Graceful error handling
+- **Type Safety** - Full TypeScript coverage
+- **Code Splitting** - Route-based chunking for performance
+- **SEO Optimized** - Meta tags, semantic HTML, sitemap-ready
 
 ---
 
@@ -74,110 +105,415 @@ For detailed status, see [PROJECT_STATUS.md](PROJECT_STATUS.md)
 **Live Demo**: [Coming Soon]  
 **Video Tour**: [Coming Soon]
 
-**Screenshots**:
-- Landing Page with 3D Hero
-- Virtual Tour Interface
-- Artifact Detail Modal
-- Mobile Navigation
+<div align="center">
 
----
+### Frontend
 
-## 🛠️ Tech Stack
+![React](https://img.shields.io/badge/React-18.3.1-61DAFB?style=for-the-badge&logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-3178C6?style=for-the-badge&logo=typescript)
+![Vite](https://img.shields.io/badge/Vite-5.4.21-646CFF?style=for-the-badge&logo=vite)
+![TailwindCSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?style=for-the-badge&logo=tailwind-css)
+![Three.js](https://img.shields.io/badge/Three.js-Latest-000000?style=for-the-badge&logo=three.js)
 
-### **Frontend**
-- ⚡ **Vite 5.4** - Next-gen frontend tooling
-- ⚛️ **React 18.3** - UI library
-- 📘 **TypeScript 5.8** - Type safety
-- 🎨 **Tailwind CSS 3.4** - Utility-first styling
-- 🧩 **shadcn/ui** - High-quality component library
-- 🎭 **Three.js + R3F** - 3D graphics and interactions
+### Backend & Database
 
-### **Backend & Database**
-- 🗄️ **Supabase** - PostgreSQL database
-- 🔐 **Supabase Auth** - Authentication system
-- ⚡ **Edge Functions** - Serverless functions
+![Supabase](https://img.shields.io/badge/Supabase-Latest-3ECF8E?style=for-the-badge&logo=supabase)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Latest-336791?style=for-the-badge&logo=postgresql)
+![Edge Functions](https://img.shields.io/badge/Edge_Functions-Serverless-FF6C37?style=for-the-badge)
 
-### **Libraries & Tools**
-- 🔄 **TanStack Query** - Data fetching & caching
-- 🗺️ **React Router** - Client-side routing
-- 📝 **React Hook Form** - Form management
-- ✅ **Zod** - Schema validation
-- 🎨 **Lucide React** - Icon library
+</div>
 
----
+### Core Technologies
 
-## 🚀 Getting Started
+| Category      | Technologies                          |
+| ------------- | ------------------------------------- |
+| **Framework** | React 18.3, TypeScript 5.8, Vite 5.4  |
+| **Styling**   | Tailwind CSS 3.4, shadcn/ui, Radix UI |
 
-### **Prerequisites**
-- Node.js 18+ (recommended: use [nvm](https://github.com/nvm-sh/nvm))
-- npm or bun package manager
-- Git
+| \*\*3DQuick Start
 
-### **Installation**
+### Prerequisites
 
-1. **Clone the repository**
+- **Node.js** 18+ ([Download](https://nodejs.org/) or use [nvm](https://github.com/nvm-sh/nvm))
+- **npm** 9+ or **bun** 1+
+- **Git** ([Download](https://git-scm.com/))
+- **Supabase Account** (optional for backend features)
+
+### Installation
+
 ```bash
-git clone https://github.com/mritunjai-prog/docent-desk-dreams.git
-cd docent-desk-dreams
-```
+# 1. Clone the repository
+git clone https://github.com/mritunjai-prog/DocentDesk-Museum-Chatbot.git
+cd DocentDesk-Museum-Chatbot
 
-2. **Install dependencies**
-```bash
+# 2. Install dependencies
 npm install
-```
 
-3. **Set up environment variables**
-```bash
-# Create .env file
+# 3. Set up environment variables (optional for development)
 cp .env.example .env
+# Edit .env with your Supabase credentials if needed
 
-# Add your Supabase credentials
-VITE_SUPABASE_URL=your_supabase_project_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-```
-
-4. **Start development server**
-```bash
+# 4. Start development server
 npm run dev
 ```
 
-The app will open at `http://localhost:8080`
+The app will open at **http://localhost:8080** 🎉
 
-### **Build for Production**
-```bash
+### Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env
+# Supabase Configuration (optional for local development)
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+
+# Optional: OpenAI API for chatbot
+OPENAI_API_KEY=your_openai_key
+```
+
+**Note**: The app works without Supabase using mock data for development.
+
+### Build for Production
+
+````bash
+# Production build
 npm run build
+
+# Preview production build locally
 npm run preview
+
+# Development build (with source maps)
+npm run build:dev
+2. **Install dependencies**
+```basArchitecture
+
+### Project Structure
+
+````
+
+DocentDesk/
+├── public/
+│ ├── images/ # Static images
+│ │ ├── artifacts/ # Artifact placeholder
+│ │ └── events/ # Event images
+│ ├── favicon.svg # App icon
+│ ├── manifest.json # PWA manifest
+│ └── service-worker.js # Service worker for offline
+├── src/
+│ ├── components/
+│ │ ├── tour/ # 3D virtual tour
+│ │ │ ├── TourScene.tsx
+│ │ │ ├── MuseumRoom.tsx
+│ │ │ ├── CameraController.tsx
+│ │ │ ├── ArtifactHotspot.tsx
+│ │ │ └── ...
+│ │ ├── booking/ # Event booking wizard
+│ │ │ ├── BookingWizard.tsx
+│ │ │ ├── StepTickets.tsx
+│ │ │ ├── StepDetails.tsx
+│ │ │ └── ...
+│ │ ├── dashboard/ # User dashboard
+│ │ │ ├── MyCollection.tsx
+│ │ │ ├── MyTickets.tsx
+│ │ │ └── ...
+│ │ ├── ui/ # shadcn/ui components (60+)
+│ │ ├── AnimatedAuthModal.tsx
+│ │ ├── AIChatbot.tsx
+│ │ ├── Artifact3DCard.tsx
+│ │ ├── ArtifactImage.tsx
+│ │ ├── EventImage.tsx
+│ │ └── ...
+│ ├── pages/
+│ │ ├── Index.tsx # Home page
+│ │ ├── VirtualTour.tsx # 3D tour page
+│ │ ├── Events.tsx # Events listing
+│ │ ├── Exhibits.tsx # Artifacts gallery
+│ │ ├── About.tsx # About museum
+│ │ ├── Dashboard.tsx # User dashboard
+│ │ └── NotFound.tsx
+│ ├── hooks/
+│ │ ├── useArtifacts.ts # Artifact data hook
+│ │ ├── useChatContext.ts
+│ │ └── use-toast.ts
+│ ├── contexts/
+│ │ └── AuthContext.tsx # Auth state management
+│ ├── data/
+│ │ └── artifacts.ts # Mock artifact data
+│ ├── i18n/
+│ │ ├── index.ts # i18next setup
+│ │ └── locales/ # Translation files (8 languages)
+│ │ ├── en.json
+│ │ ├── es.json
+│ │ ├── fr.json
+│ │ └── ...
+│ ├── integrations/
+│ NPM Scripts
+
+| Command             | Description                          |
+| ------------------- | ------------------------------------ |
+| `npm run dev`       | Start development server (port 8080) |
+| `npm run build`     | Production build                     |
+| `npm run build:dev` | Development build with source maps   |
+| `npm run preview`   | Preview production build             |
+| `npm run lint`      | Run ESLint                           |
+
+### Development Guidelines
+
+#### Code Style
+
+- **ESLint** - Configured for React + TypeScript + Hooks
+- **Prettier** - Auto-formatting (recommended extension)
+- **Tailwind** - Utility-first styling (no CSS-in-JS)
+
+#### Component Patterns
+
+````tsx
+// Use TypeScript interfaces
+interface ArtifactCardProps {
+  artifact: Artifact;
+  onClick: () => void;
+}
+
+// Prefer named exports
+export function ArtifactCard({ artifact, onClick }: ArtifactCardProps) {
+  // Component logic
+}
+
+// Use custom hooks for logic
+function useArtifactData() {
+  return useQuery({
+    queryKey: ['artifacts'],
+    Vercel (Recommended)
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel
+
+# Production
+vercel --prod
+````
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/mritunjai-prog/DocentDesk-Museum-Chatbot)
+
+### Netlify
+
+```bash
+# Install Netlify CLI
+npm i -g netlify-cli
+
+# Deploy
+netlify deploy
+
+# Production
+netlify deploy --prod
+```
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/mritunjai-prog/DocentDesk-Museum-Chatbot)
+
+### Docker
+
+```dockerfile
+# Dockerfile included in repo
+docker build -t docentdesk .
+docker run -p 8080:8080 docentdesk
+```
+
+### Configuration
+
+Set environment variables in your deployment platform:
+| Document | Description |
+|----------|-------------|
+| [PROJECT_STATUS.md](PROJECT_STATUS.md) | Detailed project status and roadmap |
+| [PROJECT_COMPLETION.md](PROJECT_COMPLETION.md) | Feature completion checklist |
+| [IMPLEMENTATION_GUIDE.md](IMPLEMENTATION_GUIDE.md) | Implementation details |
+| [IMAGE_SETUP.md](IMAGE_SETUP.md) | Image optimization guide |
+| [Quick Start Guide](docs/QUICK_START_GUIDE.md) | Developer quick start |
+| [Frontend Analysis](docs/FRONTEND_ANALYSIS_AND_NEXT_STEPS.md) | Architecture details |
+
+### API DocumentationPlease follow these steps:
+
+### How to Contribute
+
+1. **Fork** the repository
+2. **Create** a feature branch
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+3. **Commit** your changes
+   ```bash
+   git commit -m 'feat: add amazing feature'
+   ```
+4. **Push** to the branch
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+5. **Open** a Pull Request
+
+### Contribution Guidelines
+
+- ✅ Follow existing code style and patterns
+- ✅ Write meaningful commit messages ([Conventional Commits](https://www.conventionalcommits.org/))
+- ✅ Add tests for new features
+- ✅ Update documentation as needed
+- ✅ Ensure all tests pass before submitting
+- ✅ Keep PRs focused and atomic
+
+### Development Workflow
+
+```bash
+# 1. Update your fork
+git fetch upstream
+git merge upstream/main
+
+# 2. Create feature branch
+git checkout -b feature/my-feature
+
+# 3. Make changes and test
+npm run dev
+npm run build
+
+# 4. Commit and push
+git add .
+git commit -m "feat: description"
+git push origin feature/my-feature
+```
+
+### Code of Conduct
+
+Please be respectful and constructive. We follow the [Contributor Covenant](https://www.contributor-covenant.org/) Code of Conduct.
+| Browser | Version |
+|---------|---------|
+| Chrome | 90+ ✅ |
+| Firefox | 88+ ✅ |
+| Safari | 14+ ✅ |
+| Edge | 90+ ✅ |
+| Mobile | iOS 14+, Android 10+ ✅ |
+
+The production build includes:
+
+- ✅ Code splitting by route
+- ✅ Tree shaking & minification
+- ✅ Asset optimization
+- ✅ Service worker caching
+- ✅ Lazy loading images
+  "nav": {
+  "home": "Home",
+  "virtualTours": "Virtual Tours"
+  }
+  }
+
+````
+
+Use in components:
+```tsx
+import { useTranslation } from 'react-i18next';
+
+const { t } = useTranslation();
+<h1>{t('nav.home')}</h1>
+````
+
+### Database Schema
+
+Key tables in Supabase:
+
+- **artifacts** - Museum artifact data
+- **events** - Museum events & programs
+- **bookings** - Event reservations
+- **users** - User profiles (via Supabase Auth)
+- \*\*� Security
+
+- **Authentication**: Secure email/password via Supabase Auth
+- **Data Protection**: Row Level Security (RLS) in PostgreSQL
+- **API Keys**: Environment variables (never committed)
+- **HTTPS**: Required for production
+- **CSP**: Content Security Policy headers
+- **Input Validation**: Zod schemas on all forms
+
+Report security vulnerabilities: Open an issue with [SECURITY] prefix
+
+---
+
+## 📈 Roadmap
+
+### Q1 2026
+
+- [ ] Admin panel for content management
+- [ ] Advanced analytics dashboard
+- [ ] Mobile app (React Native)
+- [ ] AR features for exhibits
+
+### Q2 2026
+
+- [ ] AI-generated tour recommendations
+- [ ] Social features (sharing, reviews)
+- [ ] Gamification system
+- [ ] Multi-museum support
+
+### Future
+
+- [ ] VR virtual tours
+- [ ] Live guided tours
+- [ ] Museum marketplace
+- [ ] API for third-party integration
+
+See [PROJECT_STATUS.md](PROJECT_STATUS.md) for detailed roadmap.
+
+---
+
+## 🙏 Acknowledgments
+
+Special thanks to:
+
+- [shadcn/ui](https://ui.shadcn.com) - Beautiful component library
+- [Lucide](https://lucide.dev) - Icon system
+- [Three.js](https://threejs.org) - 3D graphics engine
+- [Supabase](https://supabase.com) - Backend infrastructure
+- [Unsplash](https://unsplash.com) - High-quality images
+- Open source community
+
+---
+
+## 📞 Support
+
+- 📧 **Email**: [Create an issue](https://github.com/mritunjai-prog/DocentDesk-Museum-Chatbot/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/mritunjai-prog/DocentDesk-Museum-Chatbot/discussions)
+- 🐛 **Bug Reports**: [Issue Tracker](https://github.com/mritunjai-prog/DocentDesk-Museum-Chatbot/issues)
+- 📖 **Documentation**: [Wiki](https://github.com/mritunjai-prog/DocentDesk-Museum-Chatbot/wiki)
+
+---
+
+## 📝 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+```
+MIT License - Copyright (c) 2025 DocentDesk
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files...
 ```
 
 ---
 
-## 📁 Project Structure
+## ⭐ Star History
 
-```
-DocentDesk/
-├── src/
-│   ├── components/          # React components
-│   │   ├── tour/           # 3D tour components (7 files)
-│   │   │   ├── TourScene.tsx
-│   │   │   ├── MuseumRoom.tsx
-│   │   │   ├── CameraController.tsx
-│   │   │   ├── ArtifactHotspot.tsx
-│   │   │   └── ...
-│   │   ├── ui/             # shadcn/ui components (50+ files)
-│   │   ├── Navigation.tsx
-│   │   ├── HeroSection.tsx
-│   │   ├── AIChatbot.tsx
-│   │   └── ...
-│   ├── pages/              # Route pages
-│   │   ├── Index.tsx
-│   │   ├── VirtualTour.tsx
-│   │   └── NotFound.tsx
-│   ├── hooks/              # Custom React hooks
-│   │   └── useArtifacts.ts
-│   ├── integrations/       # Third-party integrations
-│   │   └── supabase/
-│   ├── lib/                # Utility functions
-│   │   └── utils.ts
+[![Star History Chart](https://api.star-history.com/svg?repos=mritunjai-prog/DocentDesk-Museum-Chatbot&type=Date)](https://star-history.com/#mritunjai-prog/DocentDesk-Museum-Chatbot&Date)
+
+---
+
+<div align="center">
+
+**Made with ❤️ for museums and cultural institutions worldwide**
+
+[⬆ Back to Top](#-docentdesk---ai-powered-museum-experience-platform)
+
+**Version 1.0.0** | **Last Updated**: December 19, 2025
+
+</div>
 │   ├── App.tsx             # Main app component
 │   └── main.tsx            # Entry point
 ├── supabase/
@@ -217,12 +553,15 @@ npm run lint
 ```
 
 ### **Code Style**
+
 - ESLint configured for React + TypeScript
 - Prettier for code formatting
 - Tailwind CSS for styling
 
 ### **Component Development**
+
 We use shadcn/ui components. To add new components:
+
 ```bash
 npx shadcn-ui@latest add [component-name]
 ```
@@ -232,11 +571,13 @@ npx shadcn-ui@latest add [component-name]
 ## 🌐 Deployment
 
 ### **Option 1: Lovable Platform**
+
 1. Visit [Lovable Projects](https://lovable.dev/projects)
 2. Connect your GitHub repository
 3. Click Share → Publish
 
 ### **Option 2: Vercel**
+
 ```bash
 # Install Vercel CLI
 npm i -g vercel
@@ -246,6 +587,7 @@ vercel
 ```
 
 ### **Option 3: Netlify**
+
 ```bash
 # Install Netlify CLI
 npm i -g netlify-cli
@@ -276,6 +618,7 @@ We welcome contributions! Here's how to get started:
 5. **Open a Pull Request**
 
 ### **Development Guidelines**
+
 - Follow existing code style
 - Write meaningful commit messages
 - Test your changes thoroughly
