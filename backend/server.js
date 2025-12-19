@@ -22,13 +22,17 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Conditional import for passport (only if Google OAuth is configured)
+// Use dynamic import without top-level await to avoid blocking
+let passportConfigured = false;
 if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
-  try {
-    await import("./config/passport.js");
-    console.log("✅ Google OAuth configured");
-  } catch (error) {
-    console.log("⚠️  Google OAuth configuration failed:", error.message);
-  }
+  import("./config/passport.js")
+    .then(() => {
+      passportConfigured = true;
+      console.log("✅ Google OAuth configured");
+    })
+    .catch((error) => {
+      console.log("⚠️  Google OAuth configuration failed:", error.message);
+    });
 }
 
 // Now import routes
