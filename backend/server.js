@@ -211,8 +211,10 @@ const connectDB = async () => {
     console.log(`📝 MONGO_URI exists: ${!!process.env.MONGO_URI}`);
 
     const conn = await mongoose.connect(process.env.MONGO_URI, {
-      serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 30s
+      serverSelectionTimeoutMS: 30000, // 30 seconds for serverless cold start
       socketTimeoutMS: 45000,
+      maxPoolSize: 10,
+      minPoolSize: 1,
     });
     
     cachedDb = conn;
@@ -224,11 +226,25 @@ const connectDB = async () => {
     if (process.env.NODE_ENV !== "production") {
       process.exit(1);
     }
+    throw error; // Throw so the request fails gracefully
   }
 };
 
-// Connect to database (but don't block serverless startup)
-connectDB().catch(console.error);
+// Ensure database connection before handling requests
+app.use(async (req, res, next) => {
+  if (mongoose.connection.readyState !== 1) {
+    try {
+      await connectDB();
+    } catch (error) {
+      return res.status(503).json({
+        success: false,
+        error: "Database connection unavailable"
+      });
+    }
+  }
+  next();
+});
+
 
 // Start server (for local development)
 if (process.env.NODE_ENV !== "production") {
