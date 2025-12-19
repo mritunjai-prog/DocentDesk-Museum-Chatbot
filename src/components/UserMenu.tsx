@@ -1,35 +1,59 @@
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { User, LogIn, Heart, Ticket, Settings, History, LogOut } from 'lucide-react';
-import { Link } from 'react-router-dom';
+} from "@/components/ui/dropdown-menu";
+import {
+  User,
+  LogIn,
+  Heart,
+  Ticket,
+  Settings,
+  History,
+  LogOut,
+} from "lucide-react";
+import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface UserMenuProps {
   isAuthenticated?: boolean;
   user?: { name: string; email: string } | null;
+  onSignOut?: () => void;
+  onSignIn?: () => void;
 }
 
-export function UserMenu({ isAuthenticated = false, user = null }: UserMenuProps) {
+export function UserMenu({
+  isAuthenticated = false,
+  user = null,
+  onSignIn,
+}: UserMenuProps) {
+  const { signOut } = useAuth();
+
   if (!isAuthenticated) {
     return (
-      <Link to="/auth">
-        <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground">
-          <LogIn className="w-4 h-4" />
-          <span className="hidden sm:inline">Sign In</span>
-        </Button>
-      </Link>
+      <Button
+        variant="ghost"
+        size="sm"
+        className="gap-2 text-muted-foreground hover:text-foreground"
+        onClick={onSignIn}
+      >
+        <LogIn className="w-4 h-4" />
+        <span className="hidden sm:inline">Sign In</span>
+      </Button>
     );
   }
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="relative text-muted-foreground hover:text-foreground">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="relative text-muted-foreground hover:text-foreground"
+        >
           <div className="w-8 h-8 rounded-full bg-gradient-gold flex items-center justify-center">
             <User className="w-4 h-4 text-primary-foreground" />
           </div>
@@ -37,7 +61,7 @@ export function UserMenu({ isAuthenticated = false, user = null }: UserMenuProps
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56 glass-card">
         <div className="p-3 border-b border-border">
-          <p className="font-medium text-foreground">{user?.name || 'Guest'}</p>
+          <p className="font-medium text-foreground">{user?.name || "Guest"}</p>
           <p className="text-sm text-muted-foreground">{user?.email}</p>
         </div>
         <DropdownMenuItem asChild className="cursor-pointer">
@@ -72,7 +96,10 @@ export function UserMenu({ isAuthenticated = false, user = null }: UserMenuProps
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="cursor-pointer text-destructive">
+        <DropdownMenuItem
+          className="cursor-pointer text-destructive"
+          onClick={() => signOut()}
+        >
           <LogOut className="w-4 h-4 mr-2" />
           Sign Out
         </DropdownMenuItem>

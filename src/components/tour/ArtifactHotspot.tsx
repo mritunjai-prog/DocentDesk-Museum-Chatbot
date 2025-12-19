@@ -7,9 +7,14 @@ import type { Artifact } from "@/hooks/useArtifacts";
 interface ArtifactHotspotProps {
   artifact: Artifact;
   onClick: (artifact: Artifact) => void;
+  isHighlighted?: boolean;
 }
 
-export const ArtifactHotspot = ({ artifact, onClick }: ArtifactHotspotProps) => {
+export const ArtifactHotspot = ({
+  artifact,
+  onClick,
+  isHighlighted = false,
+}: ArtifactHotspotProps) => {
   const meshRef = useRef<THREE.Mesh>(null);
   const glowRef = useRef<THREE.Mesh>(null);
   const [hovered, setHovered] = useState(false);
@@ -18,10 +23,14 @@ export const ArtifactHotspot = ({ artifact, onClick }: ArtifactHotspotProps) => 
     if (meshRef.current) {
       meshRef.current.rotation.y += 0.01;
       meshRef.current.position.y =
-        (artifact.position_y || 1.5) + Math.sin(state.clock.elapsedTime * 2) * 0.1;
+        (artifact.position_y || 1.5) +
+        Math.sin(state.clock.elapsedTime * 2) * 0.1;
     }
     if (glowRef.current) {
-      glowRef.current.scale.setScalar(hovered ? 1.5 : 1 + Math.sin(state.clock.elapsedTime * 3) * 0.1);
+      const pulseScale = isHighlighted
+        ? 1.8 + Math.sin(state.clock.elapsedTime * 4) * 0.3
+        : 1 + Math.sin(state.clock.elapsedTime * 3) * 0.1;
+      glowRef.current.scale.setScalar(hovered ? 1.5 : pulseScale);
     }
   });
 
@@ -67,9 +76,9 @@ export const ArtifactHotspot = ({ artifact, onClick }: ArtifactHotspotProps) => 
       <mesh ref={glowRef}>
         <sphereGeometry args={[0.6, 16, 16]} />
         <meshBasicMaterial
-          color={hovered ? "#f59e0b" : "#14b8a6"}
+          color={isHighlighted ? "#F4D03F" : hovered ? "#f59e0b" : "#14b8a6"}
           transparent
-          opacity={hovered ? 0.3 : 0.15}
+          opacity={isHighlighted ? 0.5 : hovered ? 0.3 : 0.15}
         />
       </mesh>
 
@@ -85,8 +94,8 @@ export const ArtifactHotspot = ({ artifact, onClick }: ArtifactHotspotProps) => 
           color={getArtifactColor()}
           metalness={0.3}
           roughness={0.4}
-          emissive={hovered ? "#f59e0b" : "#000000"}
-          emissiveIntensity={hovered ? 0.3 : 0}
+          emissive={isHighlighted ? "#F4D03F" : hovered ? "#f59e0b" : "#000000"}
+          emissiveIntensity={isHighlighted ? 0.6 : hovered ? 0.3 : 0}
         />
       </mesh>
 

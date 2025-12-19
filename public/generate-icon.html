@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>PWA Icon Generator</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="512" height="512"></canvas>
+    <script>
+      // Generate simple icon with museum symbol
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+
+      // Background gradient
+      const gradient = ctx.createLinearGradient(0, 0, 512, 512);
+      gradient.addColorStop(0, "#6366F1"); // Indigo
+      gradient.addColorStop(1, "#8B5CF6"); // Purple
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 512, 512);
+
+      // Draw museum building icon
+      ctx.fillStyle = "#FFFFFF";
+
+      // Base
+      ctx.fillRect(80, 400, 352, 60);
+
+      // Columns
+      ctx.fillRect(100, 200, 50, 200);
+      ctx.fillRect(180, 200, 50, 200);
+      ctx.fillRect(260, 200, 50, 200);
+      ctx.fillRect(340, 200, 50, 200);
+
+      // Roof triangle
+      ctx.beginPath();
+      ctx.moveTo(256, 120);
+      ctx.lineTo(440, 200);
+      ctx.lineTo(72, 200);
+      ctx.closePath();
+      ctx.fill();
+
+      // Save as PNG
+      console.log(
+        "Icon generated. Right-click canvas and save as icon-512.png"
+      );
+      console.log("Then resize to 192x192 for icon-192.png");
+    </script>
+  </body>
+</html>

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { mockArtifacts } from "@/data/artifacts";
 
 export interface Artifact {
   id: string;
@@ -22,14 +23,32 @@ export const useArtifacts = () => {
   return useQuery({
     queryKey: ["artifacts"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("artifacts")
-        .select("*")
-        .order("created_at", { ascending: false });
+      try {
+        // Try to fetch from Supabase first with a timeout
+        const { data, error } = (await Promise.race([
+          supabase
+            .from("artifacts")
+            .select("*")
+            .order("created_at", { ascending: false }),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Timeout")), 3000)
+          ),
+        ])) as any;
 
-      if (error) throw error;
-      return data as Artifact[];
+        // If we have data from Supabase, use it
+        if (!error && data && data.length > 0) {
+          return data as Artifact[];
+        }
+      } catch (err) {
+        console.log("Using mock data:", err);
+      }
+
+      // Otherwise, return mock data
+      return mockArtifacts as Artifact[];
     },
+    initialData: mockArtifacts as Artifact[], // Show mock data immediately
+    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+    gcTime: 10 * 60 * 1000, // Keep in cache for 10 minutes
   });
 };
 
@@ -37,15 +56,33 @@ export const useFeaturedArtifacts = () => {
   return useQuery({
     queryKey: ["artifacts", "featured"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("artifacts")
-        .select("*")
-        .eq("is_featured", true)
-        .order("created_at", { ascending: false });
+      try {
+        // Try to fetch from Supabase first with a timeout
+        const { data, error } = (await Promise.race([
+          supabase
+            .from("artifacts")
+            .select("*")
+            .eq("is_featured", true)
+            .order("created_at", { ascending: false }),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Timeout")), 3000)
+          ),
+        ])) as any;
 
-      if (error) throw error;
-      return data as Artifact[];
+        // If we have data from Supabase, use it
+        if (!error && data && data.length > 0) {
+          return data as Artifact[];
+        }
+      } catch (err) {
+        console.log("Using mock featured data:", err);
+      }
+
+      // Otherwise, return mock featured artifacts
+      return mockArtifacts.filter((a) => a.is_featured) as Artifact[];
     },
+    initialData: mockArtifacts.filter((a) => a.is_featured) as Artifact[], // Show mock data immediately
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
   });
 };
 

@@ -4,9 +4,15 @@ import * as THREE from "three";
 
 interface CameraControllerProps {
   enabled: boolean;
+  guidedMode?: boolean;
+  targetPosition?: [number, number, number];
 }
 
-export const CameraController = ({ enabled }: CameraControllerProps) => {
+export const CameraController = ({
+  enabled,
+  guidedMode = false,
+  targetPosition,
+}: CameraControllerProps) => {
   const { camera, gl } = useThree();
   const moveState = useRef({
     forward: false,
@@ -16,9 +22,10 @@ export const CameraController = ({ enabled }: CameraControllerProps) => {
   });
   const rotationRef = useRef({ x: 0, y: 0 });
   const isPointerLocked = useRef(false);
+  const guidedProgress = useRef(0);
 
   useEffect(() => {
-    if (!enabled) return;
+    if (!enabled || guidedMode) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       switch (e.code) {
@@ -92,16 +99,55 @@ export const CameraController = ({ enabled }: CameraControllerProps) => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
       document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("pointerlockchange", handlePointerLockChange);
+      document.removeEventListener(
+        "pointerlockchange",
+        handlePointerLockChange
+      );
       gl.domElement.removeEventListener("click", handleClick);
       if (isPointerLocked.current) {
         document.exitPointerLock();
       }
     };
-  }, [enabled, gl]);
+  }, [enabled, guidedMode, gl]);
 
-  useFrame(() => {
-    if (!enabled) return;
+  useFrame((state, delta) => {
+    // Guided mode - smooth camera movement to target
+    if (guidedMode && targetPosition) {
+      const targetVec = new THREE.Vector3(...targetPosition);
+      camera.position.lerp(targetVec, delta * 1.5);
+
+      // Look at the artifact
+      const artifactPos = new THREE.Vector3(
+        targetPosition[0],
+        targetPosition[1] - 1.5,
+        targetPosition[2] - 3
+      );
+      const targetRotation = new THREE.Euler().setFromQuaternion(
+        new THREE.Quaternion().setFromRotationMatrix(
+          new THREE.Matrix4().lookAt(
+            camera.position,
+            artifactPos,
+            new THREE.Vector3(0, 1, 0)
+          )
+        )
+      );
+
+      camera.rotation.x = THREE.MathUtils.lerp(
+        camera.rotation.x,
+        targetRotation.x,
+        delta * 2
+      );
+      camera.rotation.y = THREE.MathUtils.lerp(
+        camera.rotation.y,
+        targetRotation.y,
+        delta * 2
+      );
+
+      return;
+    }
+
+    // Manual mode
+    if (!enabled || guidedMode) return;
 
     // Apply rotation
     camera.rotation.order = "YXZ";

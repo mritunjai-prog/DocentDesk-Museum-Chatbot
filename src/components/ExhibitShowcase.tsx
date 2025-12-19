@@ -2,42 +2,51 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, MapPin, Calendar, ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Grid3x3, LayoutGrid } from "lucide-react";
 import { useArtifacts, type Artifact } from "@/hooks/useArtifacts";
 import { ArtifactModal } from "./tour/ArtifactModal";
+import { Artifact3DCard } from "./Artifact3DCard";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
-const categories = ["All", "Art", "Sculpture", "History", "Pottery", "Artifact"];
+const categories = [
+  "All",
+  "Art",
+  "Sculpture",
+  "History",
+  "Pottery",
+  "Artifact",
+];
 
 export const ExhibitShowcase = () => {
   const { data: artifacts, isLoading } = useArtifacts();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [currentPage, setCurrentPage] = useState(0);
-  const [selectedArtifact, setSelectedArtifact] = useState<Artifact | null>(null);
+  const [selectedArtifact, setSelectedArtifact] = useState<Artifact | null>(
+    null
+  );
+  const [viewMode, setViewMode] = useState<"grid" | "carousel">("grid");
 
-  const filteredArtifacts = artifacts?.filter(
-    (a) => selectedCategory === "All" || a.category === selectedCategory
-  ) || [];
+  const filteredArtifacts =
+    artifacts?.filter(
+      (a) => selectedCategory === "All" || a.category === selectedCategory
+    ) || [];
 
-  const itemsPerPage = 4;
+  const itemsPerPage = viewMode === "grid" ? 4 : 3;
   const totalPages = Math.ceil(filteredArtifacts.length / itemsPerPage);
   const displayedArtifacts = filteredArtifacts.slice(
     currentPage * itemsPerPage,
     (currentPage + 1) * itemsPerPage
   );
 
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case "Sculpture":
-        return "bg-purple-500/20 text-purple-300 border-purple-500/30";
-      case "Pottery":
-        return "bg-amber-500/20 text-amber-300 border-amber-500/30";
-      case "History":
-        return "bg-blue-500/20 text-blue-300 border-blue-500/30";
-      case "Art":
-        return "bg-rose-500/20 text-rose-300 border-rose-500/30";
-      default:
-        return "bg-teal-500/20 text-teal-300 border-teal-500/30";
-    }
+  const handleAddToCollection = (artifact: Artifact) => {
+    // This will be connected to Supabase later
+    console.log("Adding to collection:", artifact.name);
   };
 
   return (
@@ -45,44 +54,73 @@ export const ExhibitShowcase = () => {
       <div className="max-w-7xl mx-auto">
         {/* Section header */}
         <div className="text-center mb-12">
-          <Badge variant="outline" className="mb-4 border-primary/30 text-primary">
+          <Badge
+            variant="outline"
+            className="mb-4 border-primary/30 text-primary"
+          >
             Our Collection
           </Badge>
           <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">
             Featured <span className="text-gradient">Exhibits</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Explore our carefully curated collection of artifacts spanning thousands of years of human history
+            Explore our carefully curated collection of artifacts spanning
+            thousands of years of human history
           </p>
         </div>
 
-        {/* Category filters */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
-          {categories.map((category) => (
+        {/* Category filters and view toggle */}
+        <div className="flex flex-wrap justify-center items-center gap-3 mb-10">
+          <div className="flex flex-wrap justify-center gap-2">
+            {categories.map((category) => (
+              <Button
+                key={category}
+                variant={selectedCategory === category ? "default" : "outline"}
+                size="sm"
+                onClick={() => {
+                  setSelectedCategory(category);
+                  setCurrentPage(0);
+                }}
+                className={
+                  selectedCategory === category
+                    ? "bg-primary hover:bg-primary/90"
+                    : "border-primary/30 hover:bg-primary/10"
+                }
+              >
+                {category}
+              </Button>
+            ))}
+          </div>
+
+          {/* View mode toggle */}
+          <div className="flex gap-1 border border-primary/30 rounded-lg p-1">
             <Button
-              key={category}
-              variant={selectedCategory === category ? "default" : "outline"}
+              variant={viewMode === "grid" ? "default" : "ghost"}
               size="sm"
-              onClick={() => {
-                setSelectedCategory(category);
-                setCurrentPage(0);
-              }}
-              className={
-                selectedCategory === category
-                  ? "bg-primary hover:bg-primary/90"
-                  : "border-primary/30 hover:bg-primary/10"
-              }
+              onClick={() => setViewMode("grid")}
+              className="h-8"
             >
-              {category}
+              <Grid3x3 className="w-4 h-4" />
             </Button>
-          ))}
+            <Button
+              variant={viewMode === "carousel" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setViewMode("carousel")}
+              className="h-8"
+            >
+              <LayoutGrid className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
 
-        {/* Artifacts grid */}
+        {/* Artifacts display */}
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[...Array(4)].map((_, i) => (
-              <Card key={i} className="glass-card border-primary/10 animate-pulse">
+              <Card
+                key={i}
+                className="glass-card border-primary/10 animate-pulse"
+              >
                 <div className="aspect-square bg-primary/10 rounded-t-lg" />
                 <CardContent className="p-4">
                   <div className="h-4 bg-primary/10 rounded mb-2" />
@@ -91,84 +129,71 @@ export const ExhibitShowcase = () => {
               </Card>
             ))}
           </div>
+        ) : viewMode === "carousel" ? (
+          /* Carousel view */
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full"
+          >
+            <CarouselContent>
+              {filteredArtifacts.map((artifact, index) => (
+                <CarouselItem
+                  key={artifact.id}
+                  className="md:basis-1/2 lg:basis-1/3"
+                >
+                  <Artifact3DCard
+                    artifact={artifact}
+                    onClick={() => setSelectedArtifact(artifact)}
+                    onAddToCollection={() => handleAddToCollection(artifact)}
+                    index={index}
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-0 border-primary/30 hover:bg-primary/20" />
+            <CarouselNext className="right-0 border-primary/30 hover:bg-primary/20" />
+          </Carousel>
         ) : (
+          /* Grid view with enhanced 3D cards */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {displayedArtifacts.map((artifact) => (
-              <Card
+            {displayedArtifacts.map((artifact, index) => (
+              <Artifact3DCard
                 key={artifact.id}
-                className="glass-card border-primary/10 hover:border-primary/30 transition-all duration-300 group cursor-pointer overflow-hidden"
+                artifact={artifact}
                 onClick={() => setSelectedArtifact(artifact)}
-              >
-                {/* Artifact visual */}
-                <div className="aspect-square bg-gradient-to-br from-primary/10 to-accent/10 relative overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                      <div className="w-12 h-12 rounded-full bg-primary/30 group-hover:bg-primary/50 transition-colors" />
-                    </div>
-                  </div>
-                  {artifact.is_featured && (
-                    <Badge className="absolute top-3 right-3 bg-primary text-primary-foreground">
-                      Featured
-                    </Badge>
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  <Button
-                    size="sm"
-                    className="absolute bottom-3 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-primary hover:bg-primary/90"
-                  >
-                    View Details
-                    <ArrowRight className="w-4 h-4 ml-1" />
-                  </Button>
-                </div>
-
-                <CardContent className="p-4">
-                  <Badge className={`mb-2 text-xs ${getCategoryColor(artifact.category)}`}>
-                    {artifact.category}
-                  </Badge>
-                  <h3 className="font-display font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                    {artifact.name}
-                  </h3>
-                  <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                    {artifact.era && (
-                      <span className="flex items-center gap-1">
-                        <Calendar className="w-3 h-3" />
-                        {artifact.era}
-                      </span>
-                    )}
-                    {artifact.origin && (
-                      <span className="flex items-center gap-1">
-                        <MapPin className="w-3 h-3" />
-                        {artifact.origin}
-                      </span>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
+                onAddToCollection={() => handleAddToCollection(artifact)}
+                index={index}
+              />
             ))}
           </div>
         )}
 
-        {/* Pagination */}
-        {totalPages > 1 && (
+        {/* Pagination (only for grid view) */}
+        {viewMode === "grid" && totalPages > 1 && (
           <div className="flex justify-center items-center gap-4 mt-10">
             <Button
               variant="outline"
               size="icon"
               onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
               disabled={currentPage === 0}
-              className="border-primary/30"
+              className="border-primary/30 hover:bg-primary/20"
             >
               <ChevronLeft className="w-4 h-4" />
             </Button>
             <span className="text-sm text-muted-foreground">
-              {currentPage + 1} / {totalPages}
+              Page {currentPage + 1} of {totalPages}
             </span>
             <Button
               variant="outline"
               size="icon"
-              onClick={() => setCurrentPage((p) => Math.min(totalPages - 1, p + 1))}
+              onClick={() =>
+                setCurrentPage((p) => Math.min(totalPages - 1, p + 1))
+              }
               disabled={currentPage === totalPages - 1}
-              className="border-primary/30"
+              className="border-primary/30 hover:bg-primary/20"
             >
               <ChevronRight className="w-4 h-4" />
             </Button>

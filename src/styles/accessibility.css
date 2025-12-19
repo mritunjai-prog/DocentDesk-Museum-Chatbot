@@ -1,0 +1,329 @@
+/* ==========================================
+   ACCESSIBILITY STYLES
+   Following WCAG 2.1 AA Guidelines
+   ========================================== */
+
+/* Skip to main content link for keyboard navigation */
+.skip-to-main {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--gold);
+  color: var(--primary-foreground);
+  padding: 8px 16px;
+  text-decoration: none;
+  z-index: 100;
+  border-radius: 0 0 4px 0;
+  font-weight: 600;
+  transition: top 0.2s;
+}
+
+.skip-to-main:focus {
+  top: 0;
+  outline: 3px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Focus visible styles - clear focus indicators */
+*:focus-visible {
+  outline: 2px solid hsl(var(--gold));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid hsl(var(--gold));
+  outline-offset: 2px;
+}
+
+/* Enhanced focus for interactive elements */
+button:focus-visible,
+[role="button"]:focus-visible {
+  box-shadow: 0 0 0 3px hsl(var(--gold) / 0.3);
+}
+
+/* Link focus styles */
+a:focus-visible {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+/* Remove default outline, rely on focus-visible */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    border: 2px solid currentColor;
+  }
+
+  .bg-gradient-gold {
+    background: hsl(var(--gold)) !important;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Color contrast improvements for text */
+.text-muted-foreground {
+  color: hsl(var(--muted-foreground));
+  /* Ensure 4.5:1 contrast ratio */
+}
+
+/* Enhanced button states for accessibility */
+button:disabled,
+button[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled),
+button:focus:not(:disabled) {
+  transform: translateY(-1px);
+  transition: transform 0.2s;
+}
+
+/* Keyboard navigation indicator */
+body.using-keyboard button:focus,
+body.using-keyboard a:focus,
+body.using-keyboard [tabindex]:focus {
+  outline: 3px solid hsl(var(--gold));
+  outline-offset: 3px;
+}
+
+/* Ensure minimum touch target size (44x44px for WCAG AAA) */
+button,
+a,
+input[type="checkbox"],
+input[type="radio"],
+select {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Exception for inline text links */
+p a,
+li a {
+  min-height: auto;
+  min-width: auto;
+}
+
+/* Focus trap for modals */
+.modal-open {
+  overflow: hidden;
+}
+
+/* Improved error states for forms */
+[aria-invalid="true"] {
+  border-color: hsl(var(--destructive));
+  border-width: 2px;
+}
+
+[aria-invalid="true"]:focus {
+  outline-color: hsl(var(--destructive));
+  box-shadow: 0 0 0 3px hsl(var(--destructive) / 0.3);
+}
+
+/* Live region for dynamic content */
+[aria-live="polite"],
+[aria-live="assertive"] {
+  position: relative;
+}
+
+/* Visible focus for card interactions */
+.card:focus-within {
+  box-shadow: 0 0 0 3px hsl(var(--gold) / 0.3);
+  border-color: hsl(var(--gold));
+}
+
+/* Ensure proper heading hierarchy visibility */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+h2 {
+  font-size: 2rem;
+}
+h3 {
+  font-size: 1.75rem;
+}
+h4 {
+  font-size: 1.5rem;
+}
+h5 {
+  font-size: 1.25rem;
+}
+h6 {
+  font-size: 1rem;
+}
+
+/* Responsive text for readability */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
+  h3 {
+    font-size: 1.25rem;
+  }
+}
+
+/* Print styles for accessibility */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+  }
+
+  body {
+    color: #000;
+    background: #fff;
+  }
+}
+
+/* RTL Support for Arabic */
+[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] .flex {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .grid {
+  direction: rtl;
+}
+
+[dir="rtl"] .ml-2 {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+[dir="rtl"] .mr-2 {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+/* Custom scrollbar for better visibility */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+
+/* Ensure proper color contrast in dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground: 0 0% 98%;
+    --background: 222 47% 11%;
+  }
+}
+
+/* Accessible tooltip positioning */
+[role="tooltip"] {
+  z-index: 9999;
+  max-width: 300px;
+}
+
+/* Loading states with proper ARIA */
+[aria-busy="true"] {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Status messages */
+[role="status"],
+[role="alert"] {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 8px 0;
+}
+
+[role="alert"] {
+  border-left: 4px solid hsl(var(--destructive));
+}
+
+/* Improved table accessibility */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th {
+  font-weight: 600;
+  text-align: left;
+  border-bottom: 2px solid hsl(var(--border));
+  padding: 12px 16px;
+}
+
+td {
+  padding: 12px 16px;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+/* Accessible cards */
+.card[tabindex]:focus {
+  outline: 2px solid hsl(var(--gold));
+  outline-offset: 4px;
+}

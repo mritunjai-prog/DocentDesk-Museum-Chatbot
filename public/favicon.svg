@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F59E0B;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FBBF24;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F59E0B;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="48" fill="url(#goldGradient)"/>
+  
+  <!-- Museum building icon -->
+  <g fill="white">
+    <!-- Base -->
+    <rect x="20" y="70" width="60" height="8" rx="2"/>
+    
+    <!-- Columns -->
+    <rect x="25" y="40" width="6" height="30"/>
+    <rect x="40" y="40" width="6" height="30"/>
+    <rect x="54" y="40" width="6" height="30"/>
+    <rect x="69" y="40" width="6" height="30"/>
+    
+    <!-- Top platform -->
+    <rect x="20" y="35" width="60" height="5" rx="1"/>
+    
+    <!-- Roof triangle -->
+    <path d="M 50 22 L 18 35 L 82 35 Z"/>
+    
+    <!-- Small circle at top -->
+    <circle cx="50" cy="22" r="3"/>
+  </g>
+</svg>
