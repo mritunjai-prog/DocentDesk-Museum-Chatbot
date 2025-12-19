@@ -102,7 +102,7 @@ DocentDesk is a comprehensive museum experience platform that leverages cutting-
 | ![Home](docs/screenshots/home.png) | ![Tour](docs/screenshots/tour.png) | ![Events](docs/screenshots/events.png) |
 
 | Exhibits | Chatbot | Dashboard |
-|----------|---------|-----------||
+|----------|---------|-----------|
 | ![Exhibits](docs/screenshots/exhibits.png) | ![Chat](docs/screenshots/chat.png) | ![Dashboard](docs/screenshots/dashboard.png) |
 
 </div>
@@ -110,208 +110,6 @@ DocentDesk is a comprehensive museum experience platform that leverages cutting-
 ### Video Walkthrough
 
 📹 [Full feature demonstration](https://youtube.com/watch-link-here) - Coming Soon
-
----
-
-## 🎬 Demo
-
-**Live Demo**: [Coming Soon]  
-**Video Tour**: [Coming Soon]
-
-<div align="center">
-
-### Frontend
-
-![React](https://img.shields.io/badge/React-18.3.1-61DAFB?style=for-the-badge&logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-3178C6?style=for-the-badge&logo=typescript)
-![Vite](https://img.shields.io/badge/Vite-5.4.21-646CFF?style=for-the-badge&logo=vite)
-![TailwindCSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?style=for-the-badge&logo=tailwind-css)
-![Three.js](https://img.shields.io/badge/Three.js-Latest-000000?style=for-the-badge&logo=three.js)
-
-### Backend & Database
-
-![Supabase](https://img.shields.io/badge/Supabase-Latest-3ECF8E?style=for-the-badge&logo=supabase)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Latest-336791?style=for-the-badge&logo=postgresql)
-![Edge Functions](https://img.shields.io/badge/Edge_Functions-Serverless-FF6C37?style=for-the-badge)
-
-</div>
-
-### Core Technologies
-
-| Category      | Technologies                          |
-| ------------- | ------------------------------------- |
-| **Framework** | React 18.3, TypeScript 5.8, Vite 5.4  |
-| **Styling**   | Tailwind CSS 3.4, shadcn/ui, Radix UI |
-
-| \*\*3DQuick Start
-
-### Prerequisites
-
-- **Node.js** 18+ ([Download](https://nodejs.org/) or use [nvm](https://github.com/nvm-sh/nvm))
-- **npm** 9+ or **bun** 1+
-- **Git** ([Download](https://git-scm.com/))
-- **Supabase Account** (optional for backend features)
-
-### Installation
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/mritunjai-prog/DocentDesk-Museum-Chatbot.git
-cd DocentDesk-Museum-Chatbot
-
-# 2. Install dependencies
-npm install
-
-# 3. Set up environment variables (optional for development)
-cp .env.example .env
-# Edit .env with your Supabase credentials if needed
-
-# 4. Start development server
-npm run dev
-```
-
-The app will open at **http://localhost:8080** 🎉
-
-### Environment Variables
-
-Create a `.env` file in the root directory:
-
-```env
-# Supabase Configuration (optional for local development)
-VITE_SUPABASE_URL=your_supabase_project_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-
-# Optional: OpenAI API for chatbot
-OPENAI_API_KEY=your_openai_key
-```
-
-**Note**: The app works without Supabase using mock data for development.
-
-### Build for Production
-
-````bash
-# Production build
-npm run build
-
-# Preview production build locally
-npm run preview
-
-# Development build (with source maps)
-npm run build:dev
-2. **Install dependencies**
-```basArchitecture
-
-### Project Structure
-
-````
-
-DocentDesk/
-├── public/
-│ ├── images/ # Static images
-│ │ ├── artifacts/ # Artifact placeholder
-│ │ └── events/ # Event images
-│ ├── favicon.svg # App icon
-│ ├── manifest.json # PWA manifest
-│ └── service-worker.js # Service worker for offline
-├── src/
-│ ├── components/
-│ │ ├── tour/ # 3D virtual tour
-│ │ │ ├── TourScene.tsx
-│ │ │ ├── MuseumRoom.tsx
-│ │ │ ├── CameraController.tsx
-│ │ │ ├── ArtifactHotspot.tsx
-│ │ │ └── ...
-│ │ ├── booking/ # Event booking wizard
-│ │ │ ├── BookingWizard.tsx
-│ │ │ ├── StepTickets.tsx
-│ │ │ ├── StepDetails.tsx
-│ │ │ └── ...
-│ │ ├── dashboard/ # User dashboard
-│ │ │ ├── MyCollection.tsx
-│ │ │ ├── MyTickets.tsx
-│ │ │ └── ...
-│ │ ├── ui/ # shadcn/ui components (60+)
-│ │ ├── AnimatedAuthModal.tsx
-│ │ ├── AIChatbot.tsx
-│ │ ├── Artifact3DCard.tsx
-│ │ ├── ArtifactImage.tsx
-│ │ ├── EventImage.tsx
-│ │ └── ...
-│ ├── pages/
-│ │ ├── Index.tsx # Home page
-│ │ ├── VirtualTour.tsx # 3D tour page
-│ │ ├── Events.tsx # Events listing
-│ │ ├── Exhibits.tsx # Artifacts gallery
-│ │ ├── About.tsx # About museum
-│ │ ├── Dashboard.tsx # User dashboard
-│ │ └── NotFound.tsx
-│ ├── hooks/
-│ │ ├── useArtifacts.ts # Artifact data hook
-│ │ ├── useChatContext.ts
-│ │ └── use-toast.ts
-│ ├── contexts/
-│ │ └── AuthContext.tsx # Auth state management
-│ ├── data/
-│ │ └── artifacts.ts # Mock artifact data
-│ ├── i18n/
-│ │ ├── index.ts # i18next setup
-│ │ └── locales/ # Translation files (8 languages)
-│ │ ├── en.json
-│ │ ├── es.json
-│ │ ├── fr.json
-│ │ └── ...
-│ │ └── supabase/        # Supabase client & types
-│ ├── lib/
-│ │ └── utils.ts         # Utility functions
-│ ├── styles/
-│ │ └── accessibility.css
-│ ├── App.tsx
-│ ├── main.tsx
-│ └── index.css
-├── supabase/
-│ ├── functions/
-│ │ └── chat/            # AI chatbot edge function
-│ └── migrations/
-│     └── 20251219000000_comprehensive_schema.sql
-├── docs/                    # Documentation
-│ ├── FRONTEND_ANALYSIS_AND_NEXT_STEPS.md
-│ ├── QUICK_START_GUIDE.md
-│ └── README_PROJECT_SUMMARY.md
-├── package.json
-├── vite.config.ts
-├── tailwind.config.ts
-├── tsconfig.json
-└── README.md
-```
-
-### Component Architecture
-
-```
-App
-├── Navigation (with i18n, theme, auth)
-├── Routes
-│   ├── Index (Home)
-│   │   ├── HeroSection (3D background)
-│   │   ├── ExhibitShowcase (3D cards)
-│   │   └── FeaturesSection
-│   ├── VirtualTour
-│   │   ├── TourScene (Three.js)
-│   │   ├── CameraController (WASD)
-│   │   └── ArtifactHotspots
-│   ├── Events
-│   │   ├── EventCards (3D animated)
-│   │   └── BookingWizard (5 steps)
-│   ├── Exhibits
-│   │   ├── Artifact3DCard
-│   │   └── ArtifactModal
-│   ├── Dashboard
-│   │   ├── MyCollection
-│   │   ├── MyTickets
-│   │   └── Settings
-│   └── About
-├── AIChatbot (voice + text)
-└── Footer
-```
 
 ---
 
@@ -413,29 +211,143 @@ npm run build:dev
 
 ---
 
+## 📐 Architecture
+
+### Project Structure
+
+```
+DocentDesk/
+├── public/
+│   ├── images/
+│   │   ├── artifacts/           # Artifact placeholder
+│   │   └── events/              # Event images
+│   ├── favicon.svg              # App icon
+│   ├── manifest.json            # PWA manifest
+│   └── service-worker.js        # Service worker for offline
+├── src/
+│   ├── components/
+│   │   ├── tour/                # 3D virtual tour
+│   │   │   ├── TourScene.tsx
+│   │   │   ├── MuseumRoom.tsx
+│   │   │   ├── CameraController.tsx
+│   │   │   ├── ArtifactHotspot.tsx
+│   │   │   └── ...
+│   │   ├── booking/             # Event booking wizard
+│   │   │   ├── BookingWizard.tsx
+│   │   │   ├── StepTickets.tsx
+│   │   │   ├── StepDetails.tsx
+│   │   │   └── ...
+│   │   ├── dashboard/           # User dashboard
+│   │   │   ├── MyCollection.tsx
+│   │   │   ├── MyTickets.tsx
+│   │   │   └── ...
+│   │   ├── ui/                  # shadcn/ui components (60+)
+│   │   ├── AnimatedAuthModal.tsx
+│   │   ├── AIChatbot.tsx
+│   │   ├── Artifact3DCard.tsx
+│   │   ├── ArtifactImage.tsx
+│   │   ├── EventImage.tsx
+│   │   └── ...
+│   ├── pages/
+│   │   ├── Index.tsx            # Home page
+│   │   ├── VirtualTour.tsx      # 3D tour page
+│   │   ├── Events.tsx           # Events listing
+│   │   ├── Exhibits.tsx         # Artifacts gallery
+│   │   ├── About.tsx            # About museum
+│   │   ├── Dashboard.tsx        # User dashboard
+│   │   └── NotFound.tsx
+│   ├── hooks/
+│   │   ├── useArtifacts.ts      # Artifact data hook
+│   │   ├── useChatContext.ts
+│   │   └── use-toast.ts
+│   ├── contexts/
+│   │   └── AuthContext.tsx      # Auth state management
+│   ├── data/
+│   │   └── artifacts.ts         # Mock artifact data
+│   ├── i18n/
+│   │   ├── index.ts             # i18next setup
+│   │   └── locales/             # Translation files (8 languages)
+│   │       ├── en.json
+│   │       ├── es.json
+│   │       ├── fr.json
+│   │       └── ...
+│   ├── integrations/
+│   │   └── supabase/            # Supabase client & types
+│   ├── lib/
+│   │   └── utils.ts             # Utility functions
+│   ├── styles/
+│   │   └── accessibility.css
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── index.css
+├── supabase/
+│   ├── functions/
+│   │   └── chat/                # AI chatbot edge function
+│   └── migrations/
+│       └── 20251219000000_comprehensive_schema.sql
+├── docs/                        # Documentation
+│   ├── FRONTEND_ANALYSIS_AND_NEXT_STEPS.md
+│   ├── QUICK_START_GUIDE.md
+│   └── README_PROJECT_SUMMARY.md
+├── package.json
+├── vite.config.ts
+├── tailwind.config.ts
+├── tsconfig.json
+└── README.md
+```
+
+### Component Architecture
+
+```
+App
+├── Navigation (with i18n, theme, auth)
+├── Routes
+│   ├── Index (Home)
+│   │   ├── HeroSection (3D background)
+│   │   ├── ExhibitShowcase (3D cards)
+│   │   └── FeaturesSection
+│   ├── VirtualTour
+│   │   ├── TourScene (Three.js)
+│   │   ├── CameraController (WASD)
+│   │   └── ArtifactHotspots
+│   ├── Events
+│   │   ├── EventCards (3D animated)
+│   │   └── BookingWizard (5 steps)
+│   ├── Exhibits
+│   │   ├── Artifact3DCard
+│   │   └── ArtifactModal
+│   ├── Dashboard
+│   │   ├── MyCollection
+│   │   ├── MyTickets
+│   │   └── Settings
+│   └── About
+├── AIChatbot (voice + text)
+└── Footer
+```
+
+---
+
 ## 💻 Development
 
-###  NPM Scripts
+### NPM Scripts
 
-| Command             | Description                          |
-| ------------------- | ------------------------------------ |
-| `npm run dev`       | Start development server (port 8080) |
-| `npm run build`     | Production build                     |
-| `npm run build:dev` | Development build with source maps   |
-| `npm run preview`   | Preview production build             |
-| `npm run lint`      | Run ESLint                           |
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server (port 8080) |
+| `npm run build` | Production build |
+| `npm run build:dev` | Development build with source maps |
+| `npm run preview` | Preview production build |
+| `npm run lint` | Run ESLint |
 
 ### Development Guidelines
 
 #### Code Style
-
 - **ESLint** - Configured for React + TypeScript + Hooks
 - **Prettier** - Auto-formatting (recommended extension)
 - **Tailwind** - Utility-first styling (no CSS-in-JS)
 
 #### Component Patterns
-
-````tsx
+```tsx
 // Use TypeScript interfaces
 interface ArtifactCardProps {
   artifact: Artifact;
@@ -514,7 +426,7 @@ vercel
 
 # Production
 vercel --prod
-````
+```
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/mritunjai-prog/DocentDesk-Museum-Chatbot)
 
@@ -583,7 +495,7 @@ The production build includes:
 ### Browser Support
 
 | Browser | Version |
-|---------|---------||
+|---------|---------|
 | Chrome | 90+ ✅ |
 | Firefox | 88+ ✅ |
 | Safari | 14+ ✅ |
@@ -620,117 +532,6 @@ Contributions are welcome! Please follow these steps:
 - ✅ Update documentation as needed
 - ✅ Test your changes thoroughly
 - ✅ Keep PRs focused and atomic
-| Browser | Version |
-|---------|---------|
-| Chrome | 90+ ✅ |
-| Firefox | 88+ ✅ |
-| Safari | 14+ ✅ |
-| Edge | 90+ ✅ |
-| Mobile | iOS 14+, Android 10+ ✅ |
-
-The production build includes:
-
-- ✅ Code splitting by route
-- ✅ Tree shaking & minification
-- ✅ Asset optimization
-- ✅ Service worker caching
-- ✅ Lazy loading images
-  "nav": {
-  "home": "Home",
-  "virtualTours": "Virtual Tours"
-  }
-  }
-
-````
-
-Use in components:
-```tsx
-import { useTranslation } from 'react-i18next';
-
-const { t } = useTranslation();
-<h1>{t('nav.home')}</h1>
-````
-
-### Database Schema
-
-Key tables in Supabase:
-
-- **artifacts** - Museum artifact data
-- **events** - Museum events & programs
-- **bookings** - Event reservations
-- **users** - User profiles (via Supabase Auth)
-- \*\*� Security
-
-- **Authentication**: Secure email/password via Supabase Auth
-- **Data Protection**: Row Level Security (RLS) in PostgreSQL
-- **API Keys**: Environment variables (never committed)
-- **HTTPS**: Required for production
-- **CSP**: Content Security Policy headers
-- **Input Validation**: Zod schemas on all forms
-
-Report security vulnerabilities: Open an issue with [SECURITY] prefix
-
----
-
-## 📈 Roadmap
-
-### Q1 2026
-
-- [ ] Admin panel for content management
-- [ ] Advanced analytics dashboard
-- [ ] Mobile app (React Native)
-- [ ] AR features for exhibits
-
-### Q2 2026
-
-- [ ] AI-generated tour recommendations
-- [ ] Social features (sharing, reviews)
-- [ ] Gamification system
-- [ ] Multi-museum support
-
-### Future
-
-- [ ] VR virtual tours
-- [ ] Live guided tours
-- [ ] Museum marketplace
-- [ ] API for third-party integration
-
-See [PROJECT_STATUS.md](PROJECT_STATUS.md) for detailed roadmap.
-
----
-
-## 🙏 Acknowledgments
-
-Special thanks to:
-
-- [shadcn/ui](https://ui.shadcn.com) - Beautiful component library
-- [Lucide](https://lucide.dev) - Icon system
-- [Three.js](https://threejs.org) - 3D graphics engine
-- [Supabase](https://supabase.com) - Backend infrastructure
-- [Unsplash](https://unsplash.com) - High-quality images
-- Open source community
-
----
-
-## 📞 Support
-
-- 📧 **Email**: [Create an issue](https://github.com/mritunjai-prog/DocentDesk-Museum-Chatbot/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/mritunjai-prog/DocentDesk-Museum-Chatbot/discussions)
-- 🐛 **Bug Reports**: [Issue Tracker](https://github.com/mritunjai-prog/DocentDesk-Museum-Chatbot/issues)
-- 📖 **Documentation**: [Wiki](https://github.com/mritunjai-prog/DocentDesk-Museum-Chatbot/wiki)
-
----
-
-## 📝 License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
-```
-MIT License - Copyright (c) 2025 DocentDesk
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files...
-```
 
 ---
 
@@ -774,6 +575,7 @@ See [PROJECT_STATUS.md](PROJECT_STATUS.md) for detailed roadmap.
 ## 🙏 Acknowledgments
 
 Built with excellent open source tools:
+
 - [shadcn/ui](https://ui.shadcn.com) - Beautiful component library
 - [Lucide](https://lucide.dev) - Icon system
 - [Three.js](https://threejs.org) - 3D graphics engine
