@@ -69,6 +69,26 @@ DocentDesk is a comprehensive museum experience platform that leverages cutting-
 
 ### 👤 User Dashboard
 
+- **Authentication** - Email/password with Supabase Auth
+- **My Collection** - Save favorite artifacts
+- **My Tickets** - View purchased event tickets
+- **Tour History** - Track completed virtual tours
+- **Settings** - Profile management, preferences
+- **Feedback System** - Submit and view feedback history
+
+### 🔧 Technical Features
+
+- **Progressive Web App** - Service worker, manifest, offline caching
+- **Lazy Loading** - Image optimization with loading states
+- **Error Boundaries** - Graceful error handling
+- **Type Safety** - Full TypeScript coverage
+- **Code Splitting** - Route-based chunking for performance
+- **SEO Optimized** - Meta tags, semantic HTML, sitemap-ready
+
+---
+
+## 🎬 Demo
+
 ### Live Application
 
 🚀 **Coming Soon** - Live demo will be available after deployment
@@ -77,26 +97,19 @@ DocentDesk is a comprehensive museum experience platform that leverages cutting-
 
 <div align="center">
 
-| Home Page                          | Virtual Tour                       | Events                                 |
-| ---------------------------------- | ---------------------------------- | -------------------------------------- |
+| Home Page | Virtual Tour | Events |
+|-----------|--------------|--------|
 | ![Home](docs/screenshots/home.png) | ![Tour](docs/screenshots/tour.png) | ![Events](docs/screenshots/events.png) |
 
-| Exhibits                                   | Chatbot                            | Dashboard                                    |
-| ------------------------------------------ | ---------------------------------- | -------------------------------------------- |
+| Exhibits | Chatbot | Dashboard |
+|----------|---------|-----------||
 | ![Exhibits](docs/screenshots/exhibits.png) | ![Chat](docs/screenshots/chat.png) | ![Dashboard](docs/screenshots/dashboard.png) |
 
 </div>
 
 ### Video Walkthrough
 
-📹 [Full feature demonstration](https://youtube.com/watch-link-here) - Coming SoFeatures
-
-- **Progressive Web App** - Service worker, manifest, offline caching
-- **Lazy Loading** - Image optimization with loading states
-- **Error Boundaries** - Graceful error handling
-- **Type Safety** - Full TypeScript coverage
-- **Code Splitting** - Route-based chunking for performance
-- **SEO Optimized** - Meta tags, semantic HTML, sitemap-ready
+📹 [Full feature demonstration](https://youtube.com/watch-link-here) - Coming Soon
 
 ---
 
@@ -247,8 +260,162 @@ DocentDesk/
 │ │ ├── es.json
 │ │ ├── fr.json
 │ │ └── ...
-│ ├── integrations/
-│ NPM Scripts
+│ │ └── supabase/        # Supabase client & types
+│ ├── lib/
+│ │ └── utils.ts         # Utility functions
+│ ├── styles/
+│ │ └── accessibility.css
+│ ├── App.tsx
+│ ├── main.tsx
+│ └── index.css
+├── supabase/
+│ ├── functions/
+│ │ └── chat/            # AI chatbot edge function
+│ └── migrations/
+│     └── 20251219000000_comprehensive_schema.sql
+├── docs/                    # Documentation
+│ ├── FRONTEND_ANALYSIS_AND_NEXT_STEPS.md
+│ ├── QUICK_START_GUIDE.md
+│ └── README_PROJECT_SUMMARY.md
+├── package.json
+├── vite.config.ts
+├── tailwind.config.ts
+├── tsconfig.json
+└── README.md
+```
+
+### Component Architecture
+
+```
+App
+├── Navigation (with i18n, theme, auth)
+├── Routes
+│   ├── Index (Home)
+│   │   ├── HeroSection (3D background)
+│   │   ├── ExhibitShowcase (3D cards)
+│   │   └── FeaturesSection
+│   ├── VirtualTour
+│   │   ├── TourScene (Three.js)
+│   │   ├── CameraController (WASD)
+│   │   └── ArtifactHotspots
+│   ├── Events
+│   │   ├── EventCards (3D animated)
+│   │   └── BookingWizard (5 steps)
+│   ├── Exhibits
+│   │   ├── Artifact3DCard
+│   │   └── ArtifactModal
+│   ├── Dashboard
+│   │   ├── MyCollection
+│   │   ├── MyTickets
+│   │   └── Settings
+│   └── About
+├── AIChatbot (voice + text)
+└── Footer
+```
+
+---
+
+## 🛠️ Tech Stack
+
+<div align="center">
+
+### Frontend
+![React](https://img.shields.io/badge/React-18.3.1-61DAFB?style=for-the-badge&logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-3178C6?style=for-the-badge&logo=typescript)
+![Vite](https://img.shields.io/badge/Vite-5.4.21-646CFF?style=for-the-badge&logo=vite)
+![TailwindCSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?style=for-the-badge&logo=tailwind-css)
+![Three.js](https://img.shields.io/badge/Three.js-Latest-000000?style=for-the-badge&logo=three.js)
+
+### Backend & Database
+![Supabase](https://img.shields.io/badge/Supabase-Latest-3ECF8E?style=for-the-badge&logo=supabase)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Latest-336791?style=for-the-badge&logo=postgresql)
+![Edge Functions](https://img.shields.io/badge/Edge_Functions-Serverless-FF6C37?style=for-the-badge)
+
+</div>
+
+### Core Technologies
+
+| Category | Technologies |
+|----------|-------------|
+| **Framework** | React 18.3, TypeScript 5.8, Vite 5.4 |
+| **Styling** | Tailwind CSS 3.4, shadcn/ui, Radix UI |
+| **3D Graphics** | Three.js, React Three Fiber, Drei |
+| **State Management** | TanStack Query (React Query) |
+| **Routing** | React Router DOM 6.30 |
+| **Forms** | React Hook Form, Zod validation |
+| **i18n** | react-i18next 15.1, i18next 24.2 |
+| **Auth** | Supabase Auth |
+| **Database** | PostgreSQL via Supabase |
+| **API** | Supabase Edge Functions |
+| **Icons** | Lucide React |
+| **Date** | date-fns 4.1 |
+| **Voice** | Web Speech API |
+| **PWA** | Service Workers, Manifest |
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- **Node.js** 18+ ([Download](https://nodejs.org/) or use [nvm](https://github.com/nvm-sh/nvm))
+- **npm** 9+ or **bun** 1+
+- **Git** ([Download](https://git-scm.com/))
+- **Supabase Account** (optional for backend features)
+
+### Installation
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/mritunjai-prog/DocentDesk-Museum-Chatbot.git
+cd DocentDesk-Museum-Chatbot
+
+# 2. Install dependencies
+npm install
+
+# 3. Set up environment variables (optional for development)
+cp .env.example .env
+# Edit .env with your Supabase credentials if needed
+
+# 4. Start development server
+npm run dev
+```
+
+The app will open at **http://localhost:8080** 🎉
+
+### Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env
+# Supabase Configuration (optional for local development)
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+
+# Optional: OpenAI API for chatbot
+OPENAI_API_KEY=your_openai_key
+```
+
+**Note**: The app works without Supabase using mock data for development.
+
+### Build for Production
+
+```bash
+# Production build
+npm run build
+
+# Preview production build locally
+npm run preview
+
+# Development build (with source maps)
+npm run build:dev
+```
+
+---
+
+## 💻 Development
+
+###  NPM Scripts
 
 | Command             | Description                          |
 | ------------------- | ------------------------------------ |
@@ -284,7 +451,59 @@ export function ArtifactCard({ artifact, onClick }: ArtifactCardProps) {
 function useArtifactData() {
   return useQuery({
     queryKey: ['artifacts'],
-    Vercel (Recommended)
+    queryFn: fetchArtifacts,
+  });
+}
+```
+
+#### Adding New Components
+
+```bash
+# Add shadcn/ui component
+npx shadcn-ui@latest add dialog
+
+# Add new custom component
+# Create in src/components/MyComponent.tsx
+# Export from index if needed
+```
+
+#### i18n Translations
+
+Add translations to `src/i18n/locales/{lang}.json`:
+
+```json
+{
+  "nav": {
+    "home": "Home",
+    "virtualTours": "Virtual Tours"
+  }
+}
+```
+
+Use in components:
+```tsx
+import { useTranslation } from 'react-i18next';
+
+const { t } = useTranslation();
+<h1>{t('nav.home')}</h1>
+```
+
+### Database Schema
+
+Key tables in Supabase:
+
+- **artifacts** - Museum artifact data
+- **events** - Museum events & programs
+- **bookings** - Event reservations
+- **users** - User profiles (via Supabase Auth)
+- **feedback** - User feedback & ratings
+- **tours** - Virtual tour completion tracking
+
+---
+
+## 🌐 Deployment
+
+### Vercel (Recommended)
 
 ```bash
 # Install Vercel CLI
@@ -325,6 +544,22 @@ docker run -p 8080:8080 docentdesk
 ### Configuration
 
 Set environment variables in your deployment platform:
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY`
+
+### Build Optimization
+
+The production build includes:
+- ✅ Code splitting by route
+- ✅ Tree shaking & minification
+- ✅ Asset optimization
+- ✅ Service worker caching
+- ✅ Lazy loading images
+
+---
+
+## 📚 Documentation
+
 | Document | Description |
 |----------|-------------|
 | [PROJECT_STATUS.md](PROJECT_STATUS.md) | Detailed project status and roadmap |
@@ -334,7 +569,32 @@ Set environment variables in your deployment platform:
 | [Quick Start Guide](docs/QUICK_START_GUIDE.md) | Developer quick start |
 | [Frontend Analysis](docs/FRONTEND_ANALYSIS_AND_NEXT_STEPS.md) | Architecture details |
 
-### API DocumentationPlease follow these steps:
+### API Documentation
+
+**Supabase Edge Functions:**
+- `POST /functions/v1/chat` - AI chatbot endpoint
+
+**Key Hooks:**
+- `useArtifacts()` - Fetch artifact data
+- `useFeaturedArtifacts()` - Get featured artifacts
+- `useAuth()` - Authentication state
+- `useChatContext()` - Chatbot state management
+
+### Browser Support
+
+| Browser | Version |
+|---------|---------||
+| Chrome | 90+ ✅ |
+| Firefox | 88+ ✅ |
+| Safari | 14+ ✅ |
+| Edge | 90+ ✅ |
+| Mobile | iOS 14+, Android 10+ ✅ |
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
 
 ### How to Contribute
 
@@ -357,34 +617,9 @@ Set environment variables in your deployment platform:
 
 - ✅ Follow existing code style and patterns
 - ✅ Write meaningful commit messages ([Conventional Commits](https://www.conventionalcommits.org/))
-- ✅ Add tests for new features
 - ✅ Update documentation as needed
-- ✅ Ensure all tests pass before submitting
+- ✅ Test your changes thoroughly
 - ✅ Keep PRs focused and atomic
-
-### Development Workflow
-
-```bash
-# 1. Update your fork
-git fetch upstream
-git merge upstream/main
-
-# 2. Create feature branch
-git checkout -b feature/my-feature
-
-# 3. Make changes and test
-npm run dev
-npm run build
-
-# 4. Commit and push
-git add .
-git commit -m "feat: description"
-git push origin feature/my-feature
-```
-
-### Code of Conduct
-
-Please be respectful and constructive. We follow the [Contributor Covenant](https://www.contributor-covenant.org/) Code of Conduct.
 | Browser | Version |
 |---------|---------|
 | Chrome | 90+ ✅ |
@@ -499,6 +734,75 @@ of this software and associated documentation files...
 
 ---
 
+## 🔒 Security
+
+- **Authentication**: Secure email/password via Supabase Auth
+- **Data Protection**: Row Level Security (RLS) in PostgreSQL
+- **API Keys**: Environment variables (never committed)
+- **HTTPS**: Required for production
+- **CSP**: Content Security Policy headers
+- **Input Validation**: Zod schemas on all forms
+
+Report security vulnerabilities: Open an issue with [SECURITY] prefix
+
+---
+
+## 📈 Roadmap
+
+### Q1 2026
+- [ ] Admin panel for content management
+- [ ] Advanced analytics dashboard
+- [ ] Mobile app (React Native)
+- [ ] AR features for exhibits
+
+### Q2 2026
+- [ ] AI-generated tour recommendations
+- [ ] Social features (sharing, reviews)
+- [ ] Gamification system
+- [ ] Multi-museum support
+
+### Future
+- [ ] VR virtual tours
+- [ ] Live guided tours
+- [ ] Museum marketplace
+- [ ] API for third-party integration
+
+See [PROJECT_STATUS.md](PROJECT_STATUS.md) for detailed roadmap.
+
+---
+
+## 🙏 Acknowledgments
+
+Built with excellent open source tools:
+- [shadcn/ui](https://ui.shadcn.com) - Beautiful component library
+- [Lucide](https://lucide.dev) - Icon system
+- [Three.js](https://threejs.org) - 3D graphics engine
+- [Supabase](https://supabase.com) - Backend infrastructure
+- [Unsplash](https://unsplash.com) - High-quality images
+
+---
+
+## 📞 Support
+
+- 📧 **Issues**: [Create an issue](https://github.com/mritunjai-prog/DocentDesk-Museum-Chatbot/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/mritunjai-prog/DocentDesk-Museum-Chatbot/discussions)
+- 🐛 **Bug Reports**: [Issue Tracker](https://github.com/mritunjai-prog/DocentDesk-Museum-Chatbot/issues)
+
+---
+
+## 📝 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+```
+MIT License - Copyright (c) 2025 DocentDesk
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files...
+```
+
+---
+
 ## ⭐ Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=mritunjai-prog/DocentDesk-Museum-Chatbot&type=Date)](https://star-history.com/#mritunjai-prog/DocentDesk-Museum-Chatbot&Date)
@@ -514,155 +818,3 @@ of this software and associated documentation files...
 **Version 1.0.0** | **Last Updated**: December 19, 2025
 
 </div>
-│   ├── App.tsx             # Main app component
-│   └── main.tsx            # Entry point
-├── supabase/
-│   ├── functions/          # Edge functions
-│   │   └── chat/
-│   └── migrations/         # Database migrations
-├── public/                 # Static assets
-├── docs/                   # Project documentation
-├── .env                    # Environment variables (not in git)
-├── package.json            # Dependencies
-├── vite.config.ts         # Vite configuration
-├── tailwind.config.ts     # Tailwind configuration
-└── tsconfig.json          # TypeScript configuration
-```
-
----
-
-## 💻 Development
-
-### **Available Scripts**
-
-```bash
-# Start dev server
-npm run dev
-
-# Build for production
-npm run build
-
-# Build for development (with source maps)
-npm run build:dev
-
-# Preview production build
-npm run preview
-
-# Run linter
-npm run lint
-```
-
-### **Code Style**
-
-- ESLint configured for React + TypeScript
-- Prettier for code formatting
-- Tailwind CSS for styling
-
-### **Component Development**
-
-We use shadcn/ui components. To add new components:
-
-```bash
-npx shadcn-ui@latest add [component-name]
-```
-
----
-
-## 🌐 Deployment
-
-### **Option 1: Lovable Platform**
-
-1. Visit [Lovable Projects](https://lovable.dev/projects)
-2. Connect your GitHub repository
-3. Click Share → Publish
-
-### **Option 2: Vercel**
-
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel
-```
-
-### **Option 3: Netlify**
-
-```bash
-# Install Netlify CLI
-npm i -g netlify-cli
-
-# Deploy
-netlify deploy --prod
-```
-
----
-
-## 📚 Documentation
-
-- **[PROJECT_STATUS.md](PROJECT_STATUS.md)** - Detailed project status and roadmap
-- **[docs/FRONTEND_ANALYSIS_AND_NEXT_STEPS.md](docs/FRONTEND_ANALYSIS_AND_NEXT_STEPS.md)** - Frontend architecture
-- **[docs/QUICK_START_GUIDE.md](docs/QUICK_START_GUIDE.md)** - Developer quick start
-- **[docs/Lovable-AI-Prompts/](docs/Lovable-AI-Prompts/)** - AI development prompts
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Here's how to get started:
-
-1. **Fork the repository**
-2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
-3. **Commit your changes**: `git commit -m 'Add amazing feature'`
-4. **Push to branch**: `git push origin feature/amazing-feature`
-5. **Open a Pull Request**
-
-### **Development Guidelines**
-
-- Follow existing code style
-- Write meaningful commit messages
-- Test your changes thoroughly
-- Update documentation as needed
-
----
-
-## 🐛 Known Issues
-
-- 4 npm security vulnerabilities (run `npm audit fix`)
-- `three-mesh-bvh` deprecation warning
-- Missing routes: `/events`, `/exhibits`, `/about`, `/dashboard/*`
-
-See [PROJECT_STATUS.md](PROJECT_STATUS.md) for full issue list.
-
----
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 👥 Team
-
-**Project**: Smart India Hackathon 2024  
-**Team**: HEXADS  
-**Repository**: https://github.com/mritunjai-prog/docent-desk-dreams
-
----
-
-## 🙏 Acknowledgments
-
-- Built with [Lovable.dev](https://lovable.dev)
-- UI components from [shadcn/ui](https://ui.shadcn.com)
-- Icons from [Lucide](https://lucide.dev)
-- 3D graphics powered by [Three.js](https://threejs.org)
-
----
-
-## 📞 Contact
-
-For questions or support, please open an issue on GitHub.
-
----
-
-**Status**: 🚧 Active Development | **Version**: 0.1.0 | **Last Updated**: December 19, 2025
