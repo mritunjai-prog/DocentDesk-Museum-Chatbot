@@ -243,6 +243,25 @@ export function AIChatbot() {
     }
   }, [toast, t, i18n.language]);
 
+  // Stop listening
+  const stopListening = useCallback(() => {
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+      recognitionRef.current = null;
+      setIsListening(false);
+      console.log("Voice recognition stopped by user");
+    }
+  }, []);
+
+  // Handle mic button click
+  const handleMicClick = useCallback(() => {
+    if (isListening) {
+      stopListening();
+    } else {
+      startListening();
+    }
+  }, [isListening, startListening, stopListening]);
+
   // Text-to-speech
   const speakText = useCallback(
     (text: string) => {
@@ -757,7 +776,7 @@ export function AIChatbot() {
                     type="button"
                     size="icon"
                     variant="ghost"
-                    onClick={startListening}
+                    onClick={handleMicClick}
                     disabled={isLoading}
                     className={cn(
                       "flex-shrink-0",
