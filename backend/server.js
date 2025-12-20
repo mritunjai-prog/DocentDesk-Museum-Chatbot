@@ -251,10 +251,13 @@ app.use(async (req, res, next) => {
   try {
     // Always try to connect if not connected
     if (mongoose.connection.readyState !== 1) {
+      console.log('⏳ Connection not ready, attempting to connect...');
       await connectDB();
+      console.log('✅ Connection established in middleware');
     }
     // Double check connection is ready
     if (mongoose.connection.readyState !== 1) {
+      console.error('❌ Connection state after connect:', mongoose.connection.readyState);
       return res.status(503).json({
         success: false,
         error: "Database connection unavailable",
@@ -262,12 +265,16 @@ app.use(async (req, res, next) => {
     }
     next();
   } catch (error) {
+    console.error('❌ Middleware connection error:', error.message);
     return res.status(503).json({
       success: false,
       error: error.message || "Database connection failed",
     });
   }
 });
+
+// Initialize connection on serverless function start
+connectDB().catch(err => console.error('Initial connection attempt failed:', err.message));
 
 // Connect to MongoDB and start server (for local development)
 if (process.env.NODE_ENV !== "production") {
