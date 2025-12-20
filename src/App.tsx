@@ -20,9 +20,9 @@ const queryClient = new QueryClient();
 
 // Protected route component
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated } = useAuth();
+  const { user } = useAuth();
 
-  if (!isAuthenticated) {
+  if (!user) {
     return <Navigate to="/auth" replace />;
   }
 
@@ -32,7 +32,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 // Main app routes component
 function AppRoutes() {
   const [showLoading, setShowLoading] = useState(true);
-  const { isAuthenticated } = useAuth();
+  const { user } = useAuth();
 
   if (showLoading) {
     return (
@@ -49,7 +49,7 @@ function AppRoutes() {
       <Route
         path="/auth"
         element={
-          isAuthenticated ? (
+          user ? (
             <Navigate to="/dashboard" replace />
           ) : (
             <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 flex items-center justify-center">
