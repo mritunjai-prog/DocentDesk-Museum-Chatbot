@@ -512,7 +512,7 @@ export function AIChatbot() {
           isOpen
             ? "scale-100 opacity-100"
             : "scale-0 opacity-0 pointer-events-none",
-          isDragging && "cursor-grabbing"
+          isDragging && "cursor-grabbing animate-watery"
         )}
       >
         <div
