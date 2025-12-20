@@ -218,6 +218,7 @@ const connectDB = async () => {
       socketTimeoutMS: 45000,
       maxPoolSize: 10,
       minPoolSize: 1,
+      bufferCommands: false, // Disable buffering to fail fast
     });
 
     cachedDb = conn;
