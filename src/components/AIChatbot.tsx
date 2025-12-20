@@ -383,8 +383,8 @@ export function AIChatbot() {
   }, [isDragging]);
 
   const streamChat = async (userMessages: Message[]) => {
-    // Use backend API for chat instead of Supabase functions (better CORS handling)
-    const CHAT_URL = `/api/chat`;
+    // Use Supabase function endpoint
+    const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
 
     // Get language name for better context
     const languageNames: { [key: string]: string } = {
@@ -413,6 +413,9 @@ export function AIChatbot() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${
+          import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
+        }`,
       },
       body: JSON.stringify({ messages: messagesWithLanguage }),
     });
