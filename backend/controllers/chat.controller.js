@@ -167,3 +167,101 @@ export const getChatHistory = asyncHandler(async (req, res, next) => {
     data: tour.chatMessages,
   });
 });
+
+// @desc    Stream chat response (for voice/real-time chat)
+// @route   POST /api/chat
+// @access  Public
+export const streamChat = asyncHandler(async (req, res, next) => {
+  const { messages } = req.body;
+
+  if (!messages || !Array.isArray(messages)) {
+    return next(new ErrorResponse("Please provide messages array", 400));
+  }
+
+  // Use Lovable AI Gateway (same as Supabase function)
+  const LOVABLE_API_KEY = process.env.LOVABLE_API_KEY;
+
+  if (!LOVABLE_API_KEY) {
+    return next(
+      new ErrorResponse(
+        "AI service is not configured. Please set LOVABLE_API_KEY in environment variables.",
+        503
+      )
+    );
+  }
+
+  try {
+    // Call Lovable AI Gateway
+    const response = await fetch(
+      "https://ai.gateway.lovable.dev/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${LOVABLE_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "google/gemini-2.5-flash",
+          messages: messages,
+          stream: true,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("AI gateway error:", response.status, errorText);
+
+      if (response.status === 429) {
+        return next(
+          new ErrorResponse(
+            "Rate limit exceeded. Please try again in a moment.",
+            429
+          )
+        );
+      }
+      if (response.status === 402) {
+        return next(
+          new ErrorResponse(
+            "AI credits exhausted. Please add credits to continue.",
+            402
+          )
+        );
+      }
+
+      return next(new ErrorResponse("Failed to get AI response", 500));
+    }
+
+    // Set streaming headers
+    res.setHeader("Content-Type", "text/event-stream");
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Connection", "keep-alive");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
+    // Stream the response
+    const reader = response.body?.getReader();
+    const decoder = new TextDecoder();
+
+    if (!reader) {
+      return next(new ErrorResponse("No response body", 500));
+    }
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      const chunk = decoder.decode(value, { stream: true });
+      res.write(chunk);
+    }
+
+    res.end();
+  } catch (error) {
+    console.error("Stream chat error:", error);
+    return next(
+      new ErrorResponse(
+        error instanceof Error ? error.message : "Failed to stream chat",
+        500
+      )
+    );
+  }
+});
