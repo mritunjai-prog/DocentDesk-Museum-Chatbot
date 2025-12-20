@@ -229,11 +229,8 @@ const connectDB = async () => {
     console.log(`📝 MONGO_URI exists: ${!!process.env.MONGO_URI}`);
 
     const conn = await mongoose.connect(process.env.MONGO_URI, {
-      serverSelectionTimeoutMS: 30000, // 30 seconds for serverless cold start
+      serverSelectionTimeoutMS: 30000,
       socketTimeoutMS: 45000,
-      maxPoolSize: 10,
-      minPoolSize: 1,
-      bufferCommands: false, // Disable buffering to fail fast
     });
 
     cachedDb = conn;
