@@ -383,7 +383,7 @@ export function AIChatbot() {
   }, [isDragging]);
 
   const streamChat = async (userMessages: Message[]) => {
-    // Use Supabase function endpoint
+    // Use Supabase function endpoint for AI responses
     const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
 
     // Get language name for better context
