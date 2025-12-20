@@ -51,6 +51,7 @@ export function AIChatbot() {
   const inputRef = useRef<HTMLInputElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const recognitionRef = useRef<any>(null);
+  const isManualStopRef = useRef(false);
   const dragRef = useRef({ startX: 0, startY: 0, offsetX: 0, offsetY: 0 });
   const { toast } = useToast();
   const chatContext = useChatContext();
@@ -177,9 +178,21 @@ export function AIChatbot() {
       };
 
       recognition.onend = () => {
-        setIsListening(false);
-        console.log("Voice recognition ended");
-        recognitionRef.current = null;
+        console.log("Voice recognition ended, manual stop:", isManualStopRef.current);
+        if (!isManualStopRef.current && isListening) {
+          // Auto-restart if it ended unexpectedly
+          console.log("Restarting recognition...");
+          try {
+            recognition.start();
+          } catch (e) {
+            console.error("Failed to restart recognition:", e);
+            setIsListening(false);
+          }
+        } else {
+          setIsListening(false);
+          recognitionRef.current = null;
+          isManualStopRef.current = false;
+        }
       };
 
       recognition.onerror = (event: any) => {
@@ -246,6 +259,7 @@ export function AIChatbot() {
   // Stop listening
   const stopListening = useCallback(() => {
     if (recognitionRef.current) {
+      isManualStopRef.current = true;
       recognitionRef.current.stop();
       recognitionRef.current = null;
       setIsListening(false);
