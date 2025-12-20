@@ -232,11 +232,11 @@ export const AnimatedAuthModal = ({
               </div>
             ) : (
               <>
-                <div className="grid md:grid-cols-2 gap-10">
+                <div className="grid md:grid-cols-2 gap-6">
                   {/* Sign In Card */}
-                  <div className="md:col-span-1 space-y-6 bg-card/50 backdrop-blur border border-border/50 rounded-2xl p-8 animate-fade-in-up">
-                    <div className="space-y-3">
-                      <h3 className="font-serif text-3xl font-bold text-foreground">
+                  <div className="md:col-span-1 space-y-4 bg-card/50 backdrop-blur border border-border/50 rounded-2xl pt-10 px-6 pb-6 animate-fade-in-up">
+                    <div className="space-y-2">
+                      <h3 className="font-serif text-2xl font-bold text-foreground">
                         Welcome Back
                       </h3>
                       <p className="text-sm text-muted-foreground">
@@ -244,7 +244,7 @@ export const AnimatedAuthModal = ({
                       </p>
                     </div>
 
-                    <form onSubmit={handleSignIn} className="space-y-4">
+                    <form onSubmit={handleSignIn} className="space-y-3">
                       <div className="space-y-1.5">
                         <Label htmlFor="signin-email" className="text-sm">
                           Email
@@ -330,11 +330,11 @@ export const AnimatedAuthModal = ({
 
                   {/* Sign Up Card */}
                   <div
-                    className="md:col-span-1 space-y-6 bg-card/30 backdrop-blur border border-border/30 rounded-2xl p-8 animate-fade-in-up"
+                    className="md:col-span-1 space-y-4 bg-card/30 backdrop-blur border border-border/30 rounded-2xl pt-10 px-6 pb-6 animate-fade-in-up"
                     style={{ animationDelay: "0.1s" }}
                   >
-                    <div className="space-y-3">
-                      <h3 className="font-serif text-2xl font-bold text-foreground">
+                    <div className="space-y-2">
+                      <h3 className="font-serif text-xl font-bold text-foreground">
                         Join DocentDesk
                       </h3>
                       <p className="text-xs text-muted-foreground">
@@ -342,7 +342,7 @@ export const AnimatedAuthModal = ({
                       </p>
                     </div>
 
-                    <form onSubmit={handleSignUp} className="space-y-4">
+                    <form onSubmit={handleSignUp} className="space-y-3">
                       <div className="space-y-1.5">
                         <Label htmlFor="signup-name" className="text-sm">
                           Full Name
