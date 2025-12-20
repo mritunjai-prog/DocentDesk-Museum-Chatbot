@@ -419,31 +419,37 @@ export function AIChatbot() {
     // Prepend system message to all messages
     const messagesWithLanguage = [systemMessage, ...userMessages];
 
-    const resp = await fetch(CHAT_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${
-          import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
-        }`,
-      },
-      body: JSON.stringify({ messages: messagesWithLanguage }),
-    });
+    try {
+      const resp = await fetch(CHAT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${
+            import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
+          }`,
+        },
+        body: JSON.stringify({ messages: messagesWithLanguage }),
+      });
 
-    if (!resp.ok) {
-      if (resp.status === 429) {
-        throw new Error("Rate limited. Please wait a moment and try again.");
+      if (!resp.ok) {
+        if (resp.status === 429) {
+          throw new Error("Rate limited. Please wait a moment and try again.");
+        }
+        if (resp.status === 402) {
+          throw new Error(
+            "Service temporarily unavailable. Please try again later."
+          );
+        }
+        const errorData = await resp.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to get response");
       }
-      if (resp.status === 402) {
-        throw new Error(
-          "Service temporarily unavailable. Please try again later."
-        );
-      }
-      const errorData = await resp.json().catch(() => ({}));
-      throw new Error(errorData.error || "Failed to get response");
+
+      return resp;
+    } catch (error) {
+      // If CORS error or network error, throw to trigger fallback
+      console.error("Supabase function error:", error);
+      throw error;
     }
-
-    return resp;
   };
 
   const sendMessage = async (content: string) => {
@@ -535,10 +541,15 @@ export function AIChatbot() {
       }
     } catch (error) {
       console.error("Chat error:", error);
+      
+      // Check if it's a CORS/network error
+      const isCorsError = error instanceof TypeError && error.message.includes("Failed to fetch");
+      
       toast({
         title: t("common.chatError") || "Chat Error",
-        description:
-          error instanceof Error
+        description: isCorsError 
+          ? "AI service is temporarily unavailable. The Supabase function needs to be deployed. Please try again later or wait for the next Vercel deployment." 
+          : error instanceof Error
             ? error.message
             : t("common.chatErrorDesc") || "Failed to send message",
         variant: "destructive",
