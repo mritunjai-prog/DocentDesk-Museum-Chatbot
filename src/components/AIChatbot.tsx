@@ -50,6 +50,7 @@ export function AIChatbot() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const recognitionRef = useRef<any>(null);
   const dragRef = useRef({ startX: 0, startY: 0, offsetX: 0, offsetY: 0 });
   const { toast } = useToast();
   const chatContext = useChatContext();
@@ -146,8 +147,13 @@ export function AIChatbot() {
         (window as any).SpeechRecognition ||
         (window as any).webkitSpeechRecognition;
       const recognition = new SpeechRecognition();
-      recognition.continuous = false;
-      recognition.interimResults = false;
+      
+      // Store reference to prevent garbage collection
+      recognitionRef.current = recognition;
+      
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.maxAlternatives = 1;
       recognition.lang =
         i18n.language === "zh"
           ? "zh-CN"
@@ -173,6 +179,7 @@ export function AIChatbot() {
       recognition.onend = () => {
         setIsListening(false);
         console.log("Voice recognition ended");
+        recognitionRef.current = null;
       };
 
       recognition.onerror = (event: any) => {
@@ -194,6 +201,8 @@ export function AIChatbot() {
           errorMessage =
             t("common.noSpeechDetected") ||
             "No speech detected. Please try again.";
+        } else if (event.error === "network") {
+          errorMessage = "Network error. Please check your connection.";
         }
 
         toast({
@@ -204,6 +213,7 @@ export function AIChatbot() {
       };
 
       recognition.onresult = (event: any) => {
+        console.log("onresult event fired:", event);
         let transcript = "";
         for (let i = event.resultIndex; i < event.results.length; i++) {
           const transcriptSegment = event.results[i][0].transcript;
@@ -213,13 +223,14 @@ export function AIChatbot() {
           }
         }
         transcript = transcript.trim();
-        console.log("Voice recognition result:", transcript);
+        console.log("Voice recognition result:", transcript, "isFinal:", event.results[event.results.length - 1]?.isFinal);
         if (transcript) {
           setInput((prev) => prev ? prev + " " + transcript : transcript);
         }
       };
 
       recognition.start();
+      console.log("Recognition started with lang:", recognition.lang);
     } catch (error) {
       console.error("Failed to start voice recognition:", error);
       toast({
