@@ -30,20 +30,16 @@ export const AnimatedAuthModal = ({
   const [loading, setLoading] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
 
-  // Sign In form
   const [signInEmail, setSignInEmail] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
 
-  // Sign Up form
   const [signUpName, setSignUpName] = useState("");
   const [signUpEmail, setSignUpEmail] = useState("");
   const [signUpPassword, setSignUpPassword] = useState("");
   const [signUpConfirmPassword, setSignUpConfirmPassword] = useState("");
 
-  // Forgot Password
   const [resetEmail, setResetEmail] = useState("");
 
-  // Floating particles animation
   const [particles, setParticles] = useState<
     Array<{ id: number; x: number; y: number; size: number; delay: number }>
   >([]);
@@ -66,7 +62,7 @@ export const AnimatedAuthModal = ({
       await signIn(signInEmail, signInPassword);
       onClose();
     } catch (error) {
-      // Error handled in context
+      console.error("Sign in error:", error);
     } finally {
       setLoading(false);
     }
@@ -85,7 +81,7 @@ export const AnimatedAuthModal = ({
       await signUp(signUpEmail, signUpPassword, signUpName);
       onClose();
     } catch (error) {
-      // Error handled in context
+      console.error("Sign up error:", error);
     } finally {
       setLoading(false);
     }
@@ -97,7 +93,7 @@ export const AnimatedAuthModal = ({
       await signInWithGoogle();
       onClose();
     } catch (error) {
-      // Error handled in context
+      console.error("Google sign in error:", error);
     } finally {
       setLoading(false);
     }
@@ -112,7 +108,7 @@ export const AnimatedAuthModal = ({
       setResetEmail("");
       alert("Password reset link sent to your email!");
     } catch (error) {
-      // Error handled in context
+      console.error("Reset password error:", error);
     } finally {
       setLoading(false);
     }
@@ -124,7 +120,6 @@ export const AnimatedAuthModal = ({
         <div className="grid md:grid-cols-2 min-h-[650px]">
           {/* Left Side - Animated Background */}
           <div className="relative hidden md:flex flex-col justify-center items-center p-12 bg-gradient-to-br from-primary via-blue-600 to-purple-600 overflow-hidden">
-            {/* Animated particles */}
             {particles.map((particle) => (
               <div
                 key={particle.id}
@@ -140,14 +135,12 @@ export const AnimatedAuthModal = ({
               />
             ))}
 
-            {/* Gradient orbs */}
             <div className="absolute top-0 left-0 w-72 h-72 bg-yellow-400/30 rounded-full blur-3xl animate-pulse" />
             <div
               className="absolute bottom-0 right-0 w-96 h-96 bg-purple-400/30 rounded-full blur-3xl animate-pulse"
               style={{ animationDelay: "1s" }}
             />
 
-            {/* Content */}
             <div className="relative z-10 text-center space-y-6">
               <div className="inline-flex items-center justify-center w-24 h-24 rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 glow-gold animate-bounce-slow">
                 <Landmark className="w-12 h-12 text-white" />
@@ -183,7 +176,7 @@ export const AnimatedAuthModal = ({
             </div>
           </div>
 
-          {/* Right Side - Two Auth Cards */}
+          {/* Right Side - Auth Cards and Guest Option */}
           <div className="bg-background p-6 md:p-8 flex flex-col justify-center overflow-y-auto max-h-[650px]">
             {showForgotPassword ? (
               <div className="space-y-6 animate-fade-in">
@@ -238,225 +231,245 @@ export const AnimatedAuthModal = ({
                 </form>
               </div>
             ) : (
-              <div className="grid md:grid-cols-2 gap-6">
-                {/* Sign In Card - Larger */}
-                <div className="md:col-span-1 space-y-4 bg-card/50 backdrop-blur border border-border/50 rounded-2xl p-6 animate-fade-in-up">
-                  <div className="space-y-2">
-                    <h3 className="font-serif text-2xl font-bold text-foreground">
-                      Welcome Back
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      Sign in to continue your journey
-                    </p>
+              <>
+                <div className="grid md:grid-cols-2 gap-6">
+                  {/* Sign In Card */}
+                  <div className="md:col-span-1 space-y-4 bg-card/50 backdrop-blur border border-border/50 rounded-2xl p-6 animate-fade-in-up">
+                    <div className="space-y-2">
+                      <h3 className="font-serif text-2xl font-bold text-foreground">
+                        Welcome Back
+                      </h3>
+                      <p className="text-sm text-muted-foreground">
+                        Sign in to continue your journey
+                      </p>
+                    </div>
+
+                    <form onSubmit={handleSignIn} className="space-y-3">
+                      <div className="space-y-1.5">
+                        <Label htmlFor="signin-email" className="text-sm">
+                          Email
+                        </Label>
+                        <div className="relative group">
+                          <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground group-hover:text-gold transition-colors" />
+                          <Input
+                            id="signin-email"
+                            type="email"
+                            placeholder="your.email@example.com"
+                            value={signInEmail}
+                            onChange={(e) => setSignInEmail(e.target.value)}
+                            className="pl-9 h-10 border-2 text-sm focus:border-gold transition-all"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <Label htmlFor="signin-password" className="text-sm">
+                          Password
+                        </Label>
+                        <div className="relative group">
+                          <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground group-hover:text-gold transition-colors" />
+                          <Input
+                            id="signin-password"
+                            type="password"
+                            placeholder="••••••••"
+                            value={signInPassword}
+                            onChange={(e) =>
+                              setSignInPassword(e.target.value)
+                            }
+                            className="pl-9 h-10 border-2 text-sm focus:border-gold transition-all"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <Button
+                        type="button"
+                        variant="link"
+                        className="text-xs text-gold p-0 hover:underline"
+                        onClick={() => setShowForgotPassword(true)}
+                      >
+                        Forgot password?
+                      </Button>
+
+                      <Button
+                        type="submit"
+                        className="w-full h-10 bg-gradient-gold text-white font-semibold text-sm hover:scale-105 transition-transform"
+                        disabled={loading}
+                      >
+                        {loading ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          "Sign In"
+                        )}
+                      </Button>
+
+                      <div className="relative py-2">
+                        <div className="absolute inset-0 flex items-center">
+                          <span className="w-full border-t border-border/30" />
+                        </div>
+                        <div className="relative flex justify-center">
+                          <span className="bg-card/50 px-1 text-xs text-muted-foreground">
+                            or
+                          </span>
+                        </div>
+                      </div>
+
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="w-full h-10 border-2 text-sm hover:border-gold hover:bg-gold/5 transition-all"
+                        onClick={handleGoogleSignIn}
+                        disabled={loading}
+                      >
+                        <Chrome className="w-4 h-4 mr-2" />
+                        Google
+                      </Button>
+                    </form>
                   </div>
 
-                  <form onSubmit={handleSignIn} className="space-y-3">
-                    <div className="space-y-1.5">
-                      <Label htmlFor="signin-email" className="text-sm">
-                        Email
-                      </Label>
-                      <div className="relative group">
-                        <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground group-hover:text-gold transition-colors" />
-                        <Input
-                          id="signin-email"
-                          type="email"
-                          placeholder="your.email@example.com"
-                          value={signInEmail}
-                          onChange={(e) => setSignInEmail(e.target.value)}
-                          className="pl-9 h-10 border-2 text-sm focus:border-gold transition-all"
-                          required
-                        />
-                      </div>
+                  {/* Sign Up Card */}
+                  <div
+                    className="md:col-span-1 space-y-4 bg-card/30 backdrop-blur border border-border/30 rounded-2xl p-6 animate-fade-in-up"
+                    style={{ animationDelay: "0.1s" }}
+                  >
+                    <div className="space-y-2">
+                      <h3 className="font-serif text-xl font-bold text-foreground">
+                        Join DocentDesk
+                      </h3>
+                      <p className="text-xs text-muted-foreground">
+                        Create an account to explore
+                      </p>
                     </div>
 
-                    <div className="space-y-1.5">
-                      <Label htmlFor="signin-password" className="text-sm">
-                        Password
-                      </Label>
-                      <div className="relative group">
-                        <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground group-hover:text-gold transition-colors" />
-                        <Input
-                          id="signin-password"
-                          type="password"
-                          placeholder="••••••••"
-                          value={signInPassword}
-                          onChange={(e) => setSignInPassword(e.target.value)}
-                          className="pl-9 h-10 border-2 text-sm focus:border-gold transition-all"
-                          required
-                        />
+                    <form onSubmit={handleSignUp} className="space-y-3">
+                      <div className="space-y-1.5">
+                        <Label htmlFor="signup-name" className="text-sm">
+                          Full Name
+                        </Label>
+                        <div className="relative group">
+                          <User className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground group-hover:text-gold transition-colors" />
+                          <Input
+                            id="signup-name"
+                            type="text"
+                            placeholder="John Doe"
+                            value={signUpName}
+                            onChange={(e) => setSignUpName(e.target.value)}
+                            className="pl-9 h-10 border-2 text-sm focus:border-gold transition-all"
+                            required
+                          />
+                        </div>
                       </div>
-                    </div>
 
-                    <Button
-                      type="button"
-                      variant="link"
-                      className="text-xs text-gold p-0 hover:underline"
-                      onClick={() => setShowForgotPassword(true)}
-                    >
-                      Forgot password?
-                    </Button>
-
-                    <Button
-                      type="submit"
-                      className="w-full h-10 bg-gradient-gold text-white font-semibold text-sm hover:scale-105 transition-transform"
-                      disabled={loading}
-                    >
-                      {loading ? (
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                      ) : (
-                        "Sign In"
-                      )}
-                    </Button>
-
-                    <div className="relative py-2">
-                      <div className="absolute inset-0 flex items-center">
-                        <span className="w-full border-t border-border/30" />
+                      <div className="space-y-1.5">
+                        <Label htmlFor="signup-email" className="text-sm">
+                          Email
+                        </Label>
+                        <div className="relative group">
+                          <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground group-hover:text-gold transition-colors" />
+                          <Input
+                            id="signup-email"
+                            type="email"
+                            placeholder="your.email@example.com"
+                            value={signUpEmail}
+                            onChange={(e) => setSignUpEmail(e.target.value)}
+                            className="pl-9 h-10 border-2 text-sm focus:border-gold transition-all"
+                            required
+                          />
+                        </div>
                       </div>
-                      <div className="relative flex justify-center">
-                        <span className="bg-card/50 px-1 text-xs text-muted-foreground">
-                          or
-                        </span>
+
+                      <div className="space-y-1.5">
+                        <Label htmlFor="signup-password" className="text-sm">
+                          Password
+                        </Label>
+                        <div className="relative group">
+                          <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground group-hover:text-gold transition-colors" />
+                          <Input
+                            id="signup-password"
+                            type="password"
+                            placeholder="••••••••"
+                            value={signUpPassword}
+                            onChange={(e) =>
+                              setSignUpPassword(e.target.value)
+                            }
+                            className="pl-9 h-10 border-2 text-sm focus:border-gold transition-all"
+                            required
+                          />
+                        </div>
                       </div>
-                    </div>
 
-                    <Button
-                      type="button"
-                      variant="outline"
-                      className="w-full h-10 border-2 text-sm hover:border-gold hover:bg-gold/5 transition-all"
-                      onClick={handleGoogleSignIn}
-                      disabled={loading}
-                    >
-                      <Chrome className="w-4 h-4 mr-2" />
-                      Google
-                    </Button>
-                  </form>
-                </div>
+                      <div className="space-y-1.5">
+                        <Label htmlFor="signup-confirm" className="text-sm">
+                          Confirm Password
+                        </Label>
+                        <div className="relative group">
+                          <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground group-hover:text-gold transition-colors" />
+                          <Input
+                            id="signup-confirm"
+                            type="password"
+                            placeholder="••••••••"
+                            value={signUpConfirmPassword}
+                            onChange={(e) =>
+                              setSignUpConfirmPassword(e.target.value)
+                            }
+                            className="pl-9 h-10 border-2 text-sm focus:border-gold transition-all"
+                            required
+                          />
+                        </div>
+                      </div>
 
-                {/* Sign Up Card - Smaller */}
-                <div
-                  className="md:col-span-1 space-y-4 bg-card/30 backdrop-blur border border-border/30 rounded-2xl p-6 animate-fade-in-up"
-                  style={{ animationDelay: "0.1s" }}
-                >
-                  <div className="space-y-2">
-                    <h3 className="font-serif text-xl font-bold text-foreground">
-                      Join DocentDesk
-                    </h3>
-                    <p className="text-xs text-muted-foreground">
-                      Create an account to explore
-                    </p>
+                      <Button
+                        type="submit"
+                        className="w-full h-10 bg-gradient-gold text-white font-semibold text-sm hover:scale-105 transition-transform"
+                        disabled={loading}
+                      >
+                        {loading ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          "Create Account"
+                        )}
+                      </Button>
+
+                      <div className="relative py-2">
+                        <div className="absolute inset-0 flex items-center">
+                          <span className="w-full border-t border-border/30" />
+                        </div>
+                        <div className="relative flex justify-center">
+                          <span className="bg-card/30 px-1 text-xs text-muted-foreground">
+                            or
+                          </span>
+                        </div>
+                      </div>
+
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="w-full h-10 border-2 text-sm hover:border-gold hover:bg-gold/5 transition-all"
+                        onClick={handleGoogleSignIn}
+                        disabled={loading}
+                      >
+                        <Chrome className="w-4 h-4 mr-2" />
+                        Google
+                      </Button>
+                    </form>
                   </div>
-
-                  <form onSubmit={handleSignUp} className="space-y-3">
-                    <div className="space-y-1.5">
-                      <Label htmlFor="signup-name" className="text-sm">
-                        Full Name
-                      </Label>
-                      <div className="relative group">
-                        <User className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground group-hover:text-gold transition-colors" />
-                        <Input
-                          id="signup-name"
-                          type="text"
-                          placeholder="John Doe"
-                          value={signUpName}
-                          onChange={(e) => setSignUpName(e.target.value)}
-                          className="pl-9 h-10 border-2 text-sm focus:border-gold transition-all"
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <Label htmlFor="signup-email" className="text-sm">
-                        Email
-                      </Label>
-                      <div className="relative group">
-                        <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground group-hover:text-gold transition-colors" />
-                        <Input
-                          id="signup-email"
-                          type="email"
-                          placeholder="your.email@example.com"
-                          value={signUpEmail}
-                          onChange={(e) => setSignUpEmail(e.target.value)}
-                          className="pl-9 h-10 border-2 text-sm focus:border-gold transition-all"
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <Label htmlFor="signup-password" className="text-sm">
-                        Password
-                      </Label>
-                      <div className="relative group">
-                        <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground group-hover:text-gold transition-colors" />
-                        <Input
-                          id="signup-password"
-                          type="password"
-                          placeholder="••••••••"
-                          value={signUpPassword}
-                          onChange={(e) => setSignUpPassword(e.target.value)}
-                          className="pl-9 h-10 border-2 text-sm focus:border-gold transition-all"
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <Label htmlFor="signup-confirm" className="text-sm">
-                        Confirm Password
-                      </Label>
-                      <div className="relative group">
-                        <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground group-hover:text-gold transition-colors" />
-                        <Input
-                          id="signup-confirm"
-                          type="password"
-                          placeholder="••••••••"
-                          value={signUpConfirmPassword}
-                          onChange={(e) =>
-                            setSignUpConfirmPassword(e.target.value)
-                          }
-                          className="pl-9 h-10 border-2 text-sm focus:border-gold transition-all"
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    <Button
-                      type="submit"
-                      className="w-full h-10 bg-gradient-gold text-white font-semibold text-sm hover:scale-105 transition-transform"
-                      disabled={loading}
-                    >
-                      {loading ? (
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                      ) : (
-                        "Create Account"
-                      )}
-                    </Button>
-
-                    <div className="relative py-2">
-                      <div className="absolute inset-0 flex items-center">
-                        <span className="w-full border-t border-border/30" />
-                      </div>
-                      <div className="relative flex justify-center">
-                        <span className="bg-card/30 px-1 text-xs text-muted-foreground">
-                          or
-                        </span>
-                      </div>
-                    </div>
-
-                    <Button
-                      type="button"
-                      variant="outline"
-                      className="w-full h-10 border-2 text-sm hover:border-gold hover:bg-gold/5 transition-all"
-                      onClick={handleGoogleSignIn}
-                      disabled={loading}
-                    >
-                      <Chrome className="w-4 h-4 mr-2" />
-                      Google
-                    </Button>
-                  </form>
                 </div>
-              </div>
+
+                <div className="mt-6 pt-4 border-t border-border/30 text-center">
+                  <p className="text-xs text-muted-foreground mb-3">
+                    Want to explore first?
+                  </p>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full h-10 border-2 text-sm hover:border-teal-500 hover:text-teal-500 hover:bg-teal-500/5 transition-all"
+                    onClick={() => onClose()}
+                  >
+                    Continue as Guest
+                  </Button>
+                </div>
+              </>
             )}
           </div>
         </div>
