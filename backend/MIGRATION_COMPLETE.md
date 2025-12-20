@@ -3,6 +3,7 @@
 ## What Was Done
 
 ### 1. Backend Code Updates ✅
+
 - ✅ Installed `@supabase/supabase-js` package
 - ✅ Created `backend/config/supabase.js` with Supabase client
 - ✅ Updated `auth.controller.js` - all auth functions now use Supabase:
@@ -18,10 +19,12 @@
 - ✅ Backend runs successfully on localhost:5000
 
 ### 2. Database Migration Files ✅
+
 - ✅ Created `backend/migrations/001_create_users_table.sql`
 - ✅ Created `backend/SUPABASE_MIGRATION.md` with instructions
 
 ### 3. Environment Configuration ✅
+
 - ✅ Updated `backend/.env` with Supabase credentials
 - ✅ Removed MongoDB connection string (commented out)
 
@@ -40,15 +43,18 @@
 7. Click **Run** (or press Ctrl+Enter)
 
 **What this creates:**
+
 - `users` table with all fields (id, email, password, name, etc.)
 - Indexes for fast queries
 - Auto-update triggers
 - Row Level Security policies
 
 **Verify it worked:**
+
 ```sql
 SELECT * FROM users LIMIT 1;
 ```
+
 You should see empty table structure with no errors.
 
 ### Step 2: Get Your Supabase Service Role Key (REQUIRED)
@@ -59,13 +65,15 @@ The key currently in `backend/.env` is the **anon key** (public), but the backen
 2. Under **Project API keys**, find `service_role` key
 3. Copy the LONG key (starts with `eyJ...`)
 4. Update in TWO places:
-   
+
    **A. Local development** (`backend/.env`):
+
    ```env
    SUPABASE_SERVICE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsbHhsdnpveWl0eGZ6ZWh6b2RyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NTk4NDA3NSwiZXhwIjoyMDgxNTYwMDc1fQ.YOUR_SECRET_KEY_HERE
    ```
-   
+
    **B. Vercel deployment** (production):
+
    - Go to: https://vercel.com/dashboard
    - Open your backend project
    - Go to **Settings** → **Environment Variables**
@@ -74,6 +82,7 @@ The key currently in `backend/.env` is the **anon key** (public), but the backen
    - Click **Save**
 
 **Why service_role key?**
+
 - Bypasses Row Level Security (RLS)
 - Allows backend to create/read/update users
 - Never expose this key in frontend!
@@ -88,6 +97,7 @@ npm run dev
 ```
 
 Try these:
+
 1. Register new user: http://localhost:8080/auth
 2. Login with email/password
 3. Login with Google OAuth
@@ -114,6 +124,7 @@ Share this link with anyone (India, USA, Europe, etc.):
 https://docent-desk-ai-chatbot.vercel.app
 
 They should be able to:
+
 - ✅ Register instantly (no timeout)
 - ✅ Login instantly (no timeout)
 - ✅ Use Google OAuth globally
@@ -122,12 +133,14 @@ They should be able to:
 ## Why This Will Work Now
 
 ### Previous Issues with MongoDB:
+
 - ❌ Timeout after 10+ seconds on Vercel
 - ❌ Requires persistent TCP connection
 - ❌ Cold start issues in serverless
 - ❌ Connection pooling complex
 
 ### Supabase Advantages:
+
 - ✅ Instant connection (REST API)
 - ✅ Built-in connection pooling
 - ✅ Designed for serverless (Vercel, AWS Lambda, etc.)
@@ -139,30 +152,33 @@ They should be able to:
 
 All code updated to use PostgreSQL column names:
 
-| MongoDB (old) | PostgreSQL (new) |
-|--------------|------------------|
-| `_id` | `id` (UUID) |
-| `googleId` | `google_id` |
-| `firstName` | `first_name` |
-| `lastName` | `last_name` |
-| `authProvider` | `auth_provider` |
+| MongoDB (old)     | PostgreSQL (new)    |
+| ----------------- | ------------------- |
+| `_id`             | `id` (UUID)         |
+| `googleId`        | `google_id`         |
+| `firstName`       | `first_name`        |
+| `lastName`        | `last_name`         |
+| `authProvider`    | `auth_provider`     |
 | `isEmailVerified` | `is_email_verified` |
-| `isActive` | `is_active` |
-| `lastLogin` | `last_login` |
-| `createdAt` | `created_at` |
-| `updatedAt` | `updated_at` |
+| `isActive`        | `is_active`         |
+| `lastLogin`       | `last_login`        |
+| `createdAt`       | `created_at`        |
+| `updatedAt`       | `updated_at`        |
 
 ## Troubleshooting
 
 ### If backend shows "Supabase credentials missing":
+
 - Check `backend/.env` has `SUPABASE_URL` and `SUPABASE_SERVICE_KEY`
 - Restart backend: `npm start`
 
 ### If login fails with "User not found":
+
 - Run the SQL migration (Step 1 above)
 - Check Supabase table exists: `SELECT * FROM users;`
 
 ### If Vercel deployment fails:
+
 - Verify environment variables in Vercel settings
 - Check `SUPABASE_SERVICE_KEY` is the **service role key**, not anon key
 - Redeploy: `git commit --allow-empty -m "Redeploy" && git push`

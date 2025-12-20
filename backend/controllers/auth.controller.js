@@ -200,7 +200,9 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
     .from("users")
     .update({
       reset_password_token: hashedToken,
-      reset_password_expire: new Date(Date.now() + 10 * 60 * 1000).toISOString(),
+      reset_password_expire: new Date(
+        Date.now() + 10 * 60 * 1000
+      ).toISOString(),
     })
     .eq("id", user.id);
 

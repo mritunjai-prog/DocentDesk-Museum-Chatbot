@@ -18,6 +18,7 @@ This guide will help you set up the Supabase database for DocentDesk.
 4. Click **Run** (or press Ctrl+Enter)
 
 The migration will create:
+
 - `users` table with all necessary fields
 - Indexes for faster queries (email, google_id, role, reset_token)
 - Auto-update trigger for `updated_at` field
@@ -75,6 +76,7 @@ Vercel will automatically deploy the changes.
 ### Why Supabase?
 
 **Advantages over MongoDB for serverless:**
+
 - ✅ Instant connection (no cold start timeout)
 - ✅ Built-in connection pooling
 - ✅ RESTful API with real-time capabilities
@@ -84,6 +86,7 @@ Vercel will automatically deploy the changes.
 - ✅ Row Level Security for enhanced security
 
 **MongoDB issues we had:**
+
 - ❌ 10+ second timeout on Vercel
 - ❌ Requires persistent connection
 - ❌ Not optimized for serverless
@@ -93,26 +96,27 @@ Vercel will automatically deploy the changes.
 
 **MongoDB (camelCase) → PostgreSQL (snake_case)**
 
-| MongoDB Field | PostgreSQL Field |
-|--------------|------------------|
-| `_id` | `id` (UUID) |
-| `googleId` | `google_id` |
-| `firstName` | `first_name` |
-| `lastName` | `last_name` |
-| `authProvider` | `auth_provider` |
-| `isEmailVerified` | `is_email_verified` |
-| `isActive` | `is_active` |
-| `lastLogin` | `last_login` |
-| `resetPasswordToken` | `reset_password_token` |
+| MongoDB Field         | PostgreSQL Field        |
+| --------------------- | ----------------------- |
+| `_id`                 | `id` (UUID)             |
+| `googleId`            | `google_id`             |
+| `firstName`           | `first_name`            |
+| `lastName`            | `last_name`             |
+| `authProvider`        | `auth_provider`         |
+| `isEmailVerified`     | `is_email_verified`     |
+| `isActive`            | `is_active`             |
+| `lastLogin`           | `last_login`            |
+| `resetPasswordToken`  | `reset_password_token`  |
 | `resetPasswordExpire` | `reset_password_expire` |
-| `createdAt` | `created_at` |
-| `updatedAt` | `updated_at` |
+| `createdAt`           | `created_at`            |
+| `updatedAt`           | `updated_at`            |
 
 All code has been updated to use the new snake_case field names.
 
 ### Next Steps
 
 Once deployed, test the following:
+
 1. Register a new user with email/password
 2. Login with email/password
 3. Login with Google OAuth
