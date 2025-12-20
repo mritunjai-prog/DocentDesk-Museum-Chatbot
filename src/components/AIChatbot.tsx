@@ -47,12 +47,9 @@ export function AIChatbot() {
   const [ttsEnabled, setTtsEnabled] = useState(true);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
-  const [iconPosition, setIconPosition] = useState({ x: 0, y: 0 });
-  const [isDraggingIcon, setIsDraggingIcon] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const iconDragRef = useRef({ startX: 0, startY: 0, offsetX: 0, offsetY: 0 });
   const dragRef = useRef({ startX: 0, startY: 0, offsetX: 0, offsetY: 0 });
   const { toast } = useToast();
   const chatContext = useChatContext();
@@ -325,43 +322,6 @@ export function AIChatbot() {
     };
   }, [isDragging]);
 
-  // Icon drag handlers
-  const handleIconMouseDown = (e: React.MouseEvent) => {
-    if (!isOpen) {
-      setIsDraggingIcon(true);
-      iconDragRef.current = {
-        startX: e.clientX,
-        startY: e.clientY,
-        offsetX: iconPosition.x,
-        offsetY: iconPosition.y,
-      };
-    }
-  };
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isDraggingIcon) return;
-      const deltaX = e.clientX - iconDragRef.current.startX;
-      const deltaY = e.clientY - iconDragRef.current.startY;
-      setIconPosition({
-        x: iconDragRef.current.offsetX + deltaX,
-        y: iconDragRef.current.offsetY + deltaY,
-      });
-    };
-
-    const handleMouseUp = () => setIsDraggingIcon(false);
-
-    if (isDraggingIcon) {
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
-    }
-
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-    };
-  }, [isDraggingIcon]);
-
   const streamChat = async (userMessages: Message[]) => {
     const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
 
@@ -528,17 +488,12 @@ export function AIChatbot() {
       {/* Floating button with pulse animation */}
       <Button
         data-chatbot-trigger
-        onMouseDown={handleIconMouseDown}
-        onClick={() => !isDraggingIcon && setIsOpen(true)}
-        style={{
-          transform: `translate(${iconPosition.x}px, ${iconPosition.y}px)`,
-        }}
+        onClick={() => setIsOpen(true)}
         className={cn(
           "fixed bottom-6 right-6 z-50 w-16 h-16 rounded-full shadow-lg transition-all duration-300",
           "bg-gradient-gold hover:scale-110 glow-gold",
           "before:absolute before:inset-0 before:rounded-full before:bg-gold/30 before:animate-ping",
-          isOpen && "scale-0 opacity-0",
-          isDraggingIcon && "animate-watery cursor-grabbing"
+          isOpen && "scale-0 opacity-0"
         )}
       >
         <MessageCircle className="w-7 h-7 text-primary-foreground relative z-10" />
@@ -557,7 +512,7 @@ export function AIChatbot() {
           isOpen
             ? "scale-100 opacity-100"
             : "scale-0 opacity-0 pointer-events-none",
-          isDragging && "cursor-grabbing"
+          isDragging && "cursor-grabbing animate-watery"
         )}
       >
         <div
