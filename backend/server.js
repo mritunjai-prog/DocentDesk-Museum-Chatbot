@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 
 // Disable Mongoose buffering globally for serverless
-mongoose.set('bufferCommands', false);
+mongoose.set("bufferCommands", false);
 
 // Load environment variables (only needed for local development)
 // Vercel provides environment variables through platform configuration
@@ -189,10 +189,10 @@ app.get("/api/debug/env", (req, res) => {
     data: {
       mongoUriExists: !!process.env.MONGO_URI,
       mongoUriLength: process.env.MONGO_URI?.length || 0,
-      mongoUriPrefix: process.env.MONGO_URI?.substring(0, 20) || 'not set',
+      mongoUriPrefix: process.env.MONGO_URI?.substring(0, 20) || "not set",
       nodeEnv: process.env.NODE_ENV,
       port: process.env.PORT,
-    }
+    },
   });
 });
 
@@ -253,17 +253,25 @@ const connectDB = async () => {
 
 // Ensure database connection before handling requests
 app.use(async (req, res, next) => {
-  if (mongoose.connection.readyState !== 1) {
-    try {
+  try {
+    // Always try to connect if not connected
+    if (mongoose.connection.readyState !== 1) {
       await connectDB();
-    } catch (error) {
+    }
+    // Double check connection is ready
+    if (mongoose.connection.readyState !== 1) {
       return res.status(503).json({
         success: false,
         error: "Database connection unavailable",
       });
     }
+    next();
+  } catch (error) {
+    return res.status(503).json({
+      success: false,
+      error: error.message || "Database connection failed",
+    });
   }
-  next();
 });
 
 // Connect to MongoDB and start server (for local development)
