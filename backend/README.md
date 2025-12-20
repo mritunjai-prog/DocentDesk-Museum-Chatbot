@@ -1,6 +1,6 @@
 # DocentDesk Museum - Backend API
 
-Complete Node.js + Express.js REST API for the DocentDesk Museum platform, featuring MongoDB database, Google OAuth authentication, JWT tokens, OpenAI chatbot integration, and comprehensive event booking system.
+Complete Node.js + Express.js REST API for the DocentDesk Museum platform, featuring MongoDB Atlas database, Google OAuth authentication, JWT tokens, OpenAI chatbot integration, and comprehensive event booking system.
 
 ## 🚀 Features
 

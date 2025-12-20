@@ -46,7 +46,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!user) { // Only use Supabase if no backend user exists
+      if (!user) {
+        // Only use Supabase if no backend user exists
         setSession(session);
         setUser(session?.user ?? null);
         if (session?.user) {
@@ -60,7 +61,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!localStorage.getItem("token")) { // Only use Supabase if no backend token
+      if (!localStorage.getItem("token")) {
+        // Only use Supabase if no backend token
         setSession(session);
         setUser(session?.user ?? null);
         if (session?.user) {
@@ -231,7 +233,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       // Clear backend token
       localStorage.removeItem("token");
-      
+
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
 

@@ -248,7 +248,7 @@ app.use(async (req, res, next) => {
 // Connect to MongoDB and start server (for local development)
 if (process.env.NODE_ENV !== "production") {
   const PORT = process.env.PORT || 5000;
-  
+
   // Connect to MongoDB first
   connectDB()
     .then(() => {
