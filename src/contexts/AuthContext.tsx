@@ -20,6 +20,7 @@ interface AuthContextType {
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
+  refreshAuth: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -40,12 +41,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { toast } = useToast();
 
   useEffect(() => {
+    // Check for backend JWT token first
+    checkBackendAuth();
+
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        loadProfile(session.user.id);
+      if (!user) { // Only use Supabase if no backend user exists
+        setSession(session);
+        setUser(session?.user ?? null);
+        if (session?.user) {
+          loadProfile(session.user.id);
+        }
       }
       setLoading(false);
     });
@@ -54,12 +60,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        loadProfile(session.user.id);
-      } else {
-        setProfile(null);
+      if (!localStorage.getItem("token")) { // Only use Supabase if no backend token
+        setSession(session);
+        setUser(session?.user ?? null);
+        if (session?.user) {
+          loadProfile(session.user.id);
+        } else {
+          setProfile(null);
+        }
       }
       setLoading(false);
     });
@@ -94,6 +102,59 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     } catch (error) {
       console.error("Error loading profile:", error);
     }
+  };
+
+  const checkBackendAuth = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+      const backendUrl =
+        import.meta.env.VITE_BACKEND_URL ||
+        "https://docentdesk-backend-api.vercel.app";
+
+      const response = await fetch(`${backendUrl}/api/auth/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.data) {
+          // Convert backend user to Supabase User format
+          const backendUser = data.data;
+          const mockUser: any = {
+            id: backendUser._id,
+            email: backendUser.email,
+            user_metadata: {
+              name: backendUser.name,
+              avatar_url: backendUser.avatar,
+            },
+            app_metadata: {},
+            aud: "authenticated",
+            created_at: backendUser.createdAt,
+          };
+          setUser(mockUser);
+          setProfile({
+            id: backendUser._id,
+            full_name: backendUser.name,
+            points: backendUser.gamification?.points || 0,
+            level: backendUser.gamification?.level || 1,
+          });
+        }
+      } else {
+        // Token invalid, remove it
+        localStorage.removeItem("token");
+      }
+    } catch (error) {
+      console.error("Error checking backend auth:", error);
+      localStorage.removeItem("token");
+    }
+  };
+
+  const refreshAuth = async () => {
+    await checkBackendAuth();
   };
 
   const signUp = async (email: string, password: string, fullName: string) => {
@@ -152,7 +213,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const signInWithGoogle = async () => {
     try {
       // Redirect to backend Google OAuth endpoint
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://docentdesk-backend-api.vercel.app';
+      const backendUrl =
+        import.meta.env.VITE_BACKEND_URL ||
+        "https://docentdesk-backend-api.vercel.app";
       window.location.href = `${backendUrl}/api/auth/google`;
     } catch (error: any) {
       toast({
@@ -166,8 +229,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signOut = async () => {
     try {
+      // Clear backend token
+      localStorage.removeItem("token");
+      
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
+
+      // Clear user state
+      setUser(null);
+      setProfile(null);
 
       toast({
         title: "Signed Out",
@@ -208,6 +278,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const value = {
     user,
     session,
+    refreshAuth,
     profile,
     loading,
     signUp,

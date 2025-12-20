@@ -216,7 +216,7 @@ const connectDB = async () => {
       maxPoolSize: 10,
       minPoolSize: 1,
     });
-    
+
     cachedDb = conn;
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
     return cachedDb;
@@ -238,24 +238,32 @@ app.use(async (req, res, next) => {
     } catch (error) {
       return res.status(503).json({
         success: false,
-        error: "Database connection unavailable"
+        error: "Database connection unavailable",
       });
     }
   }
   next();
 });
 
-
-// Start server (for local development)
+// Connect to MongoDB and start server (for local development)
 if (process.env.NODE_ENV !== "production") {
   const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
-    console.log(
-      `🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`
-    );
-    console.log(`📱 Client URL: ${process.env.CLIENT_URL}`);
-    console.log(`🌐 API URL: http://localhost:${PORT}`);
-  });
+  
+  // Connect to MongoDB first
+  connectDB()
+    .then(() => {
+      app.listen(PORT, () => {
+        console.log(
+          `🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`
+        );
+        console.log(`📱 Client URL: ${process.env.CLIENT_URL}`);
+        console.log(`🌐 API URL: http://localhost:${PORT}`);
+      });
+    })
+    .catch((error) => {
+      console.error(`❌ Failed to connect to MongoDB: ${error.message}`);
+      process.exit(1);
+    });
 }
 
 // Export for Vercel serverless
@@ -272,4 +280,3 @@ process.on("uncaughtException", (err) => {
   console.error(`❌ Uncaught Exception: ${err.message}`);
   process.exit(1);
 });
-

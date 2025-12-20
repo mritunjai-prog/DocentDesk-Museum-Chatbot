@@ -119,7 +119,7 @@ const bookingSchema = new mongoose.Schema(
 
 // Indexes
 bookingSchema.index({ user: 1, event: 1 });
-bookingSchema.index({ bookingReference: 1 });
+// Note: bookingReference index is created automatically via unique: true
 bookingSchema.index({ status: 1, createdAt: -1 });
 
 // Generate booking reference
