@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import User from "../models/User.model.js";
+import supabase from "../config/supabase.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ErrorResponse from "../utils/errorResponse.js";
 
@@ -29,15 +29,23 @@ export const protect = asyncHandler(async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     // Get user from token
-    req.user = await User.findById(decoded.id).select("-password");
+    const { data: user, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", decoded.id)
+      .single();
 
-    if (!req.user) {
+    if (error || !user) {
       return next(new ErrorResponse("User not found", 404));
     }
 
-    if (!req.user.isActive) {
+    if (!user.is_active) {
       return next(new ErrorResponse("Account has been deactivated", 403));
     }
+
+    // Remove password from user object
+    delete user.password;
+    req.user = user;
 
     next();
   } catch (err) {

@@ -1,6 +1,6 @@
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-import User from "../models/User.model.js";
+import supabase from "./supabase.js";
 
 // Debug logging
 console.log("🔍 Passport Config - Checking Google OAuth credentials...");
@@ -22,42 +22,74 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
-          // Check if user already exists
-          let user = await User.findOne({ googleId: profile.id });
+          // Check if user already exists with Google ID
+          let { data: user, error } = await supabase
+            .from("users")
+            .select("*")
+            .eq("google_id", profile.id)
+            .single();
 
           if (user) {
             // Update last login
-            user.lastLogin = new Date();
-            await user.save();
+            await supabase
+              .from("users")
+              .update({ last_login: new Date().toISOString() })
+              .eq("id", user.id);
             return done(null, user);
           }
 
           // Check if user exists with same email
-          user = await User.findOne({ email: profile.emails[0].value });
+          const { data: emailUser } = await supabase
+            .from("users")
+            .select("*")
+            .eq("email", profile.emails[0].value)
+            .single();
 
-          if (user) {
+          if (emailUser) {
             // Link Google account to existing user
-            user.googleId = profile.id;
-            user.avatar = profile.photos[0]?.value || user.avatar;
-            user.lastLogin = new Date();
-            await user.save();
-            return done(null, user);
+            await supabase
+              .from("users")
+              .update({
+                google_id: profile.id,
+                avatar: profile.photos[0]?.value || emailUser.avatar,
+                last_login: new Date().toISOString(),
+              })
+              .eq("id", emailUser.id);
+
+            const { data: updatedUser } = await supabase
+              .from("users")
+              .select("*")
+              .eq("id", emailUser.id)
+              .single();
+
+            return done(null, updatedUser);
           }
 
           // Create new user
-          user = await User.create({
-            googleId: profile.id,
-            email: profile.emails[0].value,
-            name: profile.displayName,
-            firstName: profile.name.givenName,
-            lastName: profile.name.familyName,
-            avatar: profile.photos[0]?.value,
-            authProvider: "google",
-            isEmailVerified: true,
-            lastLogin: new Date(),
-          });
+          const { data: newUser, error: createError } = await supabase
+            .from("users")
+            .insert([
+              {
+                google_id: profile.id,
+                email: profile.emails[0].value,
+                name: profile.displayName,
+                first_name: profile.name.givenName,
+                last_name: profile.name.familyName,
+                avatar: profile.photos[0]?.value,
+                auth_provider: "google",
+                is_email_verified: true,
+                role: "user",
+                last_login: new Date().toISOString(),
+              },
+            ])
+            .select()
+            .single();
 
-          done(null, user);
+          if (createError) {
+            return done(createError, null);
+          }
+
+          done(null, newUser);
         } catch (error) {
           done(error, null);
         }
@@ -78,7 +110,18 @@ passport.serializeUser((user, done) => {
 // Deserialize user
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await User.findById(id).select("-password");
+    const { data: user, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (error) {
+      return done(error, null);
+    }
+
+    // Remove password from user object
+    delete user.password;
     done(null, user);
   } catch (error) {
     done(error, null);

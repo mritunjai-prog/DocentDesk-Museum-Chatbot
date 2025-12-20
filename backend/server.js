@@ -1,7 +1,5 @@
 import express from "express";
-import mongoose from "mongoose";
 import dotenv from "dotenv";
-
 
 // Load environment variables (only needed for local development)
 // Vercel provides environment variables through platform configuration
@@ -47,9 +45,19 @@ import tourRoutes from "./routes/tour.routes.js";
 import chatRoutes from "./routes/chat.routes.js";
 import errorHandler from "./middleware/errorHandler.js";
 
+// Import Supabase for database connection verification
+import supabase from "./config/supabase.js";
+
 // Debug logging
 console.log(`🔍 Environment loaded`);
-console.log(`📝 MONGO_URI loaded: ${process.env.MONGO_URI ? "YES" : "NO"}`);
+console.log(
+  `📝 SUPABASE_URL loaded: ${process.env.SUPABASE_URL ? "YES" : "NO"}`
+);
+console.log(
+  `📝 SUPABASE_SERVICE_KEY loaded: ${
+    process.env.SUPABASE_SERVICE_KEY ? "YES" : "NO"
+  }`
+);
 console.log(`📝 PORT: ${process.env.PORT}`);
 
 const app = express();
@@ -185,9 +193,8 @@ app.get("/api/debug/env", (req, res) => {
   res.json({
     success: true,
     data: {
-      mongoUriExists: !!process.env.MONGO_URI,
-      mongoUriLength: process.env.MONGO_URI?.length || 0,
-      mongoUriPrefix: process.env.MONGO_URI?.substring(0, 20) || "not set",
+      supabaseUrlExists: !!process.env.SUPABASE_URL,
+      supabaseKeyExists: !!process.env.SUPABASE_SERVICE_KEY,
       nodeEnv: process.env.NODE_ENV,
       port: process.env.PORT,
     },
@@ -215,86 +222,18 @@ app.use("*", (req, res) => {
 // Error handling middleware
 app.use(errorHandler);
 
-// MongoDB connection with caching for serverless
-let cachedDb = null;
-
-const connectDB = async () => {
-  if (cachedDb && mongoose.connection.readyState === 1) {
-    console.log("✅ Using cached MongoDB connection");
-    return cachedDb;
-  }
-
-  try {
-    console.log(`🔍 Attempting MongoDB connection...`);
-    console.log(`📝 MONGO_URI exists: ${!!process.env.MONGO_URI}`);
-
-    const conn = await mongoose.connect(process.env.MONGO_URI, {
-      serverSelectionTimeoutMS: 30000,
-      socketTimeoutMS: 45000,
-    });
-
-    cachedDb = conn;
-    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
-    return cachedDb;
-  } catch (error) {
-    console.error(`❌ MongoDB Connection Error: ${error.message}`);
-    // Don't exit in serverless - just log the error
-    if (process.env.NODE_ENV !== "production") {
-      process.exit(1);
-    }
-    throw error; // Throw so the request fails gracefully
-  }
-};
-
-// Ensure database connection before handling requests
-app.use(async (req, res, next) => {
-  try {
-    // Always try to connect if not connected
-    if (mongoose.connection.readyState !== 1) {
-      console.log('⏳ Connection not ready, attempting to connect...');
-      await connectDB();
-      console.log('✅ Connection established in middleware');
-    }
-    // Double check connection is ready
-    if (mongoose.connection.readyState !== 1) {
-      console.error('❌ Connection state after connect:', mongoose.connection.readyState);
-      return res.status(503).json({
-        success: false,
-        error: "Database connection unavailable",
-      });
-    }
-    next();
-  } catch (error) {
-    console.error('❌ Middleware connection error:', error.message);
-    return res.status(503).json({
-      success: false,
-      error: error.message || "Database connection failed",
-    });
-  }
-});
-
-// Initialize connection on serverless function start
-connectDB().catch(err => console.error('Initial connection attempt failed:', err.message));
-
-// Connect to MongoDB and start server (for local development)
+// Start server (for local development)
 if (process.env.NODE_ENV !== "production") {
   const PORT = process.env.PORT || 5000;
 
-  // Connect to MongoDB first
-  connectDB()
-    .then(() => {
-      app.listen(PORT, () => {
-        console.log(
-          `🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`
-        );
-        console.log(`📱 Client URL: ${process.env.CLIENT_URL}`);
-        console.log(`🌐 API URL: http://localhost:${PORT}`);
-      });
-    })
-    .catch((error) => {
-      console.error(`❌ Failed to connect to MongoDB: ${error.message}`);
-      process.exit(1);
-    });
+  app.listen(PORT, () => {
+    console.log(
+      `🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`
+    );
+    console.log(`📱 Client URL: ${process.env.CLIENT_URL}`);
+    console.log(`🌐 API URL: http://localhost:${PORT}`);
+    console.log(`✅ Using Supabase PostgreSQL database`);
+  });
 }
 
 // Export for Vercel serverless
@@ -303,11 +242,15 @@ export default app;
 // Handle unhandled promise rejections
 process.on("unhandledRejection", (err) => {
   console.error(`❌ Unhandled Rejection: ${err.message}`);
-  process.exit(1);
+  if (process.env.NODE_ENV !== "production") {
+    process.exit(1);
+  }
 });
 
 // Handle uncaught exceptions
 process.on("uncaughtException", (err) => {
   console.error(`❌ Uncaught Exception: ${err.message}`);
-  process.exit(1);
+  if (process.env.NODE_ENV !== "production") {
+    process.exit(1);
+  }
 });
