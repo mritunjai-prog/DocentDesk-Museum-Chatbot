@@ -2,8 +2,6 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
-// Disable Mongoose buffering globally for serverless
-mongoose.set("bufferCommands", false);
 
 // Load environment variables (only needed for local development)
 // Vercel provides environment variables through platform configuration
