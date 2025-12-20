@@ -476,3 +476,5 @@ export const AnimatedAuthModal = ({
     </Dialog>
   );
 };
+
+export default AnimatedAuthModal;
