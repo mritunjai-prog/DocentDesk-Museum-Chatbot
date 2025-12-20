@@ -87,9 +87,9 @@ Always aim to educate, inspire, and make the museum experience memorable!`;
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
-    return new Response(null, { 
+    return new Response(null, {
       status: 200,
-      headers: corsHeaders 
+      headers: corsHeaders,
     });
   }
 

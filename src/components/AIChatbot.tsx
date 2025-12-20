@@ -148,10 +148,10 @@ export function AIChatbot() {
         (window as any).SpeechRecognition ||
         (window as any).webkitSpeechRecognition;
       const recognition = new SpeechRecognition();
-      
+
       // Store reference to prevent garbage collection
       recognitionRef.current = recognition;
-      
+
       recognition.continuous = true;
       recognition.interimResults = true;
       recognition.maxAlternatives = 1;
@@ -178,7 +178,10 @@ export function AIChatbot() {
       };
 
       recognition.onend = () => {
-        console.log("Voice recognition ended, manual stop:", isManualStopRef.current);
+        console.log(
+          "Voice recognition ended, manual stop:",
+          isManualStopRef.current
+        );
         if (!isManualStopRef.current && isListening) {
           // Auto-restart if it ended unexpectedly
           console.log("Restarting recognition...");
@@ -227,24 +230,26 @@ export function AIChatbot() {
 
       recognition.onresult = (event: any) => {
         console.log("onresult event fired:", event);
-        
+
         // Only process final results to avoid duplicates
         let finalTranscript = "";
         for (let i = event.resultIndex; i < event.results.length; i++) {
           const transcriptSegment = event.results[i][0].transcript;
-          
+
           // Only add if it's a final result
           if (event.results[i].isFinal) {
             finalTranscript += transcriptSegment + " ";
           }
         }
-        
+
         finalTranscript = finalTranscript.trim();
         console.log("Voice recognition final result:", finalTranscript);
-        
+
         // Only update input for final results
         if (finalTranscript) {
-          setInput((prev) => prev ? prev + " " + finalTranscript : finalTranscript);
+          setInput((prev) =>
+            prev ? prev + " " + finalTranscript : finalTranscript
+          );
         }
       };
 
@@ -383,9 +388,11 @@ export function AIChatbot() {
   }, [isDragging]);
 
   const streamChat = async (userMessages: Message[]) => {
-    // Use Supabase function endpoint for AI responses
+    // CHAT FIX v2024-12-20: Use Supabase function endpoint for AI responses
     // Fallback to hardcoded URL if env var is not available
-    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || "https://tcalunwjzjqjwrrkuedg.supabase.co";
+    const supabaseUrl =
+      import.meta.env.VITE_SUPABASE_URL ||
+      "https://tcalunwjzjqjwrrkuedg.supabase.co";
     const CHAT_URL = `${supabaseUrl}/functions/v1/chat`;
     console.log("Chat endpoint:", CHAT_URL);
 
