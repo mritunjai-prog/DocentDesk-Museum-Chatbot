@@ -204,9 +204,19 @@ export function AIChatbot() {
       };
 
       recognition.onresult = (event: any) => {
-        const transcript = event.results[0][0].transcript;
+        let transcript = "";
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const transcriptSegment = event.results[i][0].transcript;
+          transcript += transcriptSegment;
+          if (event.results[i].isFinal) {
+            transcript += " ";
+          }
+        }
+        transcript = transcript.trim();
         console.log("Voice recognition result:", transcript);
-        setInput(transcript);
+        if (transcript) {
+          setInput((prev) => prev ? prev + " " + transcript : transcript);
+        }
       };
 
       recognition.start();

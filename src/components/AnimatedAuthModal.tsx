@@ -274,9 +274,7 @@ export const AnimatedAuthModal = ({
                             type="password"
                             placeholder="••••••••"
                             value={signInPassword}
-                            onChange={(e) =>
-                              setSignInPassword(e.target.value)
-                            }
+                            onChange={(e) => setSignInPassword(e.target.value)}
                             className="pl-9 h-10 border-2 text-sm focus:border-gold transition-all"
                             required
                           />
@@ -390,9 +388,7 @@ export const AnimatedAuthModal = ({
                             type="password"
                             placeholder="••••••••"
                             value={signUpPassword}
-                            onChange={(e) =>
-                              setSignUpPassword(e.target.value)
-                            }
+                            onChange={(e) => setSignUpPassword(e.target.value)}
                             className="pl-9 h-10 border-2 text-sm focus:border-gold transition-all"
                             required
                           />
