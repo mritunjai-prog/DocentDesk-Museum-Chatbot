@@ -7,7 +7,7 @@
 
 @layer base {
   :root {
-    /* Museum Premium Theme - Deep Blue & Gold */
+    /* Museum Premium Theme - Dark Mode (Default) */
     --background: 222 47% 6%;
     --foreground: 45 100% 96%;
 
@@ -54,6 +54,45 @@
     /* Shadows & Glows */
     --shadow-gold: 0 0 30px hsl(43 96% 56% / 0.3);
     --shadow-teal: 0 0 30px hsl(174 72% 40% / 0.3);
+  }
+
+  /* Light Mode */
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 98%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 43 96% 56%;
+    --primary-foreground: 222 47% 6%;
+
+    --secondary: 222 47% 20%;
+    --secondary-foreground: 45 100% 96%;
+
+    --muted: 222 10% 40%;
+    --muted-foreground: 222 10% 50%;
+
+    --accent: 174 72% 40%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 222 20% 85%;
+    --input: 222 20% 90%;
+    --ring: 43 96% 56%;
+
+    /* Glassmorphism - Light */
+    --glass: 0 0% 100%;
+    --glass-border: 222 20% 90%;
+
+    /* Shadows & Glows - Light */
+    --shadow-gold: 0 0 20px hsl(43 96% 56% / 0.2);
+    --shadow-teal: 0 0 20px hsl(174 72% 40% / 0.2);
   }
 
   .dark {
