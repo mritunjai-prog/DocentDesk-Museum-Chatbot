@@ -3,6 +3,7 @@
 ## 🌗 Theme Toggle: FIXED ✅
 
 ### BEFORE (Broken ❌)
+
 ```
 ┌─────────────────────────────────────────┐
 │ Only Dark Mode Available                │
@@ -16,6 +17,7 @@
 ```
 
 ### AFTER (Working ✅)
+
 ```
 ┌─────────────────────────────────────────┐
 │ Both Themes Fully Functional            │
@@ -97,6 +99,7 @@ DESKTOP (1920px+)
 ## 🎨 Color Examples
 
 ### Dark Mode (Default)
+
 ```
 Header:      Deep Blue (#0f0f23) ████████
 Text:        Cream (#f4f0eb)    ░░░░░░░░░
@@ -109,6 +112,7 @@ Perfect for: Night browsing, premium feel
 ```
 
 ### Light Mode (NEW)
+
 ```
 Header:      White (#ffffff)     ░░░░░░░░░
 Text:        Dark Blue (#1a1a2e) ████████
@@ -125,27 +129,29 @@ Perfect for: Daytime browsing, clarity
 ## ⚙️ Technical Implementation
 
 ### CSS Variables System
+
 ```css
 /* Light Mode (NEW) */
 .light {
-  --background: 0 0% 100%;         /* White */
-  --foreground: 222 47% 11%;       /* Dark Blue */
-  --card: 0 0% 98%;                /* Off-White */
-  --border: 222 20% 85%;           /* Light Gray */
-  --input: 222 20% 90%;            /* Very Light */
+  --background: 0 0% 100%; /* White */
+  --foreground: 222 47% 11%; /* Dark Blue */
+  --card: 0 0% 98%; /* Off-White */
+  --border: 222 20% 85%; /* Light Gray */
+  --input: 222 20% 90%; /* Very Light */
 }
 
 /* Dark Mode (Default) */
 .dark {
-  --background: 222 47% 6%;        /* Deep Blue */
-  --foreground: 45 100% 96%;       /* Cream */
-  --card: 222 47% 8%;              /* Dark Blue */
-  --border: 222 30% 18%;           /* Muted Blue */
-  --input: 222 30% 15%;            /* Dark */
+  --background: 222 47% 6%; /* Deep Blue */
+  --foreground: 45 100% 96%; /* Cream */
+  --card: 222 47% 8%; /* Dark Blue */
+  --border: 222 30% 18%; /* Muted Blue */
+  --input: 222 30% 15%; /* Dark */
 }
 ```
 
 ### Theme Toggle Component
+
 ```typescript
 // Saves to localStorage
 localStorage.setItem('theme', 'light' | 'dark');
@@ -162,6 +168,7 @@ Icon: transition-all duration-500ms;
 ```
 
 ### Responsive Breakpoints
+
 ```
 Mobile:       < 640px    (text-4xl, single column)
 Small:        640px+     (text-5xl, sm: utilities)
@@ -176,6 +183,7 @@ XL:           1280px+    (text-7xl, xl: utilities)
 ## 📊 What Users See
 
 ### Navigation Bar
+
 ```
 DARK MODE                           LIGHT MODE
 ┌──────────────────────────────┐  ┌──────────────────────────────┐
@@ -186,6 +194,7 @@ Gold highlight (same both modes)
 ```
 
 ### Button States
+
 ```
 DARK MODE                LIGHT MODE
 Click theme toggle:      Click theme toggle:
@@ -199,28 +208,30 @@ Instant switch           Instant switch
 
 ## ✨ Features Summary
 
-| Feature | Status | Details |
-|---------|--------|---------|
-| **Dark Mode** | ✅ | Deep blue, cream text, default |
-| **Light Mode** | ✅ NEW | White, dark blue text |
-| **Toggle Button** | ✅ FIXED | Top-right corner, sun/moon icon |
-| **Persistence** | ✅ | Saves to localStorage |
-| **System Preference** | ✅ | Detects prefers-color-scheme |
-| **Animations** | ✅ | 300-500ms smooth transitions |
-| **Mobile Responsive** | ✅ | All breakpoints (sm, md, lg, xl, 2xl) |
-| **Accessibility** | ✅ | WCAG AA, ARIA labels |
-| **Touch Optimized** | ✅ | 48px minimum tap targets |
-| **PWA Ready** | ✅ | Service worker, manifest |
-| **Performance** | ✅ | CSS variables only, no JS overhead |
+| Feature               | Status   | Details                               |
+| --------------------- | -------- | ------------------------------------- |
+| **Dark Mode**         | ✅       | Deep blue, cream text, default        |
+| **Light Mode**        | ✅ NEW   | White, dark blue text                 |
+| **Toggle Button**     | ✅ FIXED | Top-right corner, sun/moon icon       |
+| **Persistence**       | ✅       | Saves to localStorage                 |
+| **System Preference** | ✅       | Detects prefers-color-scheme          |
+| **Animations**        | ✅       | 300-500ms smooth transitions          |
+| **Mobile Responsive** | ✅       | All breakpoints (sm, md, lg, xl, 2xl) |
+| **Accessibility**     | ✅       | WCAG AA, ARIA labels                  |
+| **Touch Optimized**   | ✅       | 48px minimum tap targets              |
+| **PWA Ready**         | ✅       | Service worker, manifest              |
+| **Performance**       | ✅       | CSS variables only, no JS overhead    |
 
 ---
 
 ## 🚀 Try It Now
 
 ### Live Demo
+
 👉 **https://docent-desk-ai-chatbot.vercel.app**
 
 ### Test Instructions
+
 1. **Desktop:** Click sun/moon icon in top-right
 2. **Mobile:** Open dev tools (F12), toggle device mode
 3. **Refresh:** Page remembers your theme choice

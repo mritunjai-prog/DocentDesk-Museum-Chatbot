@@ -35,6 +35,7 @@
 ### Visual Examples (Text Representation)
 
 #### Dark Mode Header
+
 ```
 ╔════════════════════════════════════════════════════════════════╗
 ║ 🏛️  DocentDesk                    [EN] [🌙] [🛒] [👤]        ║
@@ -46,6 +47,7 @@
 ```
 
 #### Light Mode Header (NEW)
+
 ```
 ╔════════════════════════════════════════════════════════════════╗
 ║ 🏛️  DocentDesk                    [EN] [☀️] [🛒] [👤]        ║
@@ -127,7 +129,7 @@ DESKTOP (1024px+)
   sm:text-5xl           // Small: 48px
   md:text-6xl           // Medium: 60px
   lg:text-7xl           // Large: 72px
-  font-serif 
+  font-serif
   font-bold
 ">
   Responsive Headline
@@ -135,7 +137,7 @@ DESKTOP (1024px+)
 
 // Example button layout
 <div className="
-  flex 
+  flex
   flex-col             // Mobile: Stacked vertically
   sm:flex-row          // Small+: Horizontal
   gap-4
@@ -200,22 +202,22 @@ DESKTOP (1024px+)
 
 ```javascript
 // Save preference
-localStorage.setItem('theme', 'light');  // or 'dark'
+localStorage.setItem("theme", "light"); // or 'dark'
 
 // Load preference
-const saved = localStorage.getItem('theme');  // 'light' | 'dark' | null
+const saved = localStorage.getItem("theme"); // 'light' | 'dark' | null
 
 // System preference fallback
-const system = window.matchMedia('(prefers-color-scheme: dark)').matches;
-const isDark = saved ? saved === 'dark' : system;
+const system = window.matchMedia("(prefers-color-scheme: dark)").matches;
+const isDark = saved ? saved === "dark" : system;
 
 // Apply to DOM
 if (isDark) {
-  document.documentElement.classList.add('dark');
-  document.documentElement.classList.remove('light');
+  document.documentElement.classList.add("dark");
+  document.documentElement.classList.remove("light");
 } else {
-  document.documentElement.classList.add('light');
-  document.documentElement.classList.remove('dark');
+  document.documentElement.classList.add("light");
+  document.documentElement.classList.remove("dark");
 }
 ```
 
@@ -243,6 +245,7 @@ if (isDark) {
 ## Testing on Mobile Devices
 
 ### iPhone (Portrait: 390px)
+
 ```
 ╔════════════════════════════════════════════╗
 ║ 🏛️  DocentDesk                  [≡]       ║
@@ -267,6 +270,7 @@ if (isDark) {
 ```
 
 ### iPad (Portrait: 768px)
+
 ```
 ╔═══════════════════════════════════════════════════════════╗
 ║ 🏛️  DocentDesk        [Home] [Tours] [Events]     [≡]    ║
@@ -286,16 +290,16 @@ if (isDark) {
 
 ## Status Summary
 
-| Feature | Status | Details |
-|---------|--------|---------|
-| **Dark Mode** | ✅ Working | Deep blue theme, fully functional |
-| **Light Mode** | ✅ NEW | White/gray theme, just implemented |
-| **Theme Toggle** | ✅ Fixed | Button now works in both directions |
-| **Persistence** | ✅ Working | Uses localStorage |
-| **Mobile Layout** | ✅ Responsive | All breakpoints working |
-| **Icon Animation** | ✅ Smooth | 500ms transitions |
-| **Accessibility** | ✅ WCAG AA | ARIA labels, keyboard nav |
-| **Performance** | ✅ Optimized | No impact on speed |
+| Feature            | Status        | Details                             |
+| ------------------ | ------------- | ----------------------------------- |
+| **Dark Mode**      | ✅ Working    | Deep blue theme, fully functional   |
+| **Light Mode**     | ✅ NEW        | White/gray theme, just implemented  |
+| **Theme Toggle**   | ✅ Fixed      | Button now works in both directions |
+| **Persistence**    | ✅ Working    | Uses localStorage                   |
+| **Mobile Layout**  | ✅ Responsive | All breakpoints working             |
+| **Icon Animation** | ✅ Smooth     | 500ms transitions                   |
+| **Accessibility**  | ✅ WCAG AA    | ARIA labels, keyboard nav           |
+| **Performance**    | ✅ Optimized  | No impact on speed                  |
 
 ---
 
