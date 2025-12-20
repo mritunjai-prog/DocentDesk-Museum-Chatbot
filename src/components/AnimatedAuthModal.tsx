@@ -234,7 +234,7 @@ export const AnimatedAuthModal = ({
               <>
                 <div className="grid md:grid-cols-2 gap-6">
                   {/* Sign In Card */}
-                  <div className="md:col-span-1 space-y-4 bg-card/50 backdrop-blur border border-border/50 rounded-2xl pt-10 px-6 pb-6 animate-fade-in-up">
+                  <div className="md:col-span-1 space-y-4 bg-card/50 backdrop-blur border border-border/50 rounded-2xl pt-14 px-6 pb-6 animate-fade-in-up">
                     <div className="space-y-2">
                       <h3 className="font-serif text-2xl font-bold text-foreground">
                         Welcome Back
@@ -330,7 +330,7 @@ export const AnimatedAuthModal = ({
 
                   {/* Sign Up Card */}
                   <div
-                    className="md:col-span-1 space-y-4 bg-card/30 backdrop-blur border border-border/30 rounded-2xl pt-10 px-6 pb-6 animate-fade-in-up"
+                    className="md:col-span-1 space-y-4 bg-card/30 backdrop-blur border border-border/30 rounded-2xl pt-14 px-6 pb-6 animate-fade-in-up"
                     style={{ animationDelay: "0.1s" }}
                   >
                     <div className="space-y-2">
