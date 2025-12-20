@@ -1,12 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,7 +14,6 @@ import {
   Sparkles,
   Building2,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 interface AnimatedAuthModalProps {
   open: boolean;
@@ -37,7 +29,6 @@ export const AnimatedAuthModal = ({
   const { signIn, signUp, signInWithGoogle, resetPassword } = useAuth();
   const [loading, setLoading] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
-  const [activeTab, setActiveTab] = useState<"signin" | "signup">(defaultTab);
 
   // Sign In form
   const [signInEmail, setSignInEmail] = useState("");
@@ -85,6 +76,7 @@ export const AnimatedAuthModal = ({
     e.preventDefault();
 
     if (signUpPassword !== signUpConfirmPassword) {
+      alert("Passwords do not match");
       return;
     }
 
@@ -118,6 +110,7 @@ export const AnimatedAuthModal = ({
       await resetPassword(resetEmail);
       setShowForgotPassword(false);
       setResetEmail("");
+      alert("Password reset link sent to your email!");
     } catch (error) {
       // Error handled in context
     } finally {
@@ -127,8 +120,8 @@ export const AnimatedAuthModal = ({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-5xl p-0 overflow-hidden border-0 bg-transparent">
-        <div className="grid md:grid-cols-2 min-h-[600px]">
+      <DialogContent className="sm:max-w-6xl p-0 overflow-hidden border-0 bg-transparent">
+        <div className="grid md:grid-cols-2 min-h-[650px]">
           {/* Left Side - Animated Background */}
           <div className="relative hidden md:flex flex-col justify-center items-center p-12 bg-gradient-to-br from-primary via-blue-600 to-purple-600 overflow-hidden">
             {/* Animated particles */}
@@ -190,8 +183,8 @@ export const AnimatedAuthModal = ({
             </div>
           </div>
 
-          {/* Right Side - Auth Forms */}
-          <div className="bg-background p-8 md:p-12 flex flex-col justify-center">
+          {/* Right Side - Two Auth Cards */}
+          <div className="bg-background p-6 md:p-8 flex flex-col justify-center overflow-y-auto max-h-[650px]">
             {showForgotPassword ? (
               <div className="space-y-6 animate-fade-in">
                 <div className="space-y-2">
@@ -245,109 +238,208 @@ export const AnimatedAuthModal = ({
                 </form>
               </div>
             ) : (
-              <div className="space-y-6">
-                <div className="md:hidden flex justify-center mb-6">
-                  <div className="w-16 h-16 rounded-xl bg-gradient-gold flex items-center justify-center">
-                    <Landmark className="w-8 h-8 text-white" />
+              <div className="grid md:grid-cols-2 gap-6">
+                {/* Sign In Card - Larger */}
+                <div className="md:col-span-1 space-y-4 bg-card/50 backdrop-blur border border-border/50 rounded-2xl p-6 animate-fade-in-up">
+                  <div className="space-y-2">
+                    <h3 className="font-serif text-2xl font-bold text-foreground">
+                      Welcome Back
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      Sign in to continue your journey
+                    </p>
                   </div>
+
+                  <form onSubmit={handleSignIn} className="space-y-3">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="signin-email" className="text-sm">
+                        Email
+                      </Label>
+                      <div className="relative group">
+                        <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground group-hover:text-gold transition-colors" />
+                        <Input
+                          id="signin-email"
+                          type="email"
+                          placeholder="your.email@example.com"
+                          value={signInEmail}
+                          onChange={(e) => setSignInEmail(e.target.value)}
+                          className="pl-9 h-10 border-2 text-sm focus:border-gold transition-all"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <Label htmlFor="signin-password" className="text-sm">
+                        Password
+                      </Label>
+                      <div className="relative group">
+                        <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground group-hover:text-gold transition-colors" />
+                        <Input
+                          id="signin-password"
+                          type="password"
+                          placeholder="••••••••"
+                          value={signInPassword}
+                          onChange={(e) => setSignInPassword(e.target.value)}
+                          className="pl-9 h-10 border-2 text-sm focus:border-gold transition-all"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <Button
+                      type="button"
+                      variant="link"
+                      className="text-xs text-gold p-0 hover:underline"
+                      onClick={() => setShowForgotPassword(true)}
+                    >
+                      Forgot password?
+                    </Button>
+
+                    <Button
+                      type="submit"
+                      className="w-full h-10 bg-gradient-gold text-white font-semibold text-sm hover:scale-105 transition-transform"
+                      disabled={loading}
+                    >
+                      {loading ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        "Sign In"
+                      )}
+                    </Button>
+
+                    <div className="relative py-2">
+                      <div className="absolute inset-0 flex items-center">
+                        <span className="w-full border-t border-border/30" />
+                      </div>
+                      <div className="relative flex justify-center">
+                        <span className="bg-card/50 px-1 text-xs text-muted-foreground">
+                          or
+                        </span>
+                      </div>
+                    </div>
+
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="w-full h-10 border-2 text-sm hover:border-gold hover:bg-gold/5 transition-all"
+                      onClick={handleGoogleSignIn}
+                      disabled={loading}
+                    >
+                      <Chrome className="w-4 h-4 mr-2" />
+                      Google
+                    </Button>
+                  </form>
                 </div>
 
-                <div className="space-y-2 animate-fade-in-up">
-                  <h3 className="font-serif text-3xl font-bold text-foreground">
-                    {activeTab === "signin"
-                      ? "Welcome Back"
-                      : "Join DocentDesk"}
-                  </h3>
-                  <p className="text-muted-foreground">
-                    {activeTab === "signin"
-                      ? "Sign in to continue your cultural journey"
-                      : "Create an account to start exploring"}
-                  </p>
-                </div>
-
-                <Tabs
-                  value={activeTab}
-                  onValueChange={(v) => setActiveTab(v as "signin" | "signup")}
-                  className="w-full"
+                {/* Sign Up Card - Smaller */}
+                <div
+                  className="md:col-span-1 space-y-4 bg-card/30 backdrop-blur border border-border/30 rounded-2xl p-6 animate-fade-in-up"
+                  style={{ animationDelay: "0.1s" }}
                 >
-                  <TabsList className="grid w-full grid-cols-2 h-12 bg-secondary/50">
-                    <TabsTrigger
-                      value="signin"
-                      className="data-[state=active]:bg-gradient-gold data-[state=active]:text-white transition-all"
-                    >
-                      Sign In
-                    </TabsTrigger>
-                    <TabsTrigger
-                      value="signup"
-                      className="data-[state=active]:bg-gradient-gold data-[state=active]:text-white transition-all"
-                    >
-                      Sign Up
-                    </TabsTrigger>
-                  </TabsList>
+                  <div className="space-y-2">
+                    <h3 className="font-serif text-xl font-bold text-foreground">
+                      Join DocentDesk
+                    </h3>
+                    <p className="text-xs text-muted-foreground">
+                      Create an account to explore
+                    </p>
+                  </div>
 
-                  <TabsContent
-                    value="signin"
-                    className="space-y-4 mt-6 animate-fade-in"
-                  >
-                    <form onSubmit={handleSignIn} className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="signin-email">Email Address</Label>
-                        <div className="relative group">
-                          <Mail className="absolute left-3 top-3 h-5 w-5 text-muted-foreground group-hover:text-gold transition-colors" />
-                          <Input
-                            id="signin-email"
-                            type="email"
-                            placeholder="your.email@example.com"
-                            value={signInEmail}
-                            onChange={(e) => setSignInEmail(e.target.value)}
-                            className="pl-10 h-12 border-2 focus:border-gold transition-all"
-                            required
-                          />
-                        </div>
+                  <form onSubmit={handleSignUp} className="space-y-3">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="signup-name" className="text-sm">
+                        Full Name
+                      </Label>
+                      <div className="relative group">
+                        <User className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground group-hover:text-gold transition-colors" />
+                        <Input
+                          id="signup-name"
+                          type="text"
+                          placeholder="John Doe"
+                          value={signUpName}
+                          onChange={(e) => setSignUpName(e.target.value)}
+                          className="pl-9 h-10 border-2 text-sm focus:border-gold transition-all"
+                          required
+                        />
                       </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="signin-password">Password</Label>
-                        <div className="relative group">
-                          <Lock className="absolute left-3 top-3 h-5 w-5 text-muted-foreground group-hover:text-gold transition-colors" />
-                          <Input
-                            id="signin-password"
-                            type="password"
-                            placeholder="••••••••"
-                            value={signInPassword}
-                            onChange={(e) => setSignInPassword(e.target.value)}
-                            className="pl-10 h-12 border-2 focus:border-gold transition-all"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <Button
-                        type="button"
-                        variant="link"
-                        className="text-sm text-gold p-0 hover:underline"
-                        onClick={() => setShowForgotPassword(true)}
-                      >
-                        Forgot password?
-                      </Button>
-                      <Button
-                        type="submit"
-                        className="w-full h-12 bg-gradient-gold text-white font-semibold hover:scale-105 transition-transform"
-                        disabled={loading}
-                      >
-                        {loading ? (
-                          <Loader2 className="w-5 h-5 animate-spin" />
-                        ) : (
-                          "Sign In"
-                        )}
-                      </Button>
-                    </form>
+                    </div>
 
-                    <div className="relative">
+                    <div className="space-y-1.5">
+                      <Label htmlFor="signup-email" className="text-sm">
+                        Email
+                      </Label>
+                      <div className="relative group">
+                        <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground group-hover:text-gold transition-colors" />
+                        <Input
+                          id="signup-email"
+                          type="email"
+                          placeholder="your.email@example.com"
+                          value={signUpEmail}
+                          onChange={(e) => setSignUpEmail(e.target.value)}
+                          className="pl-9 h-10 border-2 text-sm focus:border-gold transition-all"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <Label htmlFor="signup-password" className="text-sm">
+                        Password
+                      </Label>
+                      <div className="relative group">
+                        <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground group-hover:text-gold transition-colors" />
+                        <Input
+                          id="signup-password"
+                          type="password"
+                          placeholder="••••••••"
+                          value={signUpPassword}
+                          onChange={(e) => setSignUpPassword(e.target.value)}
+                          className="pl-9 h-10 border-2 text-sm focus:border-gold transition-all"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <Label htmlFor="signup-confirm" className="text-sm">
+                        Confirm Password
+                      </Label>
+                      <div className="relative group">
+                        <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground group-hover:text-gold transition-colors" />
+                        <Input
+                          id="signup-confirm"
+                          type="password"
+                          placeholder="••••••••"
+                          value={signUpConfirmPassword}
+                          onChange={(e) =>
+                            setSignUpConfirmPassword(e.target.value)
+                          }
+                          className="pl-9 h-10 border-2 text-sm focus:border-gold transition-all"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <Button
+                      type="submit"
+                      className="w-full h-10 bg-gradient-gold text-white font-semibold text-sm hover:scale-105 transition-transform"
+                      disabled={loading}
+                    >
+                      {loading ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        "Create Account"
+                      )}
+                    </Button>
+
+                    <div className="relative py-2">
                       <div className="absolute inset-0 flex items-center">
-                        <span className="w-full border-t" />
+                        <span className="w-full border-t border-border/30" />
                       </div>
-                      <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-background px-2 text-muted-foreground">
-                          Or continue with
+                      <div className="relative flex justify-center">
+                        <span className="bg-card/30 px-1 text-xs text-muted-foreground">
+                          or
                         </span>
                       </div>
                     </div>
@@ -355,119 +447,15 @@ export const AnimatedAuthModal = ({
                     <Button
                       type="button"
                       variant="outline"
-                      className="w-full h-12 border-2 hover:border-gold hover:bg-gold/5 transition-all"
+                      className="w-full h-10 border-2 text-sm hover:border-gold hover:bg-gold/5 transition-all"
                       onClick={handleGoogleSignIn}
                       disabled={loading}
                     >
-                      <Chrome className="w-5 h-5 mr-2" />
-                      Sign in with Google
+                      <Chrome className="w-4 h-4 mr-2" />
+                      Google
                     </Button>
-                  </TabsContent>
-
-                  <TabsContent
-                    value="signup"
-                    className="space-y-4 mt-6 animate-fade-in"
-                  >
-                    <form onSubmit={handleSignUp} className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="signup-name">Full Name</Label>
-                        <div className="relative group">
-                          <User className="absolute left-3 top-3 h-5 w-5 text-muted-foreground group-hover:text-gold transition-colors" />
-                          <Input
-                            id="signup-name"
-                            type="text"
-                            placeholder="John Doe"
-                            value={signUpName}
-                            onChange={(e) => setSignUpName(e.target.value)}
-                            className="pl-10 h-12 border-2 focus:border-gold transition-all"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="signup-email">Email Address</Label>
-                        <div className="relative group">
-                          <Mail className="absolute left-3 top-3 h-5 w-5 text-muted-foreground group-hover:text-gold transition-colors" />
-                          <Input
-                            id="signup-email"
-                            type="email"
-                            placeholder="your.email@example.com"
-                            value={signUpEmail}
-                            onChange={(e) => setSignUpEmail(e.target.value)}
-                            className="pl-10 h-12 border-2 focus:border-gold transition-all"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="signup-password">Password</Label>
-                        <div className="relative group">
-                          <Lock className="absolute left-3 top-3 h-5 w-5 text-muted-foreground group-hover:text-gold transition-colors" />
-                          <Input
-                            id="signup-password"
-                            type="password"
-                            placeholder="••••••••"
-                            value={signUpPassword}
-                            onChange={(e) => setSignUpPassword(e.target.value)}
-                            className="pl-10 h-12 border-2 focus:border-gold transition-all"
-                            required
-                            minLength={6}
-                          />
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="signup-confirm">Confirm Password</Label>
-                        <div className="relative group">
-                          <Lock className="absolute left-3 top-3 h-5 w-5 text-muted-foreground group-hover:text-gold transition-colors" />
-                          <Input
-                            id="signup-confirm"
-                            type="password"
-                            placeholder="••••••••"
-                            value={signUpConfirmPassword}
-                            onChange={(e) =>
-                              setSignUpConfirmPassword(e.target.value)
-                            }
-                            className="pl-10 h-12 border-2 focus:border-gold transition-all"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <Button
-                        type="submit"
-                        className="w-full h-12 bg-gradient-gold text-white font-semibold hover:scale-105 transition-transform"
-                        disabled={loading}
-                      >
-                        {loading ? (
-                          <Loader2 className="w-5 h-5 animate-spin" />
-                        ) : (
-                          "Create Account"
-                        )}
-                      </Button>
-                    </form>
-
-                    <div className="relative">
-                      <div className="absolute inset-0 flex items-center">
-                        <span className="w-full border-t" />
-                      </div>
-                      <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-background px-2 text-muted-foreground">
-                          Or continue with
-                        </span>
-                      </div>
-                    </div>
-
-                    <Button
-                      type="button"
-                      variant="outline"
-                      className="w-full h-12 border-2 hover:border-gold hover:bg-gold/5 transition-all"
-                      onClick={handleGoogleSignIn}
-                      disabled={loading}
-                    >
-                      <Chrome className="w-5 h-5 mr-2" />
-                      Sign up with Google
-                    </Button>
-                  </TabsContent>
-                </Tabs>
+                  </form>
+                </div>
               </div>
             )}
           </div>
