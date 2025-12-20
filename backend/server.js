@@ -54,7 +54,7 @@ console.log(`📝 PORT: ${process.env.PORT}`);
 const app = express();
 
 // Trust proxy - required for Vercel and other proxy services
-app.set('trust proxy', 1);
+app.set("trust proxy", 1);
 
 // Security middleware
 app.use(helmet());
@@ -176,6 +176,20 @@ app.get("/", (req, res) => {
       },
     },
     documentation: "See README.md for full API documentation",
+  });
+});
+
+// Debug endpoint to check environment variables
+app.get("/api/debug/env", (req, res) => {
+  res.json({
+    success: true,
+    data: {
+      mongoUriExists: !!process.env.MONGO_URI,
+      mongoUriLength: process.env.MONGO_URI?.length || 0,
+      mongoUriPrefix: process.env.MONGO_URI?.substring(0, 20) || 'not set',
+      nodeEnv: process.env.NODE_ENV,
+      port: process.env.PORT,
+    }
   });
 });
 
