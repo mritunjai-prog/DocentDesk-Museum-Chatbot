@@ -227,18 +227,24 @@ export function AIChatbot() {
 
       recognition.onresult = (event: any) => {
         console.log("onresult event fired:", event);
-        let transcript = "";
+        
+        // Only process final results to avoid duplicates
+        let finalTranscript = "";
         for (let i = event.resultIndex; i < event.results.length; i++) {
           const transcriptSegment = event.results[i][0].transcript;
-          transcript += transcriptSegment;
+          
+          // Only add if it's a final result
           if (event.results[i].isFinal) {
-            transcript += " ";
+            finalTranscript += transcriptSegment + " ";
           }
         }
-        transcript = transcript.trim();
-        console.log("Voice recognition result:", transcript, "isFinal:", event.results[event.results.length - 1]?.isFinal);
-        if (transcript) {
-          setInput((prev) => prev ? prev + " " + transcript : transcript);
+        
+        finalTranscript = finalTranscript.trim();
+        console.log("Voice recognition final result:", finalTranscript);
+        
+        // Only update input for final results
+        if (finalTranscript) {
+          setInput((prev) => prev ? prev + " " + finalTranscript : finalTranscript);
         }
       };
 
