@@ -1300,7 +1300,7 @@ CREATE POLICY "Authenticated can manage features" ON features
 
 ##
 
-##  Star History
+## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=mritunjai-prog/DocentDesk-Museum-Chatbot&type=Date)](https://star-history.com/#mritunjai-prog/DocentDesk-Museum-Chatbot&Date)
 
@@ -1308,7 +1308,7 @@ CREATE POLICY "Authenticated can manage features" ON features
 
 <div align="center">
 
-##  Made with  for museums and cultural institutions worldwide
+## Made with for museums and cultural institutions worldwide
 
 **Transform your museum experience with AI, 3D tours, and intelligent assistance**
 
@@ -1316,6 +1316,6 @@ CREATE POLICY "Authenticated can manage features" ON features
 
 ---
 
-**DocentDesk v1.0.0**  **Last Updated**: December 20, 2025  [GitHub](https://github.com/mritunjai-prog/DocentDesk-Museum-Chatbot)  [Live Demo](https://docent-desk-ai-chatbot.vercel.app)
+**DocentDesk v1.0.0** **Last Updated**: December 20, 2025 [GitHub](https://github.com/mritunjai-prog/DocentDesk-Museum-Chatbot) [Live Demo](https://docent-desk-ai-chatbot.vercel.app)
 
 </div>
