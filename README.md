@@ -10,7 +10,11 @@
 [![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js)](https://nodejs.org/)
 [![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?style=for-the-badge&logo=supabase)](https://supabase.com/)
 
+---
+
 **Your AI-powered museum companion offering 3D virtual tours, intelligent chatbot assistance, event bookings, and multilingual support. Experience culture reimagined.**
+
+---
 
 [🚀 Live Demo](https://docent-desk-ai-chatbot.vercel.app) • [✨ Features](#-features) • [📖 Quick Start](#-quick-start) • [🏗️ Architecture](#️-architecture) • [🤝 Contributing](#-contributing)
 
@@ -32,8 +36,6 @@ DocentDesk transforms museum experiences by combining cutting-edge AI, 3D visual
 - ⚡ **Serverless Architecture** - Deployed on Vercel with instant global scaling
 - 📱 **Progressive Web App** - Installable, offline-capable, mobile-optimized
 
-
-
 ---
 
 ## ✨ Features
@@ -45,6 +47,7 @@ DocentDesk transforms museum experiences by combining cutting-edge AI, 3D visual
 <td width="50%">
 
 **3D Animated Loading Screen**
+
 - Rotating museum cube with gold gradients
 - 20 floating particles with random animations
 - Animated progress bar with shine effects
@@ -55,6 +58,7 @@ DocentDesk transforms museum experiences by combining cutting-edge AI, 3D visual
 <td width="50%">
 
 **Responsive Design**
+
 - Mobile-first architecture
 - Adaptive layouts for all screen sizes
 - Touch-optimized interactions
@@ -77,15 +81,15 @@ DocentDesk transforms museum experiences by combining cutting-edge AI, 3D visual
 ### 🌍 Internationalization (i18n)
 
 | Language | Code | RTL Support | Voice |
-|----------|------|-------------|-------|
-| English | `en` | ❌ | ✅ |
-| Spanish | `es` | ❌ | ✅ |
-| French | `fr` | ❌ | ✅ |
-| German | `de` | ❌ | ✅ |
-| Italian | `it` | ❌ | ✅ |
-| Chinese | `zh` | ❌ | ✅ |
-| Arabic | `ar` | ✅ | ✅ |
-| Hindi | `hi` | ❌ | ✅ |
+| -------- | ---- | ----------- | ----- |
+| English  | `en` | ❌          | ✅    |
+| Spanish  | `es` | ❌          | ✅    |
+| French   | `fr` | ❌          | ✅    |
+| German   | `de` | ❌          | ✅    |
+| Italian  | `it` | ❌          | ✅    |
+| Chinese  | `zh` | ❌          | ✅    |
+| Arabic   | `ar` | ✅          | ✅    |
+| Hindi    | `hi` | ❌          | ✅    |
 
 ### 🎫 Event Management & Booking
 
@@ -130,6 +134,7 @@ DocentDesk transforms museum experiences by combining cutting-edge AI, 3D visual
 <td width="50%">
 
 **My Collection**
+
 - Save favorite artifacts
 - Personal notes and bookmarks
 - Share collections with friends
@@ -139,6 +144,7 @@ DocentDesk transforms museum experiences by combining cutting-edge AI, 3D visual
 <td width="50%">
 
 **My Tickets**
+
 - View upcoming events
 - Download QR codes
 - Cancel/modify bookings
@@ -150,6 +156,7 @@ DocentDesk transforms museum experiences by combining cutting-edge AI, 3D visual
 <td width="50%">
 
 **Tour History**
+
 - Completed virtual tours
 - Time spent per exhibit
 - Achievement badges
@@ -159,6 +166,7 @@ DocentDesk transforms museum experiences by combining cutting-edge AI, 3D visual
 <td width="50%">
 
 **Settings**
+
 - Profile management
 - Language preferences
 - Notification settings
@@ -196,8 +204,6 @@ DocentDesk transforms museum experiences by combining cutting-edge AI, 3D visual
 - 📊 **App-like Experience** - Full-screen, no browser chrome
 - ⚡ **Fast Loading** - Instant subsequent visits
 
-
-
 ---
 
 ## 🛠️ Tech Stack
@@ -206,19 +212,19 @@ DocentDesk transforms museum experiences by combining cutting-edge AI, 3D visual
 
 <div align="center">
 
-| Layer | Technologies |
-|-------|-------------|
-| **Framework** | React 18.3, TypeScript 5.8, Vite 5.4.21 |
-| **Styling** | Tailwind CSS 3.4, shadcn/ui components, Radix UI primitives |
-| **Animation** | Framer Motion 11.x, 3D CSS transforms, GSAP |
-| **3D Graphics** | Three.js, React Three Fiber, @react-three/drei |
-| **State** | TanStack Query (React Query 5.x), Context API |
-| **Routing** | React Router DOM 6.30 |
-| **Forms** | React Hook Form, Zod validation |
-| **i18n** | react-i18next 15.1, i18next 24.2 |
-| **Icons** | Lucide React (1000+ icons) |
-| **Date/Time** | date-fns 4.1 |
-| **Build** | Vite with SWC, ESBuild |
+| Layer           | Technologies                                                |
+| --------------- | ----------------------------------------------------------- |
+| **Framework**   | React 18.3, TypeScript 5.8, Vite 5.4.21                     |
+| **Styling**     | Tailwind CSS 3.4, shadcn/ui components, Radix UI primitives |
+| **Animation**   | Framer Motion 11.x, 3D CSS transforms, GSAP                 |
+| **3D Graphics** | Three.js, React Three Fiber, @react-three/drei              |
+| **State**       | TanStack Query (React Query 5.x), Context API               |
+| **Routing**     | React Router DOM 6.30                                       |
+| **Forms**       | React Hook Form, Zod validation                             |
+| **i18n**        | react-i18next 15.1, i18next 24.2                            |
+| **Icons**       | Lucide React (1000+ icons)                                  |
+| **Date/Time**   | date-fns 4.1                                                |
+| **Build**       | Vite with SWC, ESBuild                                      |
 
 </div>
 
@@ -226,18 +232,18 @@ DocentDesk transforms museum experiences by combining cutting-edge AI, 3D visual
 
 <div align="center">
 
-| Layer | Technologies |
-|-------|-------------|
-| **Runtime** | Node.js 18+ with ES Modules |
-| **Framework** | Express 4.18, Serverless architecture |
-| **Database** | Supabase PostgreSQL (v15) |
+| Layer              | Technologies                                  |
+| ------------------ | --------------------------------------------- |
+| **Runtime**        | Node.js 18+ with ES Modules                   |
+| **Framework**      | Express 4.18, Serverless architecture         |
+| **Database**       | Supabase PostgreSQL (v15)                     |
 | **Authentication** | Passport.js (Google OAuth 2.0), JWT, bcryptjs |
-| **API Design** | RESTful, async/await patterns |
-| **Security** | CORS, Helmet.js, Rate limiting |
-| **Email** | Nodemailer with SendGrid |
-| **Validation** | Express-validator |
-| **Logging** | Winston (structured logs) |
-| **Deployment** | Vercel Serverless Functions |
+| **API Design**     | RESTful, async/await patterns                 |
+| **Security**       | CORS, Helmet.js, Rate limiting                |
+| **Email**          | Nodemailer with SendGrid                      |
+| **Validation**     | Express-validator                             |
+| **Logging**        | Winston (structured logs)                     |
+| **Deployment**     | Vercel Serverless Functions                   |
 
 </div>
 
@@ -338,6 +344,7 @@ CREATE TABLE feedback (
 ### Key Dependencies
 
 **Frontend (`package.json`)**
+
 ```json
 {
   "@radix-ui/react-*": "^1.1.0",
@@ -354,6 +361,7 @@ CREATE TABLE feedback (
 ```
 
 **Backend (`backend/package.json`)**
+
 ```json
 {
   "@supabase/supabase-js": "^2.89.0",
@@ -365,8 +373,6 @@ CREATE TABLE feedback (
   "nodemailer": "^6.9.0"
 }
 ```
-
-
 
 ---
 
@@ -412,6 +418,7 @@ cd ..
 #### 4️⃣ Configure Environment Variables
 
 **Frontend `.env`** (root directory):
+
 ```env
 # Supabase Configuration
 VITE_SUPABASE_URL=https://your-project.supabase.co
@@ -425,6 +432,7 @@ VITE_OPENAI_API_KEY=your_openai_key
 ```
 
 **Backend `backend/.env`**:
+
 ```env
 # Server Configuration
 PORT=5000
@@ -499,6 +507,7 @@ CREATE POLICY "Users can view own profile" ON users
 #### 7️⃣ Start Development Servers
 
 **Terminal 1 - Backend:**
+
 ```bash
 cd backend
 npm run dev
@@ -506,6 +515,7 @@ npm run dev
 ```
 
 **Terminal 2 - Frontend:**
+
 ```bash
 npm run dev
 # Frontend running on http://localhost:8080
@@ -533,6 +543,7 @@ Navigate to **http://localhost:8080** and you're ready! 🎉
 ### Authentication
 
 **Register with Email:**
+
 ```typescript
 POST http://localhost:5000/api/auth/register
 Content-Type: application/json
@@ -545,6 +556,7 @@ Content-Type: application/json
 ```
 
 **Login with Google:**
+
 ```typescript
 // Frontend redirects to:
 GET http://localhost:5000/api/auth/google
@@ -553,6 +565,7 @@ GET http://localhost:5000/api/auth/google
 ```
 
 **Access Protected Routes:**
+
 ```typescript
 GET http://localhost:5000/api/users/me
 Authorization: Bearer <your_jwt_token>
@@ -561,6 +574,7 @@ Authorization: Bearer <your_jwt_token>
 ### API Endpoints
 
 #### Authentication Routes (`/api/auth`)
+
 - `POST /register` - Register new user
 - `POST /login` - Login with email/password
 - `GET /google` - Initiate Google OAuth flow
@@ -570,39 +584,46 @@ Authorization: Bearer <your_jwt_token>
 - `PUT /update-password` - Change password (authenticated)
 
 #### User Routes (`/api/users`)
+
 - `GET /me` - Get current user profile
 - `PUT /me` - Update profile
 - `DELETE /me` - Delete account
 
 #### Artifact Routes (`/api/artifacts`)
+
 - `GET /` - List all artifacts
 - `GET /featured` - Get featured artifacts
 - `GET /:id` - Get single artifact
 
 #### Event Routes (`/api/events`)
+
 - `GET /` - List all events
 - `GET /:id` - Get event details
 - `GET /upcoming` - Get upcoming events
 
 #### Booking Routes (`/api/bookings`)
+
 - `POST /` - Create new booking
 - `GET /user/:userId` - Get user's bookings
 - `GET /:id` - Get booking details
 - `DELETE /:id` - Cancel booking
 
 #### Tour Routes (`/api/tours`)
+
 - `POST /` - Record tour completion
 - `GET /user/:userId` - Get user's tour history
 
 #### Feedback Routes (`/api/feedback`)
+
 - `POST /` - Submit feedback
 - `GET /user/:userId` - Get user's feedback history
 
 ### Frontend Components
 
 **Using the Chatbot:**
+
 ```tsx
-import { AIChatbot } from '@/components/AIChatbot';
+import { AIChatbot } from "@/components/AIChatbot";
 
 function App() {
   return <AIChatbot />;
@@ -610,21 +631,20 @@ function App() {
 ```
 
 **3D Artifact Cards:**
+
 ```tsx
-import { Artifact3DCard } from '@/components/Artifact3DCard';
+import { Artifact3DCard } from "@/components/Artifact3DCard";
 
-<Artifact3DCard 
+<Artifact3DCard
   artifact={{
-    id: '1',
-    name: 'Bust of Nefertiti',
-    description: 'Ancient Egyptian sculpture',
-    image: '/images/nefertiti.jpg'
+    id: "1",
+    name: "Bust of Nefertiti",
+    description: "Ancient Egyptian sculpture",
+    image: "/images/nefertiti.jpg",
   }}
-  onClick={() => console.log('Clicked!')}
-/>
+  onClick={() => console.log("Clicked!")}
+/>;
 ```
-
-
 
 ---
 
@@ -632,19 +652,17 @@ import { Artifact3DCard } from '@/components/Artifact3DCard';
 
 ### Project Documentation
 
-| Document | Purpose |
-|----------|---------|
-| [README.md](README.md) | This file - Complete project overview |
-| [PROJECT_STATUS.md](PROJECT_STATUS.md) | Detailed project status and roadmap |
-| [PROJECT_COMPLETION.md](PROJECT_COMPLETION.md) | Feature completion checklist |
-| [IMPLEMENTATION_GUIDE.md](IMPLEMENTATION_GUIDE.md) | Implementation details and guides |
-| [IMAGE_SETUP.md](IMAGE_SETUP.md) | Image optimization and setup guide |
-| [Quick Start Guide](docs/QUICK_START_GUIDE.md) | Developer quick start instructions |
-| [Frontend Analysis](docs/FRONTEND_ANALYSIS_AND_NEXT_STEPS.md) | Architecture and next steps |
-| [Backend BUILD_SUMMARY.md](backend/BUILD_SUMMARY.md) | Backend build and deployment guide |
-| [Backend QUICK_START.md](backend/QUICK_START.md) | Backend setup instructions |
-
-
+| Document                                                      | Purpose                               |
+| ------------------------------------------------------------- | ------------------------------------- |
+| [README.md](README.md)                                        | This file - Complete project overview |
+| [PROJECT_STATUS.md](PROJECT_STATUS.md)                        | Detailed project status and roadmap   |
+| [PROJECT_COMPLETION.md](PROJECT_COMPLETION.md)                | Feature completion checklist          |
+| [IMPLEMENTATION_GUIDE.md](IMPLEMENTATION_GUIDE.md)            | Implementation details and guides     |
+| [IMAGE_SETUP.md](IMAGE_SETUP.md)                              | Image optimization and setup guide    |
+| [Quick Start Guide](docs/QUICK_START_GUIDE.md)                | Developer quick start instructions    |
+| [Frontend Analysis](docs/FRONTEND_ANALYSIS_AND_NEXT_STEPS.md) | Architecture and next steps           |
+| [Backend BUILD_SUMMARY.md](backend/BUILD_SUMMARY.md)          | Backend build and deployment guide    |
+| [Backend QUICK_START.md](backend/QUICK_START.md)              | Backend setup instructions            |
 
 ---
 
@@ -927,8 +945,6 @@ events (id, title, date, capacity, price)
   └── bookings (event_id → events.id)
 ```
 
-
-
 ---
 
 ## 🚢 Deployment
@@ -985,6 +1001,7 @@ vercel --prod
 ```
 
 **Important**: Update Google OAuth authorized redirect URIs in Google Cloud Console:
+
 - `https://docentdesk-backend-api.vercel.app/api/auth/google/callback`
 
 #### Deploy Buttons
@@ -1008,6 +1025,7 @@ netlify deploy --prod
 ```
 
 Configure build settings:
+
 - **Build command**: `npm run build`
 - **Publish directory**: `dist`
 - **Environment variables**: Same as Vercel
@@ -1051,6 +1069,7 @@ docker run -p 8080:8080 \
 ### Environment Configuration
 
 **Production Checklist:**
+
 - ✅ Set all environment variables in deployment platform
 - ✅ Update Google OAuth redirect URIs
 - ✅ Configure CORS in backend for production domain
@@ -1063,6 +1082,7 @@ docker run -p 8080:8080 \
 ### Performance Optimization
 
 Production builds include:
+
 - ✅ **Code splitting** - Separate chunks for each route
 - ✅ **Tree shaking** - Remove unused code
 - ✅ **Minification** - UglifyJS for JS, cssnano for CSS
@@ -1072,6 +1092,7 @@ Production builds include:
 - ✅ **Asset hashing** - Cache busting for updates
 
 **Build Performance:**
+
 ```bash
 npm run build
 
@@ -1087,14 +1108,14 @@ npm run build
 
 ### Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start frontend dev server (port 8080) |
-| `npm run build` | Production build |
-| `npm run build:dev` | Development build with source maps |
-| `npm run preview` | Preview production build locally |
-| `npm run lint` | Run ESLint |
-| `npm run type-check` | TypeScript type checking |
+| Command              | Description                           |
+| -------------------- | ------------------------------------- |
+| `npm run dev`        | Start frontend dev server (port 8080) |
+| `npm run build`      | Production build                      |
+| `npm run build:dev`  | Development build with source maps    |
+| `npm run preview`    | Preview production build locally      |
+| `npm run lint`       | Run ESLint                            |
+| `npm run type-check` | TypeScript type checking              |
 
 **Backend Scripts (in `/backend`):**
 | Command | Description |
@@ -1138,7 +1159,7 @@ function calculateDiscount(price: number, percent: number): number {
 // ✅ DO: Use custom hooks for logic
 function useArtifactData(id: string) {
   return useQuery({
-    queryKey: ['artifact', id],
+    queryKey: ["artifact", id],
     queryFn: () => fetchArtifact(id),
   });
 }
@@ -1149,7 +1170,7 @@ function Card({ title, description, image }: CardProps) {
 }
 
 // ✅ DO: Use optional chaining
-const userName = user?.name ?? 'Guest';
+const userName = user?.name ?? "Guest";
 
 // ✅ DO: Use early returns
 function UserProfile({ user }: UserProfileProps) {
@@ -1173,10 +1194,10 @@ function UserProfile({ user }: UserProfileProps) {
 
 // ✅ DO: Group related utilities
 <button className="
-  px-6 py-3 
-  text-white font-semibold 
-  bg-primary hover:bg-primary/90 
-  rounded-lg shadow-md 
+  px-6 py-3
+  text-white font-semibold
+  bg-primary hover:bg-primary/90
+  rounded-lg shadow-md
   transition-all duration-200
 ">
 ```
@@ -1195,27 +1216,28 @@ npx shadcn-ui@latest add calendar
 
 ```javascript
 // backend/routes/newFeature.routes.js
-import express from 'express';
-import { protect } from '../middleware/auth.js';
-import { getFeatures, createFeature } from '../controllers/newFeature.controller.js';
+import express from "express";
+import { protect } from "../middleware/auth.js";
+import {
+  getFeatures,
+  createFeature,
+} from "../controllers/newFeature.controller.js";
 
 const router = express.Router();
 
-router.get('/', getFeatures);
-router.post('/', protect, createFeature);
+router.get("/", getFeatures);
+router.post("/", protect, createFeature);
 
 export default router;
 ```
 
 ```javascript
 // backend/controllers/newFeature.controller.js
-import supabase from '../config/supabase.js';
-import asyncHandler from '../utils/asyncHandler.js';
+import supabase from "../config/supabase.js";
+import asyncHandler from "../utils/asyncHandler.js";
 
 export const getFeatures = asyncHandler(async (req, res) => {
-  const { data, error } = await supabase
-    .from('features')
-    .select('*');
+  const { data, error } = await supabase.from("features").select("*");
 
   if (error) throw error;
 
@@ -1228,8 +1250,8 @@ export const getFeatures = asyncHandler(async (req, res) => {
 
 ```javascript
 // backend/server.js
-import newFeatureRoutes from './routes/newFeature.routes.js';
-app.use('/api/features', newFeatureRoutes);
+import newFeatureRoutes from "./routes/newFeature.routes.js";
+app.use("/api/features", newFeatureRoutes);
 ```
 
 #### 3. Add Translation Keys
@@ -1276,245 +1298,8 @@ CREATE POLICY "Authenticated can manage features" ON features
   FOR ALL USING (auth.role() = 'authenticated');
 ```
 
-### Testing
+##
 
-#### Manual Testing Checklist
-
-**Authentication:**
-- [ ] Register new user with email/password
-- [ ] Login with existing credentials
-- [ ] Google OAuth sign in
-- [ ] Password reset flow
-- [ ] Protected route access
-- [ ] Logout clears session
-
-**Features:**
-- [ ] Artifacts load and display correctly
-- [ ] Event booking wizard completes successfully
-- [ ] QR codes generate for bookings
-- [ ] Chatbot responds to queries
-- [ ] Language switching works
-- [ ] Theme toggle persists
-- [ ] 3D loading screen animates smoothly
-
-**Accessibility:**
-- [ ] Tab navigation works on all pages
-- [ ] Screen reader announces content
-- [ ] Focus indicators visible
-- [ ] ARIA labels present
-- [ ] Keyboard shortcuts functional
-
-#### Browser Testing
-
-Test in:
-- ✅ Chrome 90+ (Windows, Mac, Linux)
-- ✅ Firefox 88+ (Windows, Mac, Linux)
-- ✅ Safari 14+ (Mac, iOS)
-- ✅ Edge 90+ (Windows, Mac)
-- ✅ Mobile browsers (iOS Safari, Chrome Mobile)
-
-### Debugging
-
-#### Backend Debugging
-
-```javascript
-// Add debug logs
-import { createLogger, transports, format } from 'winston';
-
-const logger = createLogger({
-  level: 'debug',
-  format: format.combine(
-    format.timestamp(),
-    format.json()
-  ),
-  transports: [
-    new transports.Console(),
-    new transports.File({ filename: 'error.log', level: 'error' }),
-  ],
-});
-
-// Use in controllers
-logger.debug('User login attempt', { email: req.body.email });
-logger.error('Database error', { error: error.message });
-```
-
-#### Frontend Debugging
-
-```tsx
-// React Query Devtools
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-
-<QueryClientProvider client={queryClient}>
-  <App />
-  <ReactQueryDevtools initialIsOpen={false} />
-</QueryClientProvider>
-```
-
-**Common Issues:**
-
-| Issue | Solution |
-|-------|----------|
-| "JWT malformed" | Check Authorization header format: `Bearer <token>` |
-| "CORS policy" | Add frontend URL to backend CORS whitelist |
-| "Supabase RLS policy" | Ensure RLS policies allow operation |
-| "Google OAuth error" | Verify redirect URI in Google Console matches exactly |
-| "Build fails" | Clear `node_modules` and reinstall dependencies |
-
----
-
-## 📚 Documentation
-
-| Document | Description |
-|----------|-------------|
-| [PROJECT_STATUS.md](PROJECT_STATUS.md) | Detailed project status and roadmap |
-| [PROJECT_COMPLETION.md](PROJECT_COMPLETION.md) | Feature completion checklist |
-| [IMPLEMENTATION_GUIDE.md](IMPLEMENTATION_GUIDE.md) | Implementation details |
-| [IMAGE_SETUP.md](IMAGE_SETUP.md) | Image optimization guide |
-| [Quick Start Guide](docs/QUICK_START_GUIDE.md) | Developer quick start |
-| [Frontend Analysis](docs/FRONTEND_ANALYSIS_AND_NEXT_STEPS.md) | Architecture details |
-
-### API Documentation
-
-**Supabase Edge Functions:**
-- `POST /functions/v1/chat` - AI chatbot endpoint
-
-**Key Hooks:**
-- `useArtifacts()` - Fetch artifact data
-- `useFeaturedArtifacts()` - Get featured artifacts
-- `useAuth()` - Authentication state
-- `useChatContext()` - Chatbot state management
-
-### Browser Support
-
-| Browser | Version |
-|---------|---------|
-| Chrome | 90+ ✅ |
-| Firefox | 88+ ✅ |
-| Safari | 14+ ✅ |
-| Edge | 90+ ✅ |
-| Mobile | iOS 14+, Android 10+ ✅ |
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-### How to Contribute
-
-1. **Fork** the repository
-2. **Create** a feature branch
-   ```bash
-   git checkout -b feature/amazing-feature
-   ```
-3. **Commit** your changes
-   ```bash
-   git commit -m 'feat: add amazing feature'
-   ```
-4. **Push** to the branch
-   ```bash
-   git push origin feature/amazing-feature
-   ```
-5. **Open** a Pull Request
-
-### Contribution Guidelines
-
-- ✅ Follow existing code style and patterns
-- ✅ Write meaningful commit messages ([Conventional Commits](https://www.conventionalcommits.org/))
-- ✅ Update documentation as needed
-- ✅ Test your changes thoroughly
-- ✅ Keep PRs focused and atomic
-
----
-
-## 🔒 Security
-
-- **Authentication**: Secure email/password via Supabase Auth
-- **Data Protection**: Row Level Security (RLS) in PostgreSQL
-- **API Keys**: Environment variables (never committed)
-- **HTTPS**: Required for production
-- **CSP**: Content Security Policy headers
-- **Input Validation**: Zod schemas on all forms
-
-Report security vulnerabilities: Open an issue with [SECURITY] prefix
-
----
-
-## 📈 Roadmap
-
-### Q1 2026
-- [ ] Admin panel for content management
-- [ ] Advanced analytics dashboard
-- [ ] Mobile app (React Native)
-- [ ] AR features for exhibits
-
-### Q2 2026
-- [ ] AI-generated tour recommendations
-- [ ] Social features (sharing, reviews)
-- [ ] Gamification system
-- [ ] Multi-museum support
-
-### Future
-- [ ] VR virtual tours
-- [ ] Live guided tours
-- [ ] Museum marketplace
-- [ ] API for third-party integration
-
-See [PROJECT_STATUS.md](PROJECT_STATUS.md) for detailed roadmap.
-
----
-
-## 🙏 Acknowledgments
-
-Built with excellent open source tools:
-
-- [shadcn/ui](https://ui.shadcn.com) - Beautiful component library
-- [Lucide](https://lucide.dev) - Icon system
-- [Three.js](https://threejs.org) - 3D graphics engine
-- [Supabase](https://supabase.com) - Backend infrastructure
-- [Unsplash](https://unsplash.com) - High-quality images
-
----
-
-## 📞 Support
-
-- 📧 **Issues**: [Create an issue](https://github.com/mritunjai-prog/DocentDesk-Museum-Chatbot/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/mritunjai-prog/DocentDesk-Museum-Chatbot/discussions)
-- 🐛 **Bug Reports**: [Issue Tracker](https://github.com/mritunjai-prog/DocentDesk-Museum-Chatbot/issues)
-
----
-
-## 📝 License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
-```
-MIT License - Copyright (c) 2025 DocentDesk
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files...
-```
-
----
-
-## ⭐ Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=mritunjai-prog/DocentDesk-Museum-Chatbot&type=Date)](https://star-history.com/#mritunjai-prog/DocentDesk-Museum-Chatbot&Date)
-
----
-
-<div align="center">
-
-**Made with ❤️ for museums and cultural institutions worldwide**
-
-[⬆ Back to Top](#-docentdesk---ai-powered-museum-experience-platform)
-
-**Version 1.0.0** | **Last Updated**: December 19, 2025
-
-</div>
-#   T e s t 
- 
- 
 ##  Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=mritunjai-prog/DocentDesk-Museum-Chatbot&type=Date)](https://star-history.com/#mritunjai-prog/DocentDesk-Museum-Chatbot&Date)
