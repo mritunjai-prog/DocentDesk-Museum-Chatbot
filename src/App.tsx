@@ -21,7 +21,12 @@ const App = () => {
   const [showLoading, setShowLoading] = useState(true);
 
   if (showLoading) {
-    return <LoadingScreen onLoadingComplete={() => setShowLoading(false)} duration={2000} />;
+    return (
+      <LoadingScreen
+        onLoadingComplete={() => setShowLoading(false)}
+        duration={2000}
+      />
+    );
   }
 
   return (

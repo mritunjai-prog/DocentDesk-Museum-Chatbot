@@ -6,7 +6,10 @@ interface LoadingScreenProps {
   duration?: number;
 }
 
-const LoadingScreen = ({ onLoadingComplete, duration = 2000 }: LoadingScreenProps) => {
+const LoadingScreen = ({
+  onLoadingComplete,
+  duration = 2000,
+}: LoadingScreenProps) => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
