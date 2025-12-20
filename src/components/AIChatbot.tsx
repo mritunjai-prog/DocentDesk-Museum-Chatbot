@@ -384,7 +384,10 @@ export function AIChatbot() {
 
   const streamChat = async (userMessages: Message[]) => {
     // Use Supabase function endpoint for AI responses
-    const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chat`;
+    // Fallback to hardcoded URL if env var is not available
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || "https://tcalunwjzjqjwrrkuedg.supabase.co";
+    const CHAT_URL = `${supabaseUrl}/functions/v1/chat`;
+    console.log("Chat endpoint:", CHAT_URL);
 
     // Get language name for better context
     const languageNames: { [key: string]: string } = {
