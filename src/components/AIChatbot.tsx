@@ -541,17 +541,18 @@ export function AIChatbot() {
       }
     } catch (error) {
       console.error("Chat error:", error);
-      
+
       // Check if it's a CORS/network error
-      const isCorsError = error instanceof TypeError && error.message.includes("Failed to fetch");
-      
+      const isCorsError =
+        error instanceof TypeError && error.message.includes("Failed to fetch");
+
       toast({
         title: t("common.chatError") || "Chat Error",
-        description: isCorsError 
-          ? "AI service is temporarily unavailable. The Supabase function needs to be deployed. Please try again later or wait for the next Vercel deployment." 
+        description: isCorsError
+          ? "AI service is temporarily unavailable. The Supabase function needs to be deployed. Please try again later or wait for the next Vercel deployment."
           : error instanceof Error
-            ? error.message
-            : t("common.chatErrorDesc") || "Failed to send message",
+          ? error.message
+          : t("common.chatErrorDesc") || "Failed to send message",
         variant: "destructive",
       });
       setMessages((prev) => prev.filter((m) => m.content !== ""));

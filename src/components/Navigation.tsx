@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Landmark, Menu, X, Ticket } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -7,15 +7,14 @@ import { LanguageSelector } from "./LanguageSelector";
 import { ThemeToggle } from "./ThemeToggle";
 import { CartButton } from "./CartButton";
 import { UserMenu } from "./UserMenu";
-import { AnimatedAuthModal } from "./AnimatedAuthModal";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTranslation } from "react-i18next";
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [showAuthModal, setShowAuthModal] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const { user, profile } = useAuth();
   const { t } = useTranslation();
 
@@ -126,7 +125,7 @@ export function Navigation() {
                     : null
                 }
                 onSignOut={() => {}}
-                onSignIn={() => setShowAuthModal(true)}
+                onSignIn={() => navigate("/auth")}
               />
             </div>
 
@@ -210,7 +209,7 @@ export function Navigation() {
                   : null
               }
               onSignOut={() => {}}
-              onSignIn={() => setShowAuthModal(true)}
+              onSignIn={() => navigate("/auth")}
             />
           </div>
 
@@ -222,12 +221,6 @@ export function Navigation() {
           </Link>
         </div>
       </div>
-
-      {/* Auth Modal */}
-      <AnimatedAuthModal
-        open={showAuthModal}
-        onClose={() => setShowAuthModal(false)}
-      />
     </header>
   );
 }

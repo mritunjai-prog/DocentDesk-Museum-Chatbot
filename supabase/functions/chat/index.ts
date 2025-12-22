@@ -95,67 +95,52 @@ serve(async (req) => {
 
   try {
     const { messages } = await req.json();
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-
-    if (!LOVABLE_API_KEY) {
-      throw new Error("LOVABLE_API_KEY is not configured");
-    }
-
     console.log("Processing chat request with", messages.length, "messages");
 
-    const response = await fetch(
-      "https://ai.gateway.lovable.dev/v1/chat/completions",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${LOVABLE_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model: "google/gemini-2.5-flash",
-          messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
-          stream: true,
-        }),
-      }
-    );
+    const userMessage = messages[messages.length - 1]?.content || "";
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("AI gateway error:", response.status, errorText);
+    // Generate contextual mock response based on user input
+    let mockResponse = "";
+    const lowerMessage = userMessage.toLowerCase();
 
-      if (response.status === 429) {
-        return new Response(
-          JSON.stringify({
-            error: "Rate limit exceeded. Please try again in a moment.",
-          }),
-          {
-            status: 429,
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
-          }
-        );
-      }
-      if (response.status === 402) {
-        return new Response(
-          JSON.stringify({
-            error: "AI credits exhausted. Please add credits to continue.",
-          }),
-          {
-            status: 402,
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
-          }
-        );
-      }
-
-      return new Response(
-        JSON.stringify({ error: "Failed to get AI response" }),
-        {
-          status: 500,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        }
-      );
+    if (lowerMessage.includes("ticket") || lowerMessage.includes("book")) {
+      mockResponse =
+        "Great question! Our museum tickets are:\n\n🎫 Adults: $25\n👨‍🎓 Students: $15\n👴 Seniors: $20\n👨‍👩‍👧‍👦 Family Pass: $60\n\nYou can book tickets through our Events & Tickets section. We're open Monday-Saturday 9 AM - 7 PM, and Sunday 10 AM - 6 PM. Would you like to know about any upcoming events?";
+    } else if (lowerMessage.includes("tour") || lowerMessage.includes("3d")) {
+      mockResponse =
+        "Our virtual 3D tour is amazing! 🎨\n\nYou can explore the museum using:\n• WASD keys to move around\n• Mouse to look around\n• Guided mode for automatic tours\n• Screenshot feature to capture your favorite moments\n\nClick on 'Virtual Tour' in the navigation to start exploring. Would you like tips on which galleries to visit first?";
+    } else if (
+      lowerMessage.includes("exhibit") ||
+      lowerMessage.includes("artifact")
+    ) {
+      mockResponse =
+        "We have incredible exhibits! 🏛️\n\nOur main galleries include:\n\n🇪🇬 Ancient Egypt - Featuring mummies and the Rosetta Stone\n🎨 Renaissance Masters - Works by Leonardo da Vinci and Michelangelo\n🏺 Greek Mythology - Gods, heroes, and ancient pottery\n🖼️ Modern Art - Contemporary installations\n\nFeatured artifacts:\n• Venus de Milo\n• Rosetta Stone\n• Ming Dynasty Vase\n• Terracotta Army Replica\n\nWhich period interests you most?";
+    } else if (lowerMessage.includes("hello") || lowerMessage.includes("hi")) {
+      mockResponse =
+        "Hello! Welcome to DocentDesk! 👋\n\nI'm your AI museum guide, here to help you explore our amazing collection. I can assist you with:\n\n🎨 Information about exhibits and artifacts\n📅 Event schedules and ticket booking\n🗺️ Virtual tour navigation\n🌍 Multilingual support\n\nWhat would you like to know about?";
+    } else {
+      mockResponse = `Thank you for your question about "${userMessage}"!\n\n🏛️ I'm DocentDesk AI, your personal museum guide. I can help you with:\n\n✨ Exploring our exhibits (Ancient Egypt, Renaissance, Greek Mythology)\n🎟️ Booking tickets and event information\n🎮 Virtual 3D tour guidance\n📱 QR code artifact scanning\n\nOur museum features over 50K+ artifacts across multiple galleries. We're open daily with wheelchair access and audio guides in 15+ languages.\n\nWhat specific aspect of the museum would you like to explore?`;
     }
 
-    return new Response(response.body, {
+    // Stream the response word by word
+    const encoder = new TextEncoder();
+    const stream = new ReadableStream({
+      async start(controller) {
+        const words = mockResponse.split(" ");
+        for (let i = 0; i < words.length; i++) {
+          const word = words[i] + (i < words.length - 1 ? " " : "");
+          const chunk = `data: ${JSON.stringify({
+            choices: [{ delta: { content: word } }],
+          })}\n\n`;
+          controller.enqueue(encoder.encode(chunk));
+          await new Promise((resolve) => setTimeout(resolve, 30));
+        }
+        controller.enqueue(encoder.encode("data: [DONE]\n\n"));
+        controller.close();
+      },
+    });
+
+    return new Response(stream, {
       headers: { ...corsHeaders, "Content-Type": "text/event-stream" },
     });
   } catch (error) {

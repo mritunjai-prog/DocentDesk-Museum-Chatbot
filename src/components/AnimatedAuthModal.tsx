@@ -116,8 +116,8 @@ export const AnimatedAuthModal = ({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-6xl p-0 overflow-hidden border-0 bg-transparent">
-        <div className="grid md:grid-cols-2 min-h-[650px]">
+      <DialogContent className="sm:max-w-5xl p-0 overflow-hidden border-0 bg-transparent">
+        <div className="grid md:grid-cols-2 min-h-[550px]">
           {/* Left Side - Animated Background */}
           <div className="relative hidden md:flex flex-col justify-center items-center p-12 bg-gradient-to-br from-primary via-blue-600 to-purple-600 overflow-hidden">
             {particles.map((particle) => (
@@ -177,7 +177,7 @@ export const AnimatedAuthModal = ({
           </div>
 
           {/* Right Side - Auth Cards and Guest Option */}
-          <div className="bg-background p-6 md:p-8 flex flex-col justify-center overflow-y-auto max-h-[650px]">
+          <div className="bg-background p-6 md:p-8 flex flex-col justify-center overflow-y-auto max-h-[550px]">
             {showForgotPassword ? (
               <div className="space-y-6 animate-fade-in">
                 <div className="space-y-2">
@@ -232,9 +232,9 @@ export const AnimatedAuthModal = ({
               </div>
             ) : (
               <>
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid md:grid-cols-2 gap-4">
                   {/* Sign In Card */}
-                  <div className="md:col-span-1 space-y-4 bg-card/50 backdrop-blur border border-border/50 rounded-2xl pt-14 px-6 pb-6 animate-fade-in-up">
+                  <div className="md:col-span-1 space-y-4 bg-card/50 backdrop-blur border border-border/50 rounded-2xl pt-6 px-5 pb-5 animate-fade-in-up">
                     <div className="space-y-2">
                       <h3 className="font-serif text-2xl font-bold text-foreground">
                         Welcome Back
@@ -328,14 +328,14 @@ export const AnimatedAuthModal = ({
 
                   {/* Sign Up Card */}
                   <div
-                    className="md:col-span-1 space-y-4 bg-card/30 backdrop-blur border border-border/30 rounded-2xl pt-14 px-6 pb-6 animate-fade-in-up"
+                    className="md:col-span-1 space-y-4 bg-card/30 backdrop-blur border border-border/30 rounded-2xl pt-6 px-5 pb-5 animate-fade-in-up"
                     style={{ animationDelay: "0.1s" }}
                   >
                     <div className="space-y-2">
-                      <h3 className="font-serif text-xl font-bold text-foreground">
+                      <h3 className="font-serif text-2xl font-bold text-foreground">
                         Join DocentDesk
                       </h3>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-sm text-muted-foreground">
                         Create an account to explore
                       </p>
                     </div>

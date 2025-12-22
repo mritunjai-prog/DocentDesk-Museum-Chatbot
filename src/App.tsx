@@ -12,9 +12,9 @@ import Dashboard from "./pages/Dashboard";
 import Events from "./pages/Events";
 import Exhibits from "./pages/Exhibits";
 import About from "./pages/About";
+import Login from "./pages/Login";
 import AuthCallback from "./pages/AuthCallback";
 import NotFound from "./pages/NotFound";
-import AnimatedAuthModal from "@/components/AnimatedAuthModal";
 
 const queryClient = new QueryClient();
 
@@ -52,15 +52,7 @@ function AppRoutes() {
           user ? (
             <Navigate to="/dashboard" replace />
           ) : (
-            <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 flex items-center justify-center">
-              <AnimatedAuthModal
-                open={true}
-                onClose={() => {
-                  localStorage.setItem("docentdesk_user_skipped_login", "true");
-                  window.location.href = "/";
-                }}
-              />
-            </div>
+            <Login />
           )
         }
       />
