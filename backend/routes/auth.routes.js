@@ -28,16 +28,26 @@ router.get(
   "/google",
   passport.authenticate("google", {
     scope: ["profile", "email"],
-  })
+    accessType: "offline",
+    prompt: "consent",
+  }),
 );
 
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    failureRedirect: process.env.CLIENT_URL + "/login",
+    failureRedirect: process.env.CLIENT_URL + "/login?error=auth_failed",
     session: false,
   }),
-  googleAuthCallback
+  (req, res, next) => {
+    // Error handling middleware for OAuth
+    if (!req.user) {
+      console.error("❌ No user authenticated in OAuth callback");
+      return res.redirect(process.env.CLIENT_URL + "/login?error=no_user");
+    }
+    next();
+  },
+  googleAuthCallback,
 );
 
 export default router;

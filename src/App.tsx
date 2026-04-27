@@ -48,13 +48,7 @@ function AppRoutes() {
       {/* Auth Routes */}
       <Route
         path="/auth"
-        element={
-          user ? (
-            <Navigate to="/dashboard" replace />
-          ) : (
-            <Login />
-          )
-        }
+        element={user ? <Navigate to="/dashboard" replace /> : <Login />}
       />
       <Route path="/auth/callback" element={<AuthCallback />} />
 

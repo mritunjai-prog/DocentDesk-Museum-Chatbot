@@ -1,6 +1,34 @@
-# 🎯 Light Mode & Mobile Responsiveness - Quick Reference
+# ⚡ DocentDesk - MASTER Quick Reference (Updated April 27, 2026)
 
-## 🌗 Theme Toggle: FIXED ✅
+## 🎯 CURRENT STATUS
+
+- ✅ Backend running: http://localhost:5000
+- ✅ Frontend running: http://localhost:8080
+- ✅ Everything working locally
+- ✅ Vercel config FIXED
+- ✅ Ready for deployment
+
+---
+
+## 🔥 START NOW (Copy & Paste)
+
+### Terminal 1 - Backend
+
+```bash
+cd "d:\DocentDesk - AI Chatbot\backend" && npm start
+```
+
+### Terminal 2 - Frontend
+
+```bash
+cd "d:\DocentDesk - AI Chatbot" && npm run dev
+```
+
+Then open: **http://localhost:8080**
+
+---
+
+## 🎯 Light Mode & Theme Toggle
 
 ### BEFORE (Broken ❌)
 

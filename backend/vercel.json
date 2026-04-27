@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "cd .. && npm install",
+  "buildCommand": "npm install",
   "builds": [
     {
       "src": "server.js",

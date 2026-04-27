@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import supabase from "../config/supabase.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ErrorResponse from "../utils/errorResponse.js";
-import sendEmail from "../utils/sendEmail.js";
+import sendEmail, { getWelcomeEmailTemplate } from "../utils/sendEmail.js";
 
 // Generate JWT Token
 const generateToken = (id) => {
@@ -19,7 +19,7 @@ const sendTokenResponse = (user, statusCode, res) => {
 
   const options = {
     expires: new Date(
-      Date.now() + (process.env.JWT_COOKIE_EXPIRE || 7) * 24 * 60 * 60 * 1000
+      Date.now() + (process.env.JWT_COOKIE_EXPIRE || 7) * 24 * 60 * 60 * 1000,
     ),
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
@@ -85,6 +85,20 @@ export const register = asyncHandler(async (req, res, next) => {
     return next(new ErrorResponse("Failed to create user", 500));
   }
 
+  // Send welcome email to new user
+  try {
+    const welcomeEmailTemplate = getWelcomeEmailTemplate(user.name);
+    await sendEmail({
+      to: user.email,
+      subject: "Welcome to DocentDesk! 🎉",
+      html: welcomeEmailTemplate,
+    });
+    console.log(`Welcome email sent to ${user.email}`);
+  } catch (emailError) {
+    console.error("Error sending welcome email:", emailError);
+    // Don't fail the registration if email fails to send
+  }
+
   sendTokenResponse(user, 201, res);
 });
 
@@ -115,8 +129,8 @@ export const login = asyncHandler(async (req, res, next) => {
     return next(
       new ErrorResponse(
         "This account uses Google sign-in. Please login with Google.",
-        401
-      )
+        401,
+      ),
     );
   }
 
@@ -201,7 +215,7 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
     .update({
       reset_password_token: hashedToken,
       reset_password_expire: new Date(
-        Date.now() + 10 * 60 * 1000
+        Date.now() + 10 * 60 * 1000,
       ).toISOString(),
     })
     .eq("id", user.id);
@@ -333,8 +347,22 @@ export const updatePassword = asyncHandler(async (req, res, next) => {
 // @route   GET /api/auth/google/callback
 // @access  Public
 export const googleAuthCallback = asyncHandler(async (req, res, next) => {
-  const token = generateToken(req.user.id);
+  try {
+    if (!req.user) {
+      console.error("❌ No user found after Google OAuth");
+      return res.redirect(
+        `${process.env.CLIENT_URL}/login?error=no_user_found`,
+      );
+    }
 
-  // Redirect to frontend with token
-  res.redirect(`${process.env.CLIENT_URL}/auth/callback?token=${token}`);
+    const token = generateToken(req.user.id);
+
+    // Redirect to frontend with token
+    const redirectUrl = `${process.env.CLIENT_URL}/auth/callback?token=${token}`;
+    console.log(`✅ Google OAuth successful - redirecting to: ${redirectUrl}`);
+    return res.redirect(redirectUrl);
+  } catch (error) {
+    console.error("❌ Google callback error:", error);
+    return res.redirect(`${process.env.CLIENT_URL}/login?error=auth_failed`);
+  }
 });

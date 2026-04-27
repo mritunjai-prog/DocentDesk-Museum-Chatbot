@@ -20,19 +20,8 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Conditional import for passport (only if Google OAuth is configured)
-// Use dynamic import without top-level await to avoid blocking
-let passportConfigured = false;
-if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
-  import("./config/passport.js")
-    .then(() => {
-      passportConfigured = true;
-      console.log("✅ Google OAuth configured");
-    })
-    .catch((error) => {
-      console.log("⚠️  Google OAuth configuration failed:", error.message);
-    });
-}
+// Import passport configuration SYNCHRONOUSLY (required for routes to work)
+import "./config/passport.js";
 
 // Now import routes
 import authRoutes from "./routes/auth.routes.js";
@@ -51,12 +40,12 @@ import supabase from "./config/supabase.js";
 // Debug logging
 console.log(`🔍 Environment loaded`);
 console.log(
-  `📝 SUPABASE_URL loaded: ${process.env.SUPABASE_URL ? "YES" : "NO"}`
+  `📝 SUPABASE_URL loaded: ${process.env.SUPABASE_URL ? "YES" : "NO"}`,
 );
 console.log(
   `📝 SUPABASE_SERVICE_KEY loaded: ${
     process.env.SUPABASE_SERVICE_KEY ? "YES" : "NO"
-  }`
+  }`,
 );
 console.log(`📝 PORT: ${process.env.PORT}`);
 
@@ -76,7 +65,7 @@ app.use(
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
-  })
+  }),
 );
 
 // Body parser middleware
@@ -97,11 +86,12 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: process.env.NODE_ENV === "production",
+      secure: process.env.NODE_ENV === "production", // HTTPS only in production
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      sameSite: process.env.NODE_ENV === "production" ? "lax" : "lax", // Use lax for OAuth redirects
     },
-  })
+  }),
 );
 
 // Passport middleware
@@ -228,7 +218,7 @@ if (process.env.NODE_ENV !== "production") {
 
   app.listen(PORT, () => {
     console.log(
-      `🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`
+      `🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`,
     );
     console.log(`📱 Client URL: ${process.env.CLIENT_URL}`);
     console.log(`🌐 API URL: http://localhost:${PORT}`);
