@@ -15,7 +15,20 @@ self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       console.log("Opened cache");
-      return cache.addAll(PRECACHE_URLS);
+      // Cache only assets that exist, don't fail if some are missing
+      return Promise.allSettled(
+        PRECACHE_URLS.map((url) =>
+          fetch(url)
+            .then((response) => {
+              if (response.ok) {
+                return cache.put(url, response);
+              }
+            })
+            .catch((error) => {
+              console.warn(`Failed to cache ${url}:`, error);
+            })
+        )
+      );
     })
   );
   self.skipWaiting();
@@ -86,7 +99,8 @@ self.addEventListener("fetch", (event) => {
         }
         return response;
       })
-      .catch(() => {
+      .catch((error) => {
+        console.error("Fetch failed:", error);
         // Fall back to cache if network fails
         return caches.match(event.request).then((cachedResponse) => {
           if (cachedResponse) {
@@ -94,8 +108,28 @@ self.addEventListener("fetch", (event) => {
           }
           // Return offline page for navigation requests
           if (event.request.mode === "navigate") {
-            return caches.match("/");
+            return caches.match("/").then((homeResponse) => {
+              if (homeResponse) {
+                return homeResponse;
+              }
+              // Return a basic offline response
+              return new Response("Offline - Unable to load page", {
+                status: 503,
+                statusText: "Service Unavailable",
+                headers: new Headers({
+                  "Content-Type": "text/plain"
+                })
+              });
+            });
           }
+          // For non-navigation requests, return a 503 response
+          return new Response("Offline", {
+            status: 503,
+            statusText: "Service Unavailable",
+            headers: new Headers({
+              "Content-Type": "text/plain"
+            })
+          });
         });
       })
   );
