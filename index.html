@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -24,6 +24,7 @@
     <link rel="manifest" href="/manifest.json" />
 
     <!-- Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
     <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
@@ -74,7 +75,7 @@
             .then((registration) => {
               console.log(
                 "Service Worker registered successfully:",
-                registration.scope
+                registration.scope,
               );
             })
             .catch((error) => {

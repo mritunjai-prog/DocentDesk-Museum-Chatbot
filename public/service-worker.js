@@ -26,10 +26,10 @@ self.addEventListener("install", (event) => {
             })
             .catch((error) => {
               console.warn(`Failed to cache ${url}:`, error);
-            })
-        )
+            }),
+        ),
       );
-    })
+    }),
   );
   self.skipWaiting();
 });
@@ -42,17 +42,17 @@ self.addEventListener("activate", (event) => {
       .keys()
       .then((cacheNames) => {
         return cacheNames.filter(
-          (cacheName) => !currentCaches.includes(cacheName)
+          (cacheName) => !currentCaches.includes(cacheName),
         );
       })
       .then((cachesToDelete) => {
         return Promise.all(
           cachesToDelete.map((cacheToDelete) => {
             return caches.delete(cacheToDelete);
-          })
+          }),
         );
       })
-      .then(() => self.clients.claim())
+      .then(() => self.clients.claim()),
   );
 });
 
@@ -81,7 +81,7 @@ self.addEventListener("fetch", (event) => {
             });
           });
         });
-      })
+      }),
     );
     return;
   }
@@ -117,8 +117,8 @@ self.addEventListener("fetch", (event) => {
                 status: 503,
                 statusText: "Service Unavailable",
                 headers: new Headers({
-                  "Content-Type": "text/plain"
-                })
+                  "Content-Type": "text/plain",
+                }),
               });
             });
           }
@@ -127,11 +127,11 @@ self.addEventListener("fetch", (event) => {
             status: 503,
             statusText: "Service Unavailable",
             headers: new Headers({
-              "Content-Type": "text/plain"
-            })
+              "Content-Type": "text/plain",
+            }),
           });
         });
-      })
+      }),
   );
 });
 

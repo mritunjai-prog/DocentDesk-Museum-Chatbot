@@ -136,28 +136,44 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
   );
 }
 
-// Serialize user
+// Serialize user - for stateless environments, serialize the entire user object
 passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-// Deserialize user
-passport.deserializeUser(async (id, done) => {
   try {
-    const { data: user, error } = await supabase
-      .from("users")
-      .select("*")
-      .eq("id", id)
-      .single();
-
-    if (error) {
-      return done(error, null);
-    }
-
-    // Remove password from user object
-    delete user.password;
+    console.log(`📋 Serializing user: ${user.email}`);
     done(null, user);
   } catch (error) {
+    console.error("❌ Error serializing user:", error);
+    done(error);
+  }
+});
+
+// Deserialize user - for stateless environments, deserialize from the object
+passport.deserializeUser(async (user, done) => {
+  try {
+    if (typeof user === "string") {
+      // If it's a string ID, fetch from DB
+      console.log(`🔄 Deserializing user by ID: ${user}`);
+      const { data: userData, error } = await supabase
+        .from("users")
+        .select("*")
+        .eq("id", user)
+        .single();
+
+      if (error) {
+        return done(error, null);
+      }
+
+      // Remove password from user object
+      delete userData.password;
+      done(null, userData);
+    } else {
+      // If it's already a user object, just return it
+      console.log(`📋 User object already deserialized: ${user.email}`);
+      delete user.password;
+      done(null, user);
+    }
+  } catch (error) {
+    console.error("❌ Error deserializing user:", error);
     done(error, null);
   }
 });

@@ -1,11 +1,13 @@
 # 🚀 Production Deployment Guide
 
 ## Frontend
+
 **URL**: https://docent-desk-ai-chatbot.vercel.app/
 
 ## Backend Configuration
 
 ### Vercel Environment Variables
+
 Set these in your Vercel backend project settings:
 
 ```
@@ -21,6 +23,7 @@ NODE_ENV=production
 ```
 
 ### Steps:
+
 1. Go to https://vercel.com/dashboard
 2. Select your backend project
 3. Settings → Environment Variables
@@ -28,6 +31,7 @@ NODE_ENV=production
 5. Redeploy
 
 ### Google Cloud Console
+
 1. Go to https://console.cloud.google.com/
 2. APIs & Services → Credentials
 3. Add authorized redirect URI:
@@ -38,6 +42,7 @@ NODE_ENV=production
 ---
 
 ## Testing
+
 1. Open frontend: https://docent-desk-ai-chatbot.vercel.app/
 2. Click "Sign in with Google"
 3. Complete login
@@ -47,11 +52,11 @@ NODE_ENV=production
 
 ## Troubleshooting
 
-| Error | Fix |
-|-------|-----|
-| Service worker errors | Clear cache, see [SERVICE_WORKER_FIX.md](SERVICE_WORKER_FIX.md) |
-| OAuth callback issues | Verify GOOGLE_CALLBACK_URL matches backend domain |
-| Database connection errors | Check Supabase credentials in Vercel env vars |
+| Error                      | Fix                                                             |
+| -------------------------- | --------------------------------------------------------------- |
+| Service worker errors      | Clear cache, see [SERVICE_WORKER_FIX.md](SERVICE_WORKER_FIX.md) |
+| OAuth callback issues      | Verify GOOGLE_CALLBACK_URL matches backend domain               |
+| Database connection errors | Check Supabase credentials in Vercel env vars                   |
 
 ---
 
