@@ -392,7 +392,7 @@ export function AIChatbot() {
     // Fallback to hardcoded URL if env var is not available
     const supabaseUrl =
       import.meta.env.VITE_SUPABASE_URL ||
-      "https://tcalunwjzjqjwrrkuedg.supabase.co";
+      "https://vxewpgphqjsyocaiykbd.supabase.co";
     const CHAT_URL = `${supabaseUrl}/functions/v1/chat`;
     console.log("Chat endpoint:", CHAT_URL);
 
