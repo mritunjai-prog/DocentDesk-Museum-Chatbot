@@ -159,18 +159,18 @@ export function AIChatbot() {
         i18n.language === "zh"
           ? "zh-CN"
           : i18n.language === "ar"
-          ? "ar-SA"
-          : i18n.language === "hi"
-          ? "hi-IN"
-          : i18n.language === "es"
-          ? "es-ES"
-          : i18n.language === "fr"
-          ? "fr-FR"
-          : i18n.language === "de"
-          ? "de-DE"
-          : i18n.language === "it"
-          ? "it-IT"
-          : "en-US";
+            ? "ar-SA"
+            : i18n.language === "hi"
+              ? "hi-IN"
+              : i18n.language === "es"
+                ? "es-ES"
+                : i18n.language === "fr"
+                  ? "fr-FR"
+                  : i18n.language === "de"
+                    ? "de-DE"
+                    : i18n.language === "it"
+                      ? "it-IT"
+                      : "en-US";
 
       recognition.onstart = () => {
         setIsListening(true);
@@ -180,7 +180,7 @@ export function AIChatbot() {
       recognition.onend = () => {
         console.log(
           "Voice recognition ended, manual stop:",
-          isManualStopRef.current
+          isManualStopRef.current,
         );
         if (!isManualStopRef.current && isListening) {
           // Auto-restart if it ended unexpectedly
@@ -248,7 +248,7 @@ export function AIChatbot() {
         // Only update input for final results
         if (finalTranscript) {
           setInput((prev) =>
-            prev ? prev + " " + finalTranscript : finalTranscript
+            prev ? prev + " " + finalTranscript : finalTranscript,
           );
         }
       };
@@ -317,18 +317,18 @@ export function AIChatbot() {
       const voices = window.speechSynthesis.getVoices();
       const matchingVoice = voices.find(
         (voice) =>
-          voice.lang.startsWith(i18n.language) || voice.lang === targetLang
+          voice.lang.startsWith(i18n.language) || voice.lang === targetLang,
       );
 
       if (matchingVoice) {
         utterance.voice = matchingVoice;
         console.log(
-          `🔊 Using voice: ${matchingVoice.name} (${matchingVoice.lang})`
+          `🔊 Using voice: ${matchingVoice.name} (${matchingVoice.lang})`,
         );
       } else {
         console.warn(
           `⚠️ No ${targetLang} voice found. TTS disabled for this language to prevent errors. Available voices:`,
-          voices.map((v) => `${v.name} (${v.lang})`)
+          voices.map((v) => `${v.name} (${v.lang})`),
         );
         // Don't speak if no matching voice - prevents phonetic loop bug
         setIsSpeaking(false);
@@ -347,7 +347,7 @@ export function AIChatbot() {
 
       window.speechSynthesis.speak(utterance);
     },
-    [ttsEnabled, i18n.language]
+    [ttsEnabled, i18n.language],
   );
 
   // Drag handlers
@@ -437,7 +437,7 @@ export function AIChatbot() {
         }
         if (resp.status === 402) {
           throw new Error(
-            "Service temporarily unavailable. Please try again later."
+            "Service temporarily unavailable. Please try again later.",
           );
         }
         const errorData = await resp.json().catch(() => ({}));
@@ -546,13 +546,22 @@ export function AIChatbot() {
       const isCorsError =
         error instanceof TypeError && error.message.includes("Failed to fetch");
 
-      toast({
-        title: t("common.chatError") || "Chat Error",
+      // For Supabase function deployment errors, show helpful message
+      if (isCorsError) {
+        toast({
+          title: t("common.chatError") || "Chat Error",
+          description:
+            "AI service is temporarily unavailable. The Supabase function needs to be deployed. Please try again later or wait for the next Vercel deployment.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: t("common.chatError") || "Chat Error",
         description: isCorsError
           ? "AI service is temporarily unavailable. The Supabase function needs to be deployed. Please try again later or wait for the next Vercel deployment."
           : error instanceof Error
-          ? error.message
-          : t("common.chatErrorDesc") || "Failed to send message",
+            ? error.message
+            : t("common.chatErrorDesc") || "Failed to send message",
         variant: "destructive",
       });
       setMessages((prev) => prev.filter((m) => m.content !== ""));
@@ -576,7 +585,7 @@ export function AIChatbot() {
           "fixed bottom-6 right-6 z-50 w-16 h-16 rounded-full shadow-lg transition-all duration-300",
           "bg-gradient-gold hover:scale-110 glow-gold",
           "before:absolute before:inset-0 before:rounded-full before:bg-gold/30 before:animate-ping",
-          isOpen && "scale-0 opacity-0"
+          isOpen && "scale-0 opacity-0",
         )}
       >
         <MessageCircle className="w-7 h-7 text-primary-foreground relative z-10" />
@@ -595,13 +604,13 @@ export function AIChatbot() {
           isOpen
             ? "scale-100 opacity-100"
             : "scale-0 opacity-0 pointer-events-none",
-          isDragging && "cursor-grabbing animate-watery"
+          isDragging && "cursor-grabbing animate-watery",
         )}
       >
         <div
           className={cn(
             "glass-card overflow-hidden flex flex-col",
-            isMinimized ? "h-16" : "h-[650px] max-h-[calc(100vh-100px)]"
+            isMinimized ? "h-16" : "h-[650px] max-h-[calc(100vh-100px)]",
           )}
         >
           {/* Header with drag handle */}
@@ -628,8 +637,8 @@ export function AIChatbot() {
                     {isLoading
                       ? "Thinking..."
                       : isSpeaking
-                      ? "Speaking..."
-                      : "Your Museum Guide"}
+                        ? "Speaking..."
+                        : "Your Museum Guide"}
                   </p>
                 </div>
               </div>
@@ -651,7 +660,7 @@ export function AIChatbot() {
                   onClick={() => setTtsEnabled(!ttsEnabled)}
                   className={cn(
                     "text-muted-foreground hover:text-foreground",
-                    ttsEnabled && "text-gold"
+                    ttsEnabled && "text-gold",
                   )}
                   title={
                     ttsEnabled
@@ -746,7 +755,7 @@ export function AIChatbot() {
                       {quickActions
                         .slice(
                           0,
-                          chatContext.currentPage === "virtual-tour" ? 4 : 6
+                          chatContext.currentPage === "virtual-tour" ? 4 : 6,
                         )
                         .map((action) => (
                           <button
@@ -769,7 +778,7 @@ export function AIChatbot() {
                         key={index}
                         className={cn(
                           "flex items-start gap-3 animate-fade-in",
-                          message.role === "user" && "flex-row-reverse"
+                          message.role === "user" && "flex-row-reverse",
                         )}
                       >
                         <div
@@ -777,7 +786,7 @@ export function AIChatbot() {
                             "w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0",
                             message.role === "assistant"
                               ? "bg-gold/20"
-                              : "bg-teal/20"
+                              : "bg-teal/20",
                           )}
                         >
                           {message.role === "assistant" ? (
@@ -791,7 +800,7 @@ export function AIChatbot() {
                             "p-3 rounded-xl max-w-[85%]",
                             message.role === "assistant"
                               ? "glass rounded-tl-sm"
-                              : "bg-teal/20 rounded-tr-sm"
+                              : "bg-teal/20 rounded-tr-sm",
                           )}
                         >
                           <p className="text-sm text-foreground whitespace-pre-wrap">
@@ -824,7 +833,7 @@ export function AIChatbot() {
                     className={cn(
                       "flex-shrink-0",
                       isListening &&
-                        "bg-destructive/20 text-destructive animate-pulse"
+                        "bg-destructive/20 text-destructive animate-pulse",
                     )}
                   >
                     {isListening ? (
