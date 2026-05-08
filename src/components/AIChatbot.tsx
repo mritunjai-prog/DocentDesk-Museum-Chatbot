@@ -339,13 +339,29 @@ export function AIChatbot() {
         setIsSpeaking(true);
         console.log(`🗣️ Speaking in ${targetLang}`);
       };
-      utterance.onend = () => setIsSpeaking(false);
-      utterance.onerror = (e) => {
-        console.error("TTS Error:", e);
+      utterance.onend = () => {
         setIsSpeaking(false);
       };
+      utterance.onerror = (e) => {
+        // Gracefully handle TTS errors (interruption, network, etc)
+        if (e.error !== "interrupted") {
+          console.error("TTS Error:", e.error);
+        }
+        setIsSpeaking(false);
+      };
+      utterance.onpause = () => {
+        console.log("TTS paused");
+      };
+      utterance.onresume = () => {
+        console.log("TTS resumed");
+      };
 
-      window.speechSynthesis.speak(utterance);
+      try {
+        window.speechSynthesis.speak(utterance);
+      } catch (error) {
+        console.error("Failed to speak:", error);
+        setIsSpeaking(false);
+      }
     },
     [ttsEnabled, i18n.language],
   );

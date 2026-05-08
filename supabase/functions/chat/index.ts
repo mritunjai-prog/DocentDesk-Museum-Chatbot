@@ -8,6 +8,10 @@ const corsHeaders = {
   "Access-Control-Max-Age": "86400",
 };
 
+// Get OpenAI API key from environment
+const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY");
+const OPENAI_MODEL = "gpt-4-turbo-preview";
+
 const MUSEUM_CONTEXT = `
 MUSEUM INFORMATION:
 - Name: DocentDesk Virtual Museum
@@ -76,13 +80,6 @@ CONVERSATION GUIDELINES:
 - If asked about accessibility, highlight wheelchair access, audio guides, and support services
 - When visitors express interest in a topic, offer to create a personalized tour route
 
-EXAMPLE INTERACTIONS:
-- "Tell me about the Rosetta Stone" → Share discovery story, why it's important, fun facts
-- "I love ancient Egypt" → Recommend Egypt gallery, related artifacts, upcoming exhibition
-- "How do I book tickets?" → Explain prices, guide to booking system, mention events
-- "Where is the café?" → Ground floor location, hours, mention nearby exhibits
-- "Plan a 1-hour tour for kids" → Suggest interactive exhibits, hands-on activities, scavenger hunt
-
 Always aim to educate, inspire, and make the museum experience memorable!`;
 
 serve(async (req) => {
@@ -97,46 +94,94 @@ serve(async (req) => {
     const { messages } = await req.json();
     console.log("Processing chat request with", messages.length, "messages");
 
-    const userMessage = messages[messages.length - 1]?.content || "";
-
-    // Generate contextual mock response based on user input
-    let mockResponse = "";
-    const lowerMessage = userMessage.toLowerCase();
-
-    if (lowerMessage.includes("ticket") || lowerMessage.includes("book")) {
-      mockResponse =
-        "Great question! Our museum tickets are:\n\n🎫 Adults: $25\n👨‍🎓 Students: $15\n👴 Seniors: $20\n👨‍👩‍👧‍👦 Family Pass: $60\n\nYou can book tickets through our Events & Tickets section. We're open Monday-Saturday 9 AM - 7 PM, and Sunday 10 AM - 6 PM. Would you like to know about any upcoming events?";
-    } else if (lowerMessage.includes("tour") || lowerMessage.includes("3d")) {
-      mockResponse =
-        "Our virtual 3D tour is amazing! 🎨\n\nYou can explore the museum using:\n• WASD keys to move around\n• Mouse to look around\n• Guided mode for automatic tours\n• Screenshot feature to capture your favorite moments\n\nClick on 'Virtual Tour' in the navigation to start exploring. Would you like tips on which galleries to visit first?";
-    } else if (
-      lowerMessage.includes("exhibit") ||
-      lowerMessage.includes("artifact")
-    ) {
-      mockResponse =
-        "We have incredible exhibits! 🏛️\n\nOur main galleries include:\n\n🇪🇬 Ancient Egypt - Featuring mummies and the Rosetta Stone\n🎨 Renaissance Masters - Works by Leonardo da Vinci and Michelangelo\n🏺 Greek Mythology - Gods, heroes, and ancient pottery\n🖼️ Modern Art - Contemporary installations\n\nFeatured artifacts:\n• Venus de Milo\n• Rosetta Stone\n• Ming Dynasty Vase\n• Terracotta Army Replica\n\nWhich period interests you most?";
-    } else if (lowerMessage.includes("hello") || lowerMessage.includes("hi")) {
-      mockResponse =
-        "Hello! Welcome to DocentDesk! 👋\n\nI'm your AI museum guide, here to help you explore our amazing collection. I can assist you with:\n\n🎨 Information about exhibits and artifacts\n📅 Event schedules and ticket booking\n🗺️ Virtual tour navigation\n🌍 Multilingual support\n\nWhat would you like to know about?";
-    } else {
-      mockResponse = `Thank you for your question about "${userMessage}"!\n\n🏛️ I'm DocentDesk AI, your personal museum guide. I can help you with:\n\n✨ Exploring our exhibits (Ancient Egypt, Renaissance, Greek Mythology)\n🎟️ Booking tickets and event information\n🎮 Virtual 3D tour guidance\n📱 QR code artifact scanning\n\nOur museum features over 50K+ artifacts across multiple galleries. We're open daily with wheelchair access and audio guides in 15+ languages.\n\nWhat specific aspect of the museum would you like to explore?`;
+    if (!OPENAI_API_KEY) {
+      console.error("❌ OPENAI_API_KEY not set");
+      throw new Error("OpenAI API key not configured");
     }
 
-    // Stream the response word by word
+    // Call OpenAI API for streaming response
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${OPENAI_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: OPENAI_MODEL,
+        messages: [
+          {
+            role: "system",
+            content: SYSTEM_PROMPT,
+          },
+          ...messages,
+        ],
+        stream: true,
+        temperature: 0.7,
+        max_tokens: 1000,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("❌ OpenAI API error:", errorData);
+      throw new Error(
+        errorData.error?.message || "OpenAI API request failed"
+      );
+    }
+
+    // Stream the OpenAI response back to client
     const encoder = new TextEncoder();
     const stream = new ReadableStream({
       async start(controller) {
-        const words = mockResponse.split(" ");
-        for (let i = 0; i < words.length; i++) {
-          const word = words[i] + (i < words.length - 1 ? " " : "");
-          const chunk = `data: ${JSON.stringify({
-            choices: [{ delta: { content: word } }],
-          })}\n\n`;
-          controller.enqueue(encoder.encode(chunk));
-          await new Promise((resolve) => setTimeout(resolve, 30));
+        const reader = response.body?.getReader();
+        if (!reader) throw new Error("No response body");
+
+        const decoder = new TextDecoder();
+        let textBuffer = "";
+
+        try {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            textBuffer += decoder.decode(value, { stream: true });
+
+            const lines = textBuffer.split("\n");
+            textBuffer = lines[lines.length - 1];
+
+            for (let i = 0; i < lines.length - 1; i++) {
+              const line = lines[i].trim();
+              if (!line || line === ":") continue;
+              if (!line.startsWith("data: ")) continue;
+
+              const data = line.slice(6);
+              if (data === "[DONE]") {
+                controller.enqueue(encoder.encode("data: [DONE]\n\n"));
+                controller.close();
+                return;
+              }
+
+              try {
+                const parsed = JSON.parse(data);
+                const content = parsed.choices?.[0]?.delta?.content;
+                if (content) {
+                  controller.enqueue(
+                    encoder.encode(
+                      `data: ${JSON.stringify({
+                        choices: [{ delta: { content } }],
+                      })}\n\n`
+                    )
+                  );
+                }
+              } catch (e) {
+                console.error("Error parsing OpenAI response:", e);
+              }
+            }
+          }
+        } catch (error) {
+          console.error("Stream error:", error);
+          controller.error(error);
         }
-        controller.enqueue(encoder.encode("data: [DONE]\n\n"));
-        controller.close();
       },
     });
 
